@@ -15,7 +15,7 @@ import UIKit
 
 extension UIWindow {
   func secureApp() {
-    let field= UITextField()
+    let field = UITextField()
     field.isSecureTextEntry = true
     self.addSubview(field)
     field.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
