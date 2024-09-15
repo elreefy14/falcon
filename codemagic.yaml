@@ -6,35 +6,37 @@ workflows:
       xcode: latest
       cocoapods: default
       ios_signing:
+        distribution_type: app_store
         provisioning_profiles:
           - profile: falcon2024_ios_app_store  # Name of your provisioning profile
         bundle_identifier: com.falconelearning2024.falcon
         certificates:
-          - certificate: falcon_development_certificates  # Name of your certificate
+          - certificate: falcon_distribution1_certificate  # Name of your certificate
     integrations:
       app_store_connect: Falcon Api Key  # App Store Connect API Key
     scripts:
-      - name: Install Flutter dependencies
-        script: flutter packages pub get
-
-      - name: Generate Podfile if missing
+      - name: Set up code signing settings on Xcode project
         script: |
-          if [ ! -f ios/Podfile ]; then
-            flutter build ios
-          fi
+          xcode-project use-profiles
 
-      - name: Update CocoaPods repository
-        script: cd ios && pod repo update && cd ..
-
-      - name: Set iOS deployment target to 12.0+
+      - name: Get Flutter packages
         script: |
-          if [ -f ios/Podfile ]; then
-            sed -i '' 's/PLATFORM_VERSION = 9.0/PLATFORM_VERSION = 12.0/' ios/Podfile
-            cd ios && pod install && cd ..
-          fi
+          flutter packages pub get
 
-      - name: Build iOS release with codesigning
-        script: flutter build ios --release
+      - name: Create IOS
+        script: |
+          flutter create . --platforms ios
+
+      - name: Install pods
+        script: |
+          find . -name "Podfile" -execdir pod install \;
+
+      - name: Flutter build ipa
+        script: |
+          flutter build ipa --release \
+            --build-name=1.0.0 \
+            --build-number=$(($(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID") + 1)) \
+            --export-options-plist=/Users/builder/export_options.plist
 
     artifacts:
       - build/ios/ipa/*.ipa
@@ -45,3 +47,27 @@ workflows:
         submit_to_testflight: true  # Set to true to publish on TestFlight
         submit_to_app_store: true   # Set to true to submit directly to App Store
         release_type: SCHEDULED
+
+
+#    scripts:
+#      - name: Install Flutter dependencies
+#        script: flutter packages pub get
+#
+#      - name: Generate Podfile if missing
+#        script: |
+#          if [ ! -f ios/Podfile ]; then
+#            flutter build ios
+#          fi
+#
+#      - name: Update CocoaPods repository
+#        script: cd ios && pod repo update && cd ..
+#
+#      - name: Set iOS deployment target to 12.0+
+#        script: |
+#          if [ -f ios/Podfile ]; then
+#            sed -i '' 's/PLATFORM_VERSION = 9.0/PLATFORM_VERSION = 12.0/' ios/Podfile
+#            cd ios && pod install && cd ..
+#          fi
+#
+#      - name: Build iOS release with codesigning
+#        script: flutter build ios --release
