@@ -9,7 +9,7 @@ workflows:
         distribution_type: app_store
         bundle_identifier: com.falconelearning2024.falcon
     integrations:
-      app_store_connect: Falcon Api Key  # App Store Connect API Key
+      app_store_connect: Falcon Api Key
     scripts:
       - name: Get Flutter packages
         script: |
@@ -23,8 +23,7 @@ workflows:
         script: |
           flutter build ipa --release \
             --build-name=1.0.0 \
-            --build-number=$(($(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID") + 1)) \
-            --export-options-plist=/Users/builder/export_options.plist
+            --build-number=$(($(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID") + 1))
 
     artifacts:
       - build/ios/ipa/*.ipa
