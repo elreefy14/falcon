@@ -26,7 +26,7 @@ workflows:
           flutter build ipa --release \
             --build-name=1.0.0 \
             --build-number=$(($(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID") + 1)) \
-            --export-options-plist=path/to/export_options.plist  # Update this path if necessary
+            --export-options-plist=export_options.plist  # Path updated to root of project
 
     artifacts:
       - build/ios/ipa/*.ipa
