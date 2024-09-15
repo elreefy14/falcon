@@ -7,9 +7,10 @@ workflows:
       cocoapods: default
       ios_signing:
         provisioning_profiles:
-          - profile: falcon_Provisioning  # The name of your provisioning profile
+          - profile: falcon_Provisioning  # Name of your provisioning profile
+        bundle_identifier: com.falconelearning2024.falcon
         certificates:
-          - certificate: falcon_development_certificate  # Your uploaded certificate name
+          - certificate: falcon_development_certificate  # Name of your certificate
     integrations:
       app_store_connect: Falcon Api Key  # App Store Connect API Key
     scripts:
