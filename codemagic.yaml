@@ -8,8 +8,12 @@ workflows:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.falconelearning2024.falcon
+        provisioning_profiles:
+          - profile: falcon_Provisioning  # Ensure this matches the profile name
+        certificates:
+          - certificate: distribution_certificate_1  # Ensure this matches the certificate name
     integrations:
-      app_store_connect: Falcon Api Key
+      app_store_connect: Falcon Api Key  # Make sure this API key is correctly set up
     scripts:
       - name: Get Flutter packages
         script: |
@@ -23,7 +27,8 @@ workflows:
         script: |
           flutter build ipa --release \
             --build-name=1.0.0 \
-            --build-number=$(($(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID") + 1))
+            --build-number=$(($(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID") + 1)) \
+            --export-options-plist=path/to/export_options.plist  # Update this path if necessary
 
     artifacts:
       - build/ios/ipa/*.ipa
