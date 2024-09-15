@@ -1,0 +1,270 @@
+import 'package:falcon/core/core_exports.dart';
+
+class SubjectContentViews extends StatelessWidget {
+  const SubjectContentViews({
+    super.key,
+    required this.subject,
+    required this.isMyLearning,
+
+  });
+  final SubjectEntity subject ;
+  final bool isMyLearning ;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: CustomAppBar(
+        elevation: 0,
+        context: context,
+        title: subject.name,
+        hasArrowBack: true,
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: AppPadding.pVScreen1(context),),
+          Padding(
+            padding:  EdgeInsets.symmetric(horizontal: AppPadding.pHScreen4(context),),
+            child: Text(
+              "${subject.description}",
+              style: getBoldStyle(color: ColorManager.textGrey,fontSize: 10),
+            ),
+          ),
+          SizedBox(height: AppPadding.pVScreen1(context),),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal:AppPadding.pHScreen4(context),),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "# All Chapters",
+                  style: getBoldStyle(color: ColorManager.black,fontSize: FontSize.s10),
+                ),
+                (isMyLearning==false)?GetContentBottom(
+                  typeContent:DetailsType.Subject ,
+                  title: subject.name,
+                  id: subject.id,
+                  price: double.parse(subject.price),
+                  isTextBottom: true,
+                ):SizedBox(),
+              ],
+            ),
+          ),
+          SizedBox(height: AppPadding.pVScreen1(context),),
+          Container(
+            height: 1.6,
+            width: AppConstants.wScreen(context),
+            decoration: BoxDecoration(
+              color: ColorManager.lightGrey,
+              boxShadow: [
+                BoxShadow(
+                    color: ColorManager.lightGrey,
+                    offset:Offset(0.5,0.5),
+                    blurRadius: 2,
+                    spreadRadius: 1
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: BlocProvider(
+              create: (BuildContext context)=> GetChaptersBloc(getUserChaptersUsecase: sl<GetUserChaptersUsecase>())
+                ..add(GetChaptersRequestEvent(
+                    subjectId:int.parse(subject.id),
+                    userId:int.parse(context.read<CurrentUserBloc>().userData!.id),
+                )),
+              child: BlocBuilder<GetChaptersBloc,GetChaptersState>(
+                  builder: (context , chapterResponseState) {
+                  if(chapterResponseState.requestState ==RequestState.loading){
+                    return Skeletonizer(
+                      child: ListView.separated(
+                        separatorBuilder: (context, index) => Divider(color: ColorManager.lightGrey,thickness: 1,),
+                        itemCount: 10,
+                        padding: EdgeInsets.symmetric(
+                          horizontal:AppPadding.pHScreen4(context),
+                          vertical:AppPadding.pVScreen2(context),
+                        ),
+                        itemBuilder: (context,index){
+                          return ChapterOfModuleItem(isMyLearning:isMyLearning,chapter:ChapterEntity(id:"", img: "", imgUrl: "", name: "---------------------------",course:"",subjectId: "" ,description: "---------------------------"),);
+                        },
+                      ),
+                    );
+                  }else if (chapterResponseState.requestState ==RequestState.done){
+                    return (chapterResponseState.ChaptersResponse.isNotEmpty)?ListView.separated(
+                      separatorBuilder: (context, index) => Divider(color: ColorManager.lightGrey,thickness: 1,),
+                      itemCount:  chapterResponseState.ChaptersResponse.length,
+                      padding: EdgeInsets.symmetric(
+                        horizontal:AppPadding.pHScreen4(context),
+                        vertical:AppPadding.pVScreen2(context),
+                      ),
+                      itemBuilder: (context,index){
+                        return ChapterOfModuleItem(isMyLearning:isMyLearning,chapter: chapterResponseState.ChaptersResponse[index]);
+                      },
+                    ):CustomEmptyComponent(emptyItemType: "chapter");
+                  }
+                  else {
+                    return GestureDetector(
+                      onTap: (){
+                        context.read<GetChaptersBloc>().add(GetChaptersRequestEvent(
+                        subjectId:int.parse(subject.id),
+                        userId:int.parse(context.read<CurrentUserBloc>().userData!.id),
+                        ));
+                      },
+                      child: Container(
+                        width: AppConstants.wScreen(context),
+                        height: AppConstants.hScreen(context)*0.7,
+                        margin: EdgeInsets.symmetric(
+                          horizontal: AppPadding.pHScreen4(context),
+                          vertical: AppPadding.pVScreen2(context),
+                        ),
+                        decoration: BoxDecoration(
+                          color: ColorManager.lightGrey,
+                          borderRadius: BorderRadius.circular(AppRadius.r8),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              AssetsManager.warningImage,
+                              height: AppConstants.hScreen(context)*0.05,
+                              color: ColorManager.darkGrey.withOpacity(0.6),
+                            ),
+                            SizedBox(height: AppPadding.pVScreen1(context),),
+                            Text(
+                              chapterResponseState.getChaptersMessage,
+                              style: getMediumStyle(color: ColorManager.darkGrey),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(height: AppPadding.pVScreen1(context),),
+                            Icon(
+                              Icons.refresh,
+                              color: ColorManager.darkGrey,
+                              size: AppSize.s20,
+
+                            ),
+
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                }
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ChapterOfModuleItem extends StatelessWidget {
+  const ChapterOfModuleItem({
+    super.key,
+    required this.chapter,
+    required this.isMyLearning,
+  });
+
+  final ChapterEntity chapter;
+  final bool isMyLearning;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      //color: Colors.yellow.shade200,
+      margin: EdgeInsets.only(
+        bottom:AppPadding.pHScreen1(context),
+        top:AppPadding.pHScreen1(context),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          GestureDetector(
+            onTap: (){
+              Navigator.push(context, PageTransition(
+                child: DetailsView(
+                  isMyLearning: isMyLearning,
+                  type: DetailsType.Chapter,
+                  imageUrl: chapter.imgUrl,
+                  chapter: chapter,
+                ),
+                type: PageTransitionType.fade,
+                curve: Curves.fastEaseInToSlowEaseOut,
+                duration: const Duration(milliseconds: AppConstants.pageTransition200),
+              ));
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(AppRadius.r8),
+              child:SizedBox(
+                height: AppConstants.hScreen(context)*0.12,
+                width: AppConstants.wScreen(context)*0.32,
+                child: CachedNetworkImage(
+                  imageUrl:chapter.imgUrl!,
+                  fit: BoxFit.fill,
+                  placeholder: (context, url) => Skeletonizer(
+                    child: Container(
+                      color: ColorManager.lightGrey,
+                      width: double.infinity,
+                      height: double.infinity,
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Image.asset(
+                    AssetsManager.defaultImage,
+                    fit: BoxFit.fill,
+                  ),
+
+                ),
+              ),
+            ),
+          ),
+          Flexible(
+            child: GestureDetector(
+              onTap: (){
+                Navigator.push(context, PageTransition(
+                  child: BlocProvider(
+                    create: (context) => ContentTabBloc(),
+                    child: ChaptersContentViews(
+                      title: "${chapter.name}",
+                      chapterId: int.parse(chapter.id),
+                    ),
+                  ),
+                  type: PageTransitionType.fade,
+                  curve: Curves.fastEaseInToSlowEaseOut,
+                  duration: const Duration(milliseconds: AppConstants.pageTransition200),
+                ));
+              },
+              child: Container(
+                color: Colors.white,
+                height: AppConstants.hScreen(context)*0.14,
+                width: AppConstants.wScreen(context),
+                padding:  EdgeInsets.symmetric(
+                  horizontal:AppPadding.pHScreen4(context),
+                  vertical:AppPadding.pVScreen1(context),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${chapter.name}",
+                      style: getBoldStyle(color: ColorManager.black,fontSize: FontSize.s10),
+                    ),
+                    (chapter.course!=null || chapter.course!="")?SizedBox(height: AppPadding.pVScreen04(context),):SizedBox(),
+                    Text(
+                      "${chapter.course}",
+                      style: getBoldStyle(color: ColorManager.primary,fontSize: FontSize.s9),
+                    ),
+                      (chapter.description!=null || chapter.description!="")?SizedBox(height: AppPadding.pVScreen04(context),):SizedBox(),
+                    (chapter.description!=null || chapter.description!="")?Text(
+                      "${chapter.description}",
+                      style: getMediumStyle(color: ColorManager.textGrey,fontSize: FontSize.s9),
+                    ):SizedBox(),
+
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
