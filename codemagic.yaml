@@ -2,12 +2,15 @@ workflows:
   ios-release:
     name: iOS Release
     environment:
-      flutter: stable    # Specify Flutter version (or stable)
-      xcode: latest      # Use the latest version of Xcode
-      cocoapods: default # Install CocoaPods dependencies automatically
+      flutter: stable
+      xcode: latest
+      cocoapods: default
       ios_signing:
+        provisioning_profiles:
+          - profile: falcon_Provisioning  # The name of your provisioning profile
         certificates:
-          - falcon_development_certificate
+          - certificate: falcon_certificates
+        bundle_identifier: com.falconelearning2024.falcon
     integrations:
       app_store_connect: Falcon Api Key
     scripts:
@@ -31,6 +34,6 @@ workflows:
     publishing:
       app_store_connect:
         auth: integration
-        submit_to_testflight: true  # Set to true to publish on TestFlight
-        submit_to_app_store: true   # Set to true to submit directly to App Store
+        submit_to_testflight: true
+        submit_to_app_store: true
         release_type: SCHEDULED
