@@ -7,11 +7,7 @@ workflows:
       cocoapods: default
       ios_signing:
         distribution_type: app_store
-        provisioning_profiles:
-          - profile: falcon2024_ios_app_store  # Name of your provisioning profile
         bundle_identifier: com.falconelearning2024.falcon
-        certificates:
-          - certificate: falcon_distribution1_certificate  # Name of your certificate
     integrations:
       app_store_connect: Falcon Api Key  # App Store Connect API Key
     scripts:
@@ -23,7 +19,7 @@ workflows:
         script: |
           flutter packages pub get
 
-      - name: Create IOS
+      - name: Create iOS files
         script: |
           flutter create . --platforms ios
 
@@ -47,7 +43,6 @@ workflows:
         submit_to_testflight: true  # Set to true to publish on TestFlight
         submit_to_app_store: true   # Set to true to submit directly to App Store
         release_type: SCHEDULED
-
 
 #    scripts:
 #      - name: Install Flutter dependencies
