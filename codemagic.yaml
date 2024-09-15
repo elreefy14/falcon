@@ -8,7 +8,6 @@ workflows:
       ios_signing:
         provisioning_profiles:
           - profile: falcon_Provisioning  # The name of your provisioning profile
-            bundle_identifier: com.falconelearning2024.falcon  # Your bundle identifier
         certificates:
           - certificate: falcon_development_certificate  # Your uploaded certificate name
     integrations:
