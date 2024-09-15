@@ -11,21 +11,13 @@ workflows:
     integrations:
       app_store_connect: Falcon Api Key  # App Store Connect API Key
     scripts:
-      - name: Set up code signing settings on Xcode project
-        script: |
-          xcode-project use-profiles
-
       - name: Get Flutter packages
         script: |
           flutter packages pub get
 
-      - name: Create iOS files
-        script: |
-          flutter create . --platforms ios
-
       - name: Install pods
         script: |
-          find . -name "Podfile" -execdir pod install \;
+          find ios -name "Podfile" -execdir pod install \;
 
       - name: Flutter build ipa
         script: |
@@ -43,6 +35,7 @@ workflows:
         submit_to_testflight: true  # Set to true to publish on TestFlight
         submit_to_app_store: true   # Set to true to submit directly to App Store
         release_type: SCHEDULED
+
 
 #    scripts:
 #      - name: Install Flutter dependencies
