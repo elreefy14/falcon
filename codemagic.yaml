@@ -32,9 +32,7 @@ workflows:
 
     publishing:
       app_store_connect:
-        auth: apple_id
-        apple_id: "ahmedrashad6655ss@gmail.com"
-        password: "falcon2024"
+        auth: integration
         submit_to_testflight: true  # Set to true to publish on TestFlight
         submit_to_app_store: true   # Set to true to submit directly to App Store
         release_type: SCHEDULED
