@@ -12,7 +12,8 @@ workflows:
           - certificate: distribution_certificate_2  # Ensure this matches the certificate name
         bundle_identifier: com.falconelearning2024.falcon
     integrations:
-      app_store_connect: Falcon Api Key  # Make sure this API key is correctly set up
+      app_store_connect:
+        app_id: falcon2024
     scripts:
       - name: Get Flutter packages
         script: |
@@ -34,16 +35,58 @@ workflows:
 
     publishing:
       app_store_connect:
-        auth: integration
+        auth: integration  # Uses App Store Connect integration
         submit_to_testflight: true  # Set to true to publish on TestFlight
         submit_to_app_store: true   # Set to true to submit directly to App Store
-        release_type: SCHEDULED
+        release_type: SCHEDULED  # Schedule the release
 
 
-
-
-
-
+#workflows:
+#  ios-release:
+#    name: iOS Release
+#    environment:
+#      flutter: stable
+#      xcode: latest
+#      cocoapods: default
+#      ios_signing:
+#        provisioning_profiles:
+#          - profile: falcon_Provisioning  # Ensure this matches the profile name
+#        certificates:
+#          - certificate: distribution_certificate_2  # Ensure this matches the certificate name
+#        bundle_identifier: com.falconelearning2024.falcon
+#    integrations:
+#      app_store_connect: Falcon Api Key  # Make sure this API key is correctly set up
+#    scripts:
+#      - name: Get Flutter packages
+#        script: |
+#          flutter packages pub get
+#
+#      - name: Install pods
+#        script: |
+#          find ios -name "Podfile" -execdir pod install \;
+#
+#      - name: Flutter build ipa
+#        script: |
+#          flutter build ipa --release \
+#            --build-name=1.0.0 \
+#            --build-number=$(($(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID") + 1)) \
+#            --export-options-plist=export_options.plist  # Path updated to root of project
+#
+#    artifacts:
+#      - build/ios/ipa/*.ipa
+#
+#    publishing:
+#      app_store_connect:
+#        auth: integration
+#        submit_to_testflight: true  # Set to true to publish on TestFlight
+#        submit_to_app_store: true   # Set to true to submit directly to App Store
+#        release_type: SCHEDULED
+#
+#
+#
+#
+#
+#
 
 
 
