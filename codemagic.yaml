@@ -8,8 +8,13 @@ workflows:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.falconelearning2024.falcon
+        provisioning_profiles:
+          - profile: falcon_Provisioning  # Ensure this matches the profile name
         certificates:
           - certificate: distribution_certificate_1  # Ensure this matches the certificate name
+    integrations:
+      app_store_connect:
+        api_key: Falcon Api Key  # Use the name you configured for the App Store Connect integration
     scripts:
       - name: Get Flutter packages
         script: |
@@ -35,6 +40,7 @@ workflows:
         submit_to_testflight: true  # Set to true to publish on TestFlight
         submit_to_app_store: true   # Set to true to submit directly to App Store
         release_type: SCHEDULED
+
 
 
 #workflows:
