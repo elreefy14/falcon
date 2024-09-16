@@ -12,8 +12,7 @@ workflows:
           - certificate: distribution_certificate_2  # Ensure this matches the certificate name
         bundle_identifier: com.falconelearning2024.falcon
     integrations:
-      app_store_connect:
-        app_id: falcon2024
+      app_store_connect: "Falcon Api Key"  # Replace this with the API Key string or variable reference
     scripts:
       - name: Get Flutter packages
         script: |
@@ -35,10 +34,11 @@ workflows:
 
     publishing:
       app_store_connect:
-        auth: integration  # Uses App Store Connect integration
+        auth: integration  # This refers to the integration in the `integrations` section
         submit_to_testflight: true  # Set to true to publish on TestFlight
         submit_to_app_store: true   # Set to true to submit directly to App Store
         release_type: SCHEDULED  # Schedule the release
+
 
 
 #workflows:
