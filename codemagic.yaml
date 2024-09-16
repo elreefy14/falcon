@@ -8,8 +8,6 @@ workflows:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.falconelearning2024.falcon
-        provisioning_profiles:
-          - profile: falcon_Provisioning  # Ensure this matches the profile name
         certificates:
           - certificate: distribution_certificate_1  # Ensure this matches the certificate name
     scripts:
