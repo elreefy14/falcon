@@ -9,7 +9,7 @@ workflows:
         provisioning_profiles:
           - profile: falcon_Provisioning  # Ensure this matches the profile name
         certificates:
-          - certificate: distribution_certificate_1  # Ensure this matches the certificate name
+          - certificate: distribution_certificate_2  # Ensure this matches the certificate name
         bundle_identifier: com.falconelearning2024.falcon
     integrations:
       app_store_connect: Falcon Api Key  # Make sure this API key is correctly set up
