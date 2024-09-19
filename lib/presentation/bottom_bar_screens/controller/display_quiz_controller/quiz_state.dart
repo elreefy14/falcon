@@ -12,9 +12,14 @@ class QuizInitial extends QuizState {}
 class QuizLoaded extends QuizState {
   final int currentIndex;
   final List<String?> selectedAnswers;
+  final bool allQuestionsAnswered;
 
-  const QuizLoaded(this.currentIndex, this.selectedAnswers);
+  const QuizLoaded(
+      this.currentIndex,
+      this.selectedAnswers,
+      this.allQuestionsAnswered,
+      );
 
   @override
-  List<Object?> get props => [currentIndex, selectedAnswers];
+  List<Object?> get props => [currentIndex, selectedAnswers, allQuestionsAnswered];
 }

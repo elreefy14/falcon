@@ -28,6 +28,8 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context)=>ValidateCodeChargeBloc(validateCodeChargeUsecase: sl<ValidateCodeAndChargeUsecase>())),
         BlocProvider(create: (context)=>ByAnyContentBloc(byAnyContentUsecase: sl<ByAnyContentUsecase>())),
         BlocProvider(create: (context)=>RequestContentBloc(requestContentUsecase: sl<RequestContentUsecase>())),
+        BlocProvider(create: (context)=> GetModelAnswersBloc(getModelAnswerUsecase: sl<GetModelAnswerUsecase>())),
+        BlocProvider(create: (context)=> GetAssignmentAnswerBloc(getAssignmentAnswerUsecase: sl<GetAssignmentAnswerUsecase>())),
         BlocProvider(create: (context)=> GetUniversitiesBloc(universitiesUsecase: sl<UniversitiesUsecase>())..add(GetUniversitiesRequestEvent())),
 
 

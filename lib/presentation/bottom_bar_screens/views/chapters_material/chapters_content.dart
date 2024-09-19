@@ -5,11 +5,13 @@ class ChaptersContentViews extends StatefulWidget {
     super.key,
     required this.title,
     required this.chapterId,
+    required this.chapterImage,
 
   });
 
   final String title;
   final int chapterId;
+  final String chapterImage;
   @override
   State<ChaptersContentViews> createState() => _ChaptersContentViewsState();
 }
@@ -92,11 +94,11 @@ class _ChaptersContentViewsState extends State<ChaptersContentViews> with Single
                         child: TabBarView(
                           controller: _contentTabController,
                           children: [
-                            AllContentItem(items: [ ContentEntity(id: "", type: "", name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")],),
-                            OrgContentItem(contentType: FileType.file,items: [ ContentEntity(id: "", type: "", name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--" )]),
-                            OrgContentItem(contentType: FileType.video,items: [ ContentEntity(id: "", type: "", name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]),
-                            OrgContentItem(contentType: FileType.task,items: [ ContentEntity(id: "", type: "", name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]),
-                            OrgContentItem(contentType: FileType.quiz,items: [ ContentEntity(id: "", type: "", name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]),
+                            AllContentItem(chapterId: widget.chapterId.toString(),chapterImage: widget.chapterImage,items: [ ContentEntity(id: "", type: "", name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")],),
+                            OrgContentItem(chapterId:widget.chapterId.toString(),contentType: FileType.file,chapterImage: widget.chapterImage,items: [ ContentEntity(id: "", type: "", name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--" )],),
+                            OrgContentItem(chapterId:widget.chapterId.toString(),contentType: FileType.video,chapterImage: widget.chapterImage,items: [ ContentEntity(id: "", type: "", name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]),
+                            OrgContentItem(chapterId:widget.chapterId.toString(),contentType: FileType.task,chapterImage: widget.chapterImage,items: [ ContentEntity(id: "", type: "", name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]),
+                            OrgContentItem(chapterId:widget.chapterId.toString(),contentType: FileType.quiz,chapterImage: widget.chapterImage,items: [ ContentEntity(id: "", type: "", name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]),
                           ],
                         ),
                       );
@@ -105,13 +107,12 @@ class _ChaptersContentViewsState extends State<ChaptersContentViews> with Single
                       return TabBarView(
                         controller: _contentTabController,
                         children: [
-                          AllContentItem(items: allContentResponseState.allContentResponse,),
-                          OrgContentItem(contentType: FileType.file,items: orgContentResponseState.OrgContentResponse?.material,),
-                          OrgContentItem(contentType: FileType.video,items: orgContentResponseState.OrgContentResponse?.videos,),
-                          OrgContentItem(contentType: FileType.task,items: orgContentResponseState.OrgContentResponse?.assignments,),
-                          OrgContentItem(contentType: FileType.quiz,items: orgContentResponseState.OrgContentResponse?.quizzes,),
-                        ],
-                      );
+                          AllContentItem(chapterId: widget.chapterId.toString(),chapterImage: widget.chapterImage,items: allContentResponseState.allContentResponse,),
+                          OrgContentItem(chapterId:widget.chapterId.toString(),chapterImage: widget.chapterImage,contentType: FileType.file,items: orgContentResponseState.OrgContentResponse?.material,),
+                          OrgContentItem(chapterId:widget.chapterId.toString(),chapterImage: widget.chapterImage,contentType: FileType.video,items: orgContentResponseState.OrgContentResponse?.videos,),
+                          OrgContentItem(chapterId:widget.chapterId.toString(),chapterImage: widget.chapterImage,contentType: FileType.task,items: orgContentResponseState.OrgContentResponse?.assignments,),
+                          OrgContentItem(chapterId:widget.chapterId.toString(),chapterImage: widget.chapterImage,contentType: FileType.quiz,items: orgContentResponseState.OrgContentResponse?.quizzes,),
+                        ],);
                     }
                     else{
                       return GestureDetector(

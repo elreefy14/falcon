@@ -4,3 +4,4 @@ export 'cache_helper.dart';
 export 'get_device_id.dart';
 export 'check_emulator.dart';
 export 'encryption_and_decryption.dart';
+export 'check_usb.dart';

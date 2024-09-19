@@ -3,7 +3,32 @@ import 'dart:io';
 import 'package:falcon/core/core_exports.dart';
 import 'package:flutter/services.dart';
 
-class DeveloperModeDetectionScreen extends StatelessWidget {
+class DeveloperModeDetectionScreen extends StatefulWidget {
+  @override
+  State<DeveloperModeDetectionScreen> createState() => _DeveloperModeDetectionScreenState();
+}
+
+class _DeveloperModeDetectionScreenState extends State<DeveloperModeDetectionScreen> {
+  static const platform = MethodChannel('adb');
+  bool isUsbConnected = false;
+
+  @override
+  void initState() {
+    super.initState();
+    checkAdbStatus();
+  }
+
+  Future<void> checkAdbStatus() async {
+    try {
+      final int result = await platform.invokeMethod('checkingadb');
+      setState(() {
+        isUsbConnected = result == 1;
+      });
+    } on PlatformException catch (e) {
+      print("Failed to check ADB status: ${e.message}");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,14 +39,16 @@ class DeveloperModeDetectionScreen extends StatelessWidget {
         width: AppConstants.wScreen(context),
         child: BlocListener<DeveloperModeDetectionBloc, DeveloperModeDetectionState>(
           listener: (context, state) async{
+            bool isEmulator = await isRunningOnEmulator();
             // todo active developer mode by change condition
-            if (state is   DeveloperModeEnabled) {      //  DeveloperModeEnabled in debug //  todo it must be DeveloperModeDisabled
-              bool isEmulator = await isRunningOnEmulator();
-              if (isEmulator) {
+            //isUsbConnected = false ;// todo delete this line
+            if (state is   DeveloperModeDisabled) {
+              //  DeveloperModeEnabled in debug //  todo it must be DeveloperModeDisabled
+              if (isEmulator || isUsbConnected) {
                 Navigator.pushAndRemoveUntil(
                     context,
                     PageTransition(
-                      child: DeveloperModeScreen(isEmulator:true),
+                      child: DeveloperModeScreen(isEmulator:isEmulator,isUsbConnect: isUsbConnected,isDeveloperMode:false),
                       type: PageTransitionType.fade,
                       curve: Curves.fastEaseInToSlowEaseOut,
                       duration: const Duration(milliseconds: AppConstants.pageTransition200),
@@ -36,13 +63,13 @@ class DeveloperModeDetectionScreen extends StatelessWidget {
                   final email = await CacheHelper.getData(key: "email");
                   final phone = await CacheHelper.getData(key: "phone");
                   final university =
-                      await CacheHelper.getData(key: "university");
+                  await CacheHelper.getData(key: "university");
                   final faculty = await CacheHelper.getData(key: "faculty");
                   final level = await CacheHelper.getData(key: "level");
                   final fcmToken = await CacheHelper.getData(key: "fcmToken");
 
                   context.read<CurrentUserBloc>().add(SaveCurrentUserEvent(
-                          userData: UserEntity(
+                      userData: UserEntity(
                         id: id,
                         name: name,
                         phone: phone,
@@ -63,7 +90,7 @@ class DeveloperModeDetectionScreen extends StatelessWidget {
                         duration: const Duration(
                             milliseconds: AppConstants.pageTransition200),
                       ),
-                      (Route<dynamic> route) => false);
+                          (Route<dynamic> route) => false);
                 } else {
                   Navigator.pushAndRemoveUntil(
                       context,
@@ -74,21 +101,21 @@ class DeveloperModeDetectionScreen extends StatelessWidget {
                         duration: const Duration(
                             milliseconds: AppConstants.pageTransition200),
                       ),
-                      (Route<dynamic> route) => false);
+                          (Route<dynamic> route) => false);
                 }
               }
             }
 
-
-            else if (state is  DeveloperModeDisabled ) {  //  DeveloperModeDisabled in debug //  todo it must be DeveloperModeEnabled
+            else if (state is  DeveloperModeEnabled ) {  //  DeveloperModeDisabled in debug //  todo it must be DeveloperModeEnabled
               Navigator.pushAndRemoveUntil(
                   context,
                   PageTransition(
-                    child: DeveloperModeScreen(isEmulator:false),
+                    child: DeveloperModeScreen(isEmulator:isEmulator,isUsbConnect: isUsbConnected,isDeveloperMode: true,),
                     type: PageTransitionType.fade,
                     curve: Curves.fastEaseInToSlowEaseOut,
                     duration: const Duration(milliseconds: AppConstants.pageTransition200),
-                  ), (Route<dynamic> route) => false
+                  )
+                  , (Route<dynamic> route) => false
               );
             }
             else if (state is DeveloperModeDetectionFailure) {
@@ -104,9 +131,11 @@ class DeveloperModeDetectionScreen extends StatelessWidget {
 }
 //we have detected the following security issues in your mobile, resolve the issues then restart the application
 class DeveloperModeScreen extends StatefulWidget {
-  DeveloperModeScreen({required bool this.isEmulator});
+  DeveloperModeScreen({required bool this.isEmulator,required this.isUsbConnect,required this.isDeveloperMode});
 
   final bool isEmulator;
+  final bool isUsbConnect;
+  final bool isDeveloperMode;
   @override
   State<DeveloperModeScreen> createState() => _DeveloperModeScreenState();
 
@@ -164,28 +193,27 @@ class _DeveloperModeScreenState extends State<DeveloperModeScreen> {
           SizedBox(
             height: AppConstants.hScreen(context)*0.04,
           ),
-          Flexible(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppPadding.pHScreen6(context),
-              ),
-              child: Text(
-                'we have detected the following security issues in your mobile, resolve the issues then restart the application',
-                style: getBoldStyle(color: ColorManager.darkGrey.withOpacity(0.8),fontSize: FontSize.s12),
-                textAlign: TextAlign.center,
-              ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppPadding.pHScreen6(context),
+            ),
+            child: Text(
+              'we have detected the following security issues in your mobile, resolve the issues then restart the application',
+              style: getBoldStyle(color: ColorManager.darkGrey.withOpacity(0.8),fontSize: FontSize.s12),
+              textAlign: TextAlign.center,
             ),
           ),
           SizedBox(
-            height: AppConstants.hScreen(context)*0.06,
+            height: AppConstants.hScreen(context)*0.04,
           ),
-          Container(
+          (widget.isDeveloperMode)?Container(
             padding: EdgeInsets.symmetric(
               horizontal: AppPadding.pHScreen4(context),
               vertical: AppPadding.pVScreen2(context),
             ),
             margin: EdgeInsets.symmetric(
               horizontal: AppPadding.pHScreen6(context),
+              vertical: AppPadding.pVScreen06(context),
             ),
             decoration: BoxDecoration(
               color: ColorManager.lightGrey,
@@ -206,16 +234,15 @@ class _DeveloperModeScreenState extends State<DeveloperModeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.isEmulator?'Emulator Device':'Developer Mode',
+                        'Developer Mode',
                         style: getBoldStyle(color: ColorManager.black,fontSize: FontSize.s14),
                       ),
                       SizedBox(
                         height:AppPadding.pVScreen04(context),
                       ),
                       Text(
-                        widget.isEmulator?"Sorry you cant open this application on emulator device for security purposes"
-                            :'Developer Mode should be turned of while using this application for security purposes',
-                        style: getBoldStyle(color: ColorManager.darkGrey,fontSize: FontSize.s12),
+                        'Developer Mode should be turned of while using this application for security purposes',
+                        style: getBoldStyle(color: ColorManager.darkGrey,fontSize: FontSize.s10),
                       ),
 
                     ],
@@ -223,13 +250,102 @@ class _DeveloperModeScreenState extends State<DeveloperModeScreen> {
                 ) ,
               ],
             ),
-          ),
-          SizedBox(
-            height: AppConstants.hScreen(context)*0.32,
-          ),
-          Padding(
+          ):SizedBox(),
+          (widget.isEmulator)?Container(
             padding: EdgeInsets.symmetric(
               horizontal: AppPadding.pHScreen4(context),
+              vertical: AppPadding.pVScreen2(context),
+            ),
+            margin: EdgeInsets.symmetric(
+              horizontal: AppPadding.pHScreen6(context),
+              vertical: AppPadding.pVScreen06(context),
+
+            ),
+            decoration: BoxDecoration(
+              color: ColorManager.lightGrey,
+              borderRadius: BorderRadius.circular(AppRadius.r10),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppPadding.pHScreen4(context),
+                    vertical: AppPadding.pVScreen04(context),
+                  ),
+                  child: Icon(Icons.phonelink_setup_rounded,color: ColorManager.primary,size: AppSize.s30,),
+                ),
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Emulator Device',
+                        style: getBoldStyle(color: ColorManager.black,fontSize: FontSize.s14),
+                      ),
+                      SizedBox(
+                        height:AppPadding.pVScreen04(context),
+                      ),
+                      Text(
+                        "Sorry you cant open this application on emulator device for security purposes",
+                        style: getBoldStyle(color: ColorManager.darkGrey,fontSize: FontSize.s10),
+                      ),
+
+                    ],
+                  ),
+                ) ,
+              ],
+            ),
+          ):SizedBox(),
+          (widget.isUsbConnect)?Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppPadding.pHScreen4(context),
+              vertical: AppPadding.pVScreen2(context),
+            ),
+            margin: EdgeInsets.symmetric(
+              horizontal: AppPadding.pHScreen6(context),
+              vertical: AppPadding.pVScreen06(context),
+            ),
+            decoration: BoxDecoration(
+              color: ColorManager.lightGrey,
+              borderRadius: BorderRadius.circular(AppRadius.r10),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppPadding.pHScreen4(context),
+                    vertical: AppPadding.pVScreen04(context),
+                  ),
+                  child: Icon(Icons.usb_rounded,color: ColorManager.primary,size: AppSize.s30,),
+                ),
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'USB Connection',
+                        style: getBoldStyle(color: ColorManager.black,fontSize: FontSize.s14),
+                      ),
+                      SizedBox(
+                        height:AppPadding.pVScreen04(context),
+                      ),
+                      Text(
+                        'The application cannot be run while the phone is connected to USB, try disconnecting it and trying to open the application again',
+                        style: getBoldStyle(color: ColorManager.darkGrey,fontSize: FontSize.s10),
+                      ),
+
+                    ],
+                  ),
+                ) ,
+              ],
+            ),
+          ):SizedBox(),
+          Spacer(),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppPadding.pHScreen6(context),
             ),
             child: CustomButton(
               onPressed: (){
@@ -239,6 +355,9 @@ class _DeveloperModeScreenState extends State<DeveloperModeScreen> {
               text: "Exit from app",
               elevation: 4,
             ),
+          ),
+          SizedBox(
+            height: AppConstants.hScreen(context)*0.04,
           ),
         ],
       ),

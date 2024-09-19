@@ -1,27 +1,26 @@
 import 'package:dartz/dartz.dart';
 import 'package:falcon/core/core_exports.dart';
 
-class CountVideoViewUsecase extends BaseUseCase<VideoViewEntity,CountVideoViewParameters>{
+class ShowVideoFileUsecase extends BaseUseCase<VideoFileEntity,ShowVideoFileParameters>{
 
   final ContentsBaseRepo contentsBaseRepo ;
 
-  CountVideoViewUsecase({required this.contentsBaseRepo});
+  ShowVideoFileUsecase({required this.contentsBaseRepo});
 
   @override
-  Future<Either<Failure, VideoViewEntity>> call(CountVideoViewParameters parameters) async{
-    return contentsBaseRepo.countVideoView(parameters: parameters);
+  Future<Either<Failure, VideoFileEntity>> call(ShowVideoFileParameters parameters) async{
+    return contentsBaseRepo.ShowVideoFileView(parameters: parameters);
   }
 
 
 }
 
-class CountVideoViewParameters extends Equatable {
+class ShowVideoFileParameters extends Equatable {
 
-  final int studentId;
-  final int videoId;
+  final String contentId;
 
-  CountVideoViewParameters({required this.studentId,required this.videoId});
+  ShowVideoFileParameters({required this.contentId});
 
   @override
-  List<Object> get props => [studentId, videoId];
+  List<Object> get props => [contentId];
 }

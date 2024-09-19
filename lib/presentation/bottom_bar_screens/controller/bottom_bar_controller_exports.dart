@@ -7,3 +7,6 @@ export 'exam_timer_controller/timer_bloc.dart';
 export 'display_quiz_controller/quiz_bloc.dart';
 export 'display_assignment_controller/assignment_bloc.dart';
 export 'evaluate_subject/evaluate_subject_cubit.dart';
+export 'send_exam_results_controller/send_quiz_results_bloc.dart';
+export 'select_assignment_answers/select_assignment_Answer_bloc.dart';
+export 'send_assignment_results/send_assignment_results_bloc.dart';

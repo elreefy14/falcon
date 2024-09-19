@@ -4,6 +4,7 @@ import 'package:falcon/core/core_exports.dart';
 class QuizAnswerOption extends StatelessWidget {
   const QuizAnswerOption({
     super.key,
+    required this.quizId,
     required this.index,
     required this.answer,
     required this.quizState,
@@ -12,6 +13,7 @@ class QuizAnswerOption extends StatelessWidget {
     required this.answerId,
   });
 
+  final String quizId;
   final int index;
   final String answer;
   final QuizLoaded quizState;
@@ -24,6 +26,7 @@ class QuizAnswerOption extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         context.read<QuizBloc>().add(SelectAnswer(
+          quizId: quizId,
             questionIndex:  questionIndex,
             answer: answer,
             questionId: questionId,

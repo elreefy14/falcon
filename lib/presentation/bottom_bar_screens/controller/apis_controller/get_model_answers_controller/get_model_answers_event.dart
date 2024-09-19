@@ -5,8 +5,8 @@ sealed class GetModelAnswersEvent extends Equatable {}
 
 class GetModelAnswersRequestEvent extends GetModelAnswersEvent {
 
-  final int studentId;
-  final int quizId;
+  final String studentId;
+  final String quizId;
 
   GetModelAnswersRequestEvent({
     required this.studentId,

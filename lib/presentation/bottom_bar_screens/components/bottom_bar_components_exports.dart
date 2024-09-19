@@ -14,3 +14,4 @@ export 'assignment_components/assignment_components_exports.dart';
 export 'files_viewer/files_viewer_exports.dart';
 export 'all_content_item.dart';
 export 'model_answer.dart';
+export 'assignment_answer.dart';

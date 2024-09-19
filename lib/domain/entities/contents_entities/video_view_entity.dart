@@ -1,10 +1,10 @@
 import 'package:falcon/core/core_exports.dart';
 
-class VideoViewEntity extends Equatable {
+class VideoEntity extends Equatable {
   final int id;
   final int viewCount;
 
-  VideoViewEntity({
+  VideoEntity({
     required this.id,
     required this.viewCount,
   });

@@ -1,23 +1,24 @@
-
 import 'package:falcon/core/core_exports.dart';
-
 part 'quiz_event.dart';
 part 'quiz_state.dart';
 
 class QuizBloc extends Bloc<QuizEvent, QuizState> {
   final List<QuestionEntity> questions;
+  final  String studentId;
+  final  String quizId ;
+  List<Map<String,dynamic>> questionsAnswer = [];
 
-  QuizBloc({required this.questions}) : super(QuizInitial()) {
+  QuizBloc({required this.questions,required this.studentId,required this.quizId}) : super(QuizInitial()) {
     on<LoadQuiz>((event, emit) {
       // Initialize with the first question and no selected answers
-      emit(QuizLoaded(0, List<String?>.filled(questions.length, null)));
+      emit(QuizLoaded(0, List<String?>.filled(questions.length, null), false));
     });
 
     on<NextQuestion>((event, emit) {
       if (state is QuizLoaded) {
         final currentState = state as QuizLoaded;
         if (currentState.currentIndex < questions.length - 1) {
-          emit(QuizLoaded(currentState.currentIndex + 1, currentState.selectedAnswers));
+          emit(QuizLoaded(currentState.currentIndex + 1, currentState.selectedAnswers, currentState.allQuestionsAnswered));
         }
       }
     });
@@ -26,47 +27,62 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       if (state is QuizLoaded) {
         final currentState = state as QuizLoaded;
         if (currentState.currentIndex > 0) {
-          emit(QuizLoaded(currentState.currentIndex - 1, currentState.selectedAnswers));
+          emit(QuizLoaded(currentState.currentIndex - 1, currentState.selectedAnswers, currentState.allQuestionsAnswered));
         }
       }
+    });
+
+    on<ConfirmAnswers>((event, emit) {
+      // Print the questionsAnswer when ConfirmAnswers event is added
+      Map finalResult ={
+        "studentid": studentId,
+        "quizid":quizId,
+        "answers": questionsAnswer
+      };
+
+      //questionsAnswer.remove({"questionid": "null","choice": "null"});
+
+
+
     });
 
     on<SelectAnswer>((event, emit) {
       if (state is QuizLoaded) {
         final currentState = state as QuizLoaded;
         final updatedAnswers = List<String?>.from(currentState.selectedAnswers);
-        updatedAnswers[event.questionIndex] = event.answer; // This line ensures only one answer is selected
-        emit(QuizLoaded(currentState.currentIndex, updatedAnswers));
-        List<AnswerSentEntity> questionsAnswer =[];
+        updatedAnswers[event.questionIndex] = event.answer;
 
+        bool allQuestionsAnswered = !updatedAnswers.contains(null);
 
-        bool canAdd=false;
+        emit(QuizLoaded(currentState.currentIndex, updatedAnswers, allQuestionsAnswered));
 
-        if (questionsAnswer.isEmpty){
-          questionsAnswer.add(AnswerSentEntity(questionId: event.questionId, choiceNumber: event.answerIndex));
-        }
-        for(int i =0; i<questionsAnswer.length;i++){
-          if(event.questionId.toString()==questionsAnswer[i].questionId.toString()){
-            print(questionsAnswer[i].questionId);
-            questionsAnswer[i] =AnswerSentEntity(questionId: event.questionId, choiceNumber: event.answerIndex);
-
+        bool canAdd = false;
+        if(questionsAnswer.isNotEmpty){
+          for (int i = 0; i < questionsAnswer.length; i++) {
+            if (questionsAnswer[i]["questionid"] == event.questionId) {
+              questionsAnswer[i]["choice"] = event.answerIndex;
+              canAdd = false;
+              break;
+            } else {
+              canAdd = true;
+            }
           }
-          else{
-            canAdd = true;
+          if (canAdd) {
+            questionsAnswer.add({
+              "questionid": event.questionId,
+              "choice": event.answerIndex,
+            });
           }
-        }
-        if(canAdd){
-          questionsAnswer.add(AnswerSentEntity(questionId: event.questionId, choiceNumber: event.answerIndex));
+        }else{
+          questionsAnswer.add({
+            "questionid": event.questionId,
+            "choice": event.answerIndex,
+          });
         }
 
-        print(event.questionId);
-        print(event.answerIndex);
-        print("------------------------");
-        print(canAdd);
+
         print(questionsAnswer);
-
       }
     });
-
   }
 }

@@ -106,6 +106,7 @@ class _Body0fDetails extends StatelessWidget {
                   create: (context) => ContentTabBloc(),
                   child: ChaptersContentViews(
                     title: "${chapter?.name}",
+                    chapterImage: "${chapter?.imgUrl}",
                     chapterId: int.parse(chapter!.id),
                   ),
                 ),
@@ -115,20 +116,22 @@ class _Body0fDetails extends StatelessWidget {
               ));
             }
 
-            if(type==DetailsType.LastChapter && isMyLearning==false){
-              Navigator.push(context, PageTransition(
-                child: BlocProvider(
-                  create: (context) => ContentTabBloc(),
-                  child: ChaptersContentViews(
-                    title: "${lastChapter?.name}",
-                    chapterId: 3,
-                  ),
-                ),
-                type: PageTransitionType.fade,
-                curve: Curves.fastEaseInToSlowEaseOut,
-                duration: const Duration(milliseconds: AppConstants.pageTransition200),
-              ));
-            }
+            // if(type==DetailsType.LastChapter && isMyLearning==false){
+            //   Navigator.push(context, PageTransition(
+            //     child: BlocProvider(
+            //       create: (context) => ContentTabBloc(),
+            //       child: ChaptersContentViews(
+            //         title: "${lastChapter?.name}",
+            //         chapterImage: "${lastChapter?.img}",
+            //        // chapterId: int.parse(lastChapter!.id), todo change
+            //         chapterId: 3,
+            //       ),
+            //     ),
+            //     type: PageTransitionType.fade,
+            //     curve: Curves.fastEaseInToSlowEaseOut,
+            //     duration: const Duration(milliseconds: AppConstants.pageTransition200),
+            //   ));
+            // }
           },
           child:CachedNetworkImage(
             imageUrl:imageUrl!,
@@ -197,6 +200,7 @@ class _Body0fDetails extends StatelessWidget {
                                 create: (context) => ContentTabBloc(),
                                 child: ChaptersContentViews(
                                   title: "${chapter?.name}",
+                                  chapterImage: "${chapter?.imgUrl}",
                                   chapterId: int.parse(chapter!.id),
                                 ),
                               ),
@@ -444,6 +448,7 @@ class _Body0fDetails extends StatelessWidget {
                     child: ChaptersContentViews(
                       title: "${chapter?.name}",
                       chapterId: int.parse(chapter!.id),
+                      chapterImage: "${chapter?.imgUrl}",
                     ),
                   ),
                   type: PageTransitionType.fade,

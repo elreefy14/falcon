@@ -3,12 +3,14 @@ import 'package:falcon/core/core_exports.dart';
 class QuizPageView extends StatelessWidget {
    QuizPageView({
     super.key,
+    required this.quizId,
     required this.quizState,
     required this.questions,
     required this.pageController,
 
   });
 
+  final String quizId;
   final QuizLoaded quizState;
   final List<QuestionEntity> questions;
    PageController pageController ;
@@ -94,6 +96,7 @@ class QuizPageView extends StatelessWidget {
                       padding: EdgeInsets.zero,
                       children: [
                         QuizAnswerOption(
+                          quizId: quizId,
                           index: 0,
                           quizState: quizState,
                           answer: question.options.option1,
@@ -102,6 +105,7 @@ class QuizPageView extends StatelessWidget {
                           answerId: "1",
                         ),
                         QuizAnswerOption(
+                          quizId: quizId,
                           index: 0,
                           quizState: quizState,
                           answer: question.options.option2,
@@ -110,6 +114,7 @@ class QuizPageView extends StatelessWidget {
                           answerId: "2",
                         ),
                         QuizAnswerOption(
+                          quizId: quizId,
                           index: 0,
                           quizState: quizState,
                           answer: question.options.option3,
@@ -118,6 +123,7 @@ class QuizPageView extends StatelessWidget {
                           answerId: "3",
                         ),
                         QuizAnswerOption(
+                          quizId: quizId,
                           index: 0,
                           quizState: quizState,
                           answer: question.options.option4,

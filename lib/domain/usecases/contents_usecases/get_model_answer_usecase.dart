@@ -18,8 +18,8 @@ class GetModelAnswerUsecase extends BaseUseCase<List<AnswerCorrectEntity>,GetMod
 
 class GetModelAnswersParameters extends Equatable {
 
-  final int studentId;
-  final int quizId;
+  final String studentId;
+  final String quizId;
 
   GetModelAnswersParameters({required this.studentId,required this.quizId});
 

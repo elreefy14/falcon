@@ -6,8 +6,8 @@ class ContentsRepository extends ContentsBaseRepo {
   BaseContentsRemoteDataSource baseContentsRemoteDataSource ;
   ContentsRepository({required this.baseContentsRemoteDataSource});
 
-  @override
-  Future<Either<Failure, VideoViewEntity>> countVideoView({required CountVideoViewParameters parameters}) async{
+/*  @override
+  Future<Either<Failure, VideoFileViewEntity>> ShowVideoMaterialView({required CountVideoViewParameters parameters}) async{
     try {
       final result = await baseContentsRemoteDataSource.countVideoViewDataSource(parameters: parameters);
       return Right(result);
@@ -15,7 +15,7 @@ class ContentsRepository extends ContentsBaseRepo {
       final errorMessage = ApiConstants().handelDioException(exception: failure.dioException);
       return Left(ServerFailure(errorMessage));
     }
-  }
+  }*/
 
   //----------------------------------------------------------------------------
 
@@ -99,7 +99,6 @@ class ContentsRepository extends ContentsBaseRepo {
   Future<Either<Failure, AssignmentEntity>> showAssignmentQuestions({required ShowAssignmentsParameters parameters}) async{
     try {
       final result = await baseContentsRemoteDataSource.showAssignmentQuestionDataSource(parameters: parameters);
-      print("showAssignmentQuestionDataSource : success : $result");
       return Right(result);
     } on ServerException catch (failure) {
       print("showAssignmentQuestionDataSource : failure : ${failure.dioException.response}");
@@ -107,6 +106,32 @@ class ContentsRepository extends ContentsBaseRepo {
       return Left(ServerFailure(errorMessage));
     }
   }
+
+  @override
+  Future<Either<Failure, List<AssignmentAnswerEntity>>> getAssignmentModelAnswers({required GetAssignmentModelAnswersParameters parameters}) async {
+    try {
+      final result = await baseContentsRemoteDataSource.getAssignmentModelAnswersDataSource(parameters: parameters);
+      return Right(result);
+    } on ServerException catch (failure) {
+      print("showAssignmentQuestionDataSource : failure : ${failure.dioException.response}");
+      final errorMessage = ApiConstants().handelDioException(exception: failure.dioException);
+      return Left(ServerFailure(errorMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failure, VideoFileEntity>> ShowVideoFileView({required ShowVideoFileParameters parameters}) async{
+    try {
+      final result = await baseContentsRemoteDataSource.showVideoFileDataSource(parameters: parameters);
+      return Right(result);
+    } on ServerException catch (failure) {
+      print("showAssignmentQuestionDataSource : failure : ${failure.dioException.response}");
+      final errorMessage = ApiConstants().handelDioException(exception: failure.dioException);
+      return Left(ServerFailure(errorMessage));
+    }
+  }
+
+
 
 
 }

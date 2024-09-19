@@ -4,9 +4,11 @@ class CustomQuizItem extends StatelessWidget {
   const CustomQuizItem({
     super.key,
     required this.items,
+    required this.chapterImage,
   });
 
   final List<ContentEntity>? items ;
+  final String chapterImage ;
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +27,14 @@ class CustomQuizItem extends StatelessWidget {
               int remainingTime = prefs.getInt('remainingTime') ?? 0; // Load saved time
               if (remainingTime > 0) {
                 Navigator.push(context, PageTransition(
-                  child: QuizBody(quizId: int.parse(items![index].id),),
+                  child: QuizBody(quizId: int.parse(items![index].id),quizTimer: items![index].timer,chapterImage: chapterImage,name: items![index].name, ),
                   type: PageTransitionType.fade,
                   curve: Curves.fastEaseInToSlowEaseOut,
                   duration: const Duration(milliseconds: AppConstants.pageTransition200),
                 ));
               }
               else{
-                BlocProvider.of<TimerBloc>(context).add(StartTimer(120)); // Start timer if there is remaining time
+                BlocProvider.of<TimerBloc>(context).add(StartTimer(int.parse(items![index].timer??"0"))); // Start timer if there is remaining time
 
               }
             },
@@ -102,20 +104,10 @@ class CustomQuizItem extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
-                            "Quiz 1",
-                            style: getBoldStyle(color: ColorManager.black,fontSize: FontSize.s10),
-                          ),
-                          SizedBox(height: AppPadding.pVScreen06(context)),
-                          Text(
-                            "Not Completed",
-                            style: getBoldStyle(color: ColorManager.textGrey,fontSize: FontSize.s9),
-                          ),
-                          SizedBox(height: AppPadding.pVScreen06(context)),
                           GestureDetector(
                             onTap: (){
                               Navigator.push(context, PageTransition(
-                                child: ModelAnswerScreen(),
+                                child: ModelAnswerScreen(quizId: items![index].id),
                                 type: PageTransitionType.fade,
                                 curve: Curves.fastEaseInToSlowEaseOut,
                                 duration: const Duration(milliseconds: AppConstants.pageTransition200),

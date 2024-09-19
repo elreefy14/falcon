@@ -6,14 +6,25 @@ Future<bool> isRunningOnEmulator() async {
 
   if (Platform.isAndroid) {
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    // Check if device is an emulator
-    return androidInfo.isPhysicalDevice == false;
+
+    // Check if it's a physical device
+    if (androidInfo.isPhysicalDevice == false) return true;
+
+    // Additional checks for known emulator characteristics
+    bool isEmulator = androidInfo.brand.toLowerCase() == 'generic' ||
+        androidInfo.device.toLowerCase() == 'generic' ||
+        androidInfo.hardware.toLowerCase() == 'goldfish' ||
+        androidInfo.hardware.toLowerCase() == 'ranchu' ||
+        androidInfo.manufacturer.toLowerCase().contains('google') ||
+        androidInfo.model.toLowerCase().contains('google_sdk') ||
+        androidInfo.product.toLowerCase().contains('sdk_gphone');
+
+    return isEmulator;
   } else if (Platform.isIOS) {
     IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-    // Check if device is an emulator
+
     return iosInfo.isPhysicalDevice == false;
   } else {
-    // For other platforms, return false (assume they are real devices)
     return false;
   }
 }

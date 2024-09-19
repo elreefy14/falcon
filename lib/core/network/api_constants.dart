@@ -33,6 +33,8 @@ class ApiConstants {
   static const showAssignmentsUrl = "/showhomeworkquestions.php";
   static const getExamResultsUrl = "/getexamresults.php";
   static const getModelAnswerUrl = "/modelanswer.php";
+  static const getAssignmentModelAnswerUrl = "/homeworkmodelanswer.php";
+  static const showVideoFileUrl = "/showvideosmaterials.php";
 
 
   //--- General --------------------------------------

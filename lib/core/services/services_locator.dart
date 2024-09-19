@@ -22,10 +22,12 @@ class ServicesLocator {
     sl.registerLazySingleton<ShowContentByIdUsecase>(()=>ShowContentByIdUsecase(contentsBaseRepo: sl() ));
     sl.registerLazySingleton<ShowAllContentsUsecase>(()=>ShowAllContentsUsecase(contentsBaseRepo: sl() ));
     sl.registerLazySingleton<ShowOrgContentsUsecase>(()=>ShowOrgContentsUsecase(contentsBaseRepo: sl() ));
-    sl.registerLazySingleton<CountVideoViewUsecase>(()=>CountVideoViewUsecase(contentsBaseRepo: sl() ));
+    sl.registerLazySingleton<ShowVideoFileUsecase>(()=>ShowVideoFileUsecase(contentsBaseRepo: sl() ));
+    //sl.registerLazySingleton<CountVideoViewUsecase>(()=>CountVideoViewUsecase(contentsBaseRepo: sl() ));
     sl.registerLazySingleton<ShowQuestionsUsecase>(()=>ShowQuestionsUsecase(contentsBaseRepo: sl() ));
     sl.registerLazySingleton<ShowAssignmentsUsecase>(()=>ShowAssignmentsUsecase(contentsBaseRepo: sl() ));
     sl.registerLazySingleton<GetModelAnswerUsecase>(()=>GetModelAnswerUsecase(contentsBaseRepo: sl() ));
+    sl.registerLazySingleton<GetAssignmentAnswerUsecase>(()=>GetAssignmentAnswerUsecase(contentsBaseRepo: sl() ));
 
     sl.registerLazySingleton<ValidateCodeAndChargeUsecase>(()=>ValidateCodeAndChargeUsecase(generalBaseRepo: sl() ));
     sl.registerLazySingleton<ByAnyContentUsecase>(()=>ByAnyContentUsecase(generalBaseRepo: sl() ));

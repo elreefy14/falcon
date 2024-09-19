@@ -9,3 +9,4 @@ export 'org_contents_entity.dart';
 export 'video_view_entity.dart';
 export 'quiz_entity.dart';
 export 'assignment_entity.dart';
+export 'assignment_answer_entity.dart';

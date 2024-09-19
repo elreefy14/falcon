@@ -9,3 +9,4 @@ export 'video_model.dart';
 export 'video_view_model.dart';
 export 'quiz_model.dart';
 export 'assignment_model.dart';
+export 'assignment_answer_model.dart';

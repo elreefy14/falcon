@@ -4,8 +4,10 @@ class CustomAssignmentItem extends StatelessWidget {
   const CustomAssignmentItem({
     super.key,
     required this.items,
+    required this.chapterImage,
   });
   final List<ContentEntity>? items;
+  final String chapterImage;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -22,7 +24,7 @@ class CustomAssignmentItem extends StatelessWidget {
               Navigator.push(context, PageTransition(
                 child: BlocProvider(
                   create: (context) => AssignmentBloc(),
-                  child: AssignmentBody(assignmentId:  items![index].id,),
+                  child: AssignmentBody(chapterImage:chapterImage,assignmentId:  items![index].id,assignmentName: items![index].name,endDate:items![index].enddate ),
                 ),
                 type: PageTransitionType.fade,
                 curve: Curves.fastEaseInToSlowEaseOut,
@@ -95,20 +97,13 @@ class CustomAssignmentItem extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
-                            "Task 1",
-                            style: getBoldStyle(color: ColorManager.black,fontSize: FontSize.s10),
-                          ),
-                        SizedBox(height: AppPadding.pVScreen06(context)),
-                          // Text(
-                          //   "12:00 AM",
-                          //   style: getBoldStyle(color: ColorManager.textGrey,fontSize: FontSize.s9),
-                          // ),
-                        SizedBox(height: AppPadding.pVScreen06(context)),
+
                           GestureDetector(
                             onTap: (){
+                              context.read<GetAssignmentAnswerBloc>().add(GetAssignmentAnswerRequestEvent(
+                                  studentId: context.read<CurrentUserBloc>().userData!.id, quizId:  items![index].id));
                               Navigator.push(context, PageTransition(
-                                child: ModelAnswerScreen(),
+                                child: AssignmentAnswer(quizId: items![index].id),
                                 type: PageTransitionType.fade,
                                 curve: Curves.fastEaseInToSlowEaseOut,
                                 duration: const Duration(milliseconds: AppConstants.pageTransition200),

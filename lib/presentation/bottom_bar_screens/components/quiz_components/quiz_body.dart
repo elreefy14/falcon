@@ -1,103 +1,15 @@
 
 import 'package:falcon/core/core_exports.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class QuizBody extends StatelessWidget {
-  QuizBody({super.key,required this.quizId});
+  QuizBody({super.key,required this.quizId, required this.quizTimer,required this.chapterImage,required this.name});
 
-  final int quizId;
-
-  //   final List<Map<String, dynamic>> questions = [
-  //   {
-  //     "question": "Which company developed the Dart programming language?",
-  //     "options": [
-  //       "A) Microsoft",
-  //       "B) Google",
-  //       "C) Apple",
-  //       "D) Amazon"
-  //     ]
-  //   },
-  //   {
-  //     "question": "Which of the following is a state management approach in Flutter?",
-  //     "options": [
-  //       "A) BLoC (Business Logic Component)",
-  //       "B) REST API",
-  //       "C) SQL Database",
-  //       "D) WebSocket"
-  //     ]
-  //   },
-  //   {
-  //     "question": "What does 'hot reload' in Flutter allow developers to do?",
-  //     "options": [
-  //       "A) Restart the app and clear all data.",
-  //       "B) Update code and see changes instantly without losing the app state.",
-  //       "C) Automatically update the app in the app store.",
-  //       "D) Refresh the database connection."
-  //     ]
-  //   },
-  //   {
-  //     "question": "What is Flutter?",
-  //     "options": [
-  //       "A) A backend development framework.",
-  //       "B) A toolkit for building user interfaces for iOS and Android using Dart.",
-  //       "C) A cloud-based service for mobile applications.",
-  //       "D) A version control system."
-  //     ]
-  //   },
-  //   {
-  //     "question": "Which file format is used to define Flutter UI layouts?",
-  //     "options": [
-  //       "A) JSON",
-  //       "B) XML",
-  //       "C) YAML",
-  //       "D) Dart"
-  //     ]
-  //   },
-  //   {
-  //     "question": "What is the main entry point file for a Flutter app?",
-  //     "options": [
-  //       "A) app.xml",
-  //       "B) main.dart",
-  //       "C) index.html",
-  //       "D) program.cs"
-  //     ]
-  //   },
-  //   {
-  //     "question": "Which widget in Flutter is used for creating a scrollable list?",
-  //     "options": [
-  //       "A) Container",
-  //       "B) Column",
-  //       "C) ListView",
-  //       "D) GridView"
-  //     ]
-  //   },
-  //   {
-  //     "question": "What is the purpose of the `pubspec.yaml` file in a Flutter project?",
-  //     "options": [
-  //       "A) It is used to write application code.",
-  //       "B) It contains metadata about the project, such as dependencies.",
-  //       "C) It is used for version control.",
-  //       "D) It stores user data."
-  //     ]
-  //   },
-  //   {
-  //     "question": "Which of the following is NOT a widget in Flutter?",
-  //     "options": [
-  //       "A) Text",
-  //       "B) Button",
-  //       "C) HTTPClient",
-  //       "D) Image"
-  //     ]
-  //   },
-  //   {
-  //     "question": "What is the Dart programming language?",
-  //     "options": [
-  //       "A) A low-level programming language mainly used for system programming.",
-  //       "B) A programming language optimized for building mobile, desktop, server, and web applications.",
-  //       "C) A language used specifically for game development and graphics.",
-  //       "D) A database query language similar to SQL."
-  //     ]
-  //   }
-  // ];
+   int quizId;
+   String? quizTimer;
+   String? chapterImage;
+   String? name;
 
 
   @override
@@ -110,10 +22,10 @@ class QuizBody extends StatelessWidget {
           builder: (context , questionsResponseState) {
           if(questionsResponseState.requestState == RequestState.loading){
             return Skeletonizer(
-              child: _QuizBodyDetails(questions:[QuestionEntity(questionId: "", question:"---------------------------------", options: OptionModel(option1: "-----------", option2: "-----------", option3: "-----------", option4: "-----------"))],),
+              child: _QuizBodyDetails(quizId: quizId.toString(),quizTimer: quizTimer,questions:[QuestionEntity(questionId: "", question:"---------------------------------",options: OptionModel(option1: "-----------", option2: "-----------", option3: "-----------", option4: "-----------"))],chapterImage: "",name: name,),
             );
           }else if (questionsResponseState.requestState == RequestState.done){
-            return _QuizBodyDetails(questions:questionsResponseState.getQuestionsResponse!.questions ,);
+            return _QuizBodyDetails(quizId: quizId.toString(),chapterImage: chapterImage,questions:questionsResponseState.getQuestionsResponse!.questions,quizTimer: quizTimer,name: name,);
           }else {
             return GestureDetector(
               onTap: (){
@@ -168,27 +80,37 @@ class QuizBody extends StatelessWidget {
 class _QuizBodyDetails extends StatelessWidget {
   _QuizBodyDetails({
     super.key,
-    required this.questions
+    required this.quizId,
+    required this.questions,
+    required this.quizTimer,
+    required this.chapterImage,
+    required this.name,
   });
 
+  final String quizId;
   final List<QuestionEntity> questions;
   final PageController _pageController = PageController();
+  final String? quizTimer ;
+  final String? chapterImage ;
+  final String? name ;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => QuizBloc(questions: questions)..add(LoadQuiz()),
+      create: (context) => QuizBloc(questions: questions,studentId: context.read<CurrentUserBloc>().userData!.id,quizId: quizId)..add(LoadQuiz(),),
       child: Scaffold(
         body: BlocBuilder<QuizBloc, QuizState>(
           builder: (context, state) {
             if (state is QuizLoaded) {
               return Column(
                 children: [
-
                   // Pass the pageController safely to QuizInfo
                   QuizInfo(
+                    name: name,
+                    quizTimer: quizTimer,
                     quizState: state,
                     questions: questions,
+                    chapterImage:chapterImage ,
                     pageController: _pageController,
                   ),
 
@@ -196,6 +118,7 @@ class _QuizBodyDetails extends StatelessWidget {
 
                   // Pass the pageController safely to QuizPageView
                   QuizPageView(
+                    quizId: quizId,
                     quizState: state,
                     questions: questions,
                     pageController: _pageController,
@@ -254,11 +177,70 @@ class _QuizBodyDetails extends StatelessWidget {
                             ],
                           ),
                         ),
+                        BlocProvider(
+                          create: (context)=> SendQuizResultsBloc(Dio()),
+                          child: BlocBuilder<SendQuizResultsBloc, SendQuizResultsState>(
+                            builder: (context, SendQState) {
+                              if (SendQState is SendQuizResultsLoading) {
+                              } else if (SendQState is SendQuizResultsSuccess) {
+
+                                 Future.delayed(Duration(seconds: 1),(){
+                                   showTopSnackBar(Overlay.of(context), CustomSnackBar.success(message:"Answers sent successfully ",),);
+
+                                 });
+                                 Future.delayed(Duration(seconds: 3),(){
+                                   Navigator.pop(context);
+
+                                 });
+
+
+                              }
+                              else if (SendQState is SendQuizResultsError) {
+                              }
+                              return  (state.allQuestionsAnswered)?CustomButton(
+                                onPressed: () {
+                                  context.read<SendQuizResultsBloc>().add(
+                                    SendQuizResults(
+                                      studentId: context.read<CurrentUserBloc>().userData!.id,
+                                      quizId: quizId,
+                                      answers: context.read<QuizBloc>().questionsAnswer
+                                    ),
+                                  );
+
+                                  print("""
+                                      studentId: ${context.read<CurrentUserBloc>().userData!.id},
+                                      quizId: ${quizId},
+                                      answers:${ context.read<QuizBloc>().questionsAnswer}
+                                  
+                                   """);
+                                },
+                                heightButton: AppConstants.hScreen(context) * 0.04,
+                                widthButton: AppConstants.wScreen(context) * 0.24,
+                                borderRadius: BorderRadius.circular(AppRadius.r8),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: AppPadding.pHScreen4(context),
+                                ),
+                                backgroundColor: ColorManager.primary,
+                                elevation: 2,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Submit",
+                                      style: getBoldStyle(color: ColorManager.white, fontSize: FontSize.s12),
+                                    ),
+                                  ],
+                                ),
+                              ):SizedBox();
+                            },
+                          ),
+                        ),
+
                         CustomButton(
                           onPressed: () {
                             if (_pageController.hasClients) {
                               final currentPage = _pageController.page?.toInt() ?? 0;
-                              if (currentPage < (questions.length - 1)) { // Replace with the total number of questions
+                              if (currentPage < (questions.length - 1)) {
                                 _pageController.nextPage(
                                   duration: Duration(milliseconds: AppConstants.pageTransition200),
                                   curve: Curves.linearToEaseOut,
@@ -301,3 +283,7 @@ class _QuizBodyDetails extends StatelessWidget {
     );
   }
 }
+
+
+
+

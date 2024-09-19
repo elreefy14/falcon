@@ -1,6 +1,9 @@
-import 'package:falcon/core/core_exports.dart';
+import 'dart:async';
 
-class PdfViewerPage extends StatefulWidget {
+import 'package:falcon/core/core_exports.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+
+/*class PdfViewerPage extends StatefulWidget {
   final String pdfPath;
 
   PdfViewerPage({required this.pdfPath});
@@ -42,4 +45,56 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
       ),
     );
   }
+}*/
+
+class PdfViewerPage extends StatelessWidget {
+  final String pdfPath;
+
+  PdfViewerPage({required this.pdfPath});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Stack(
+          children: [
+            Container(
+                child: SfPdfViewer.network(
+                    '$pdfPath')),
+            TimedWidget(),
+          ],
+        ));
+
+  }
 }
+
+class TimedWidget extends StatefulWidget {
+  @override
+  _TimedWidgetState createState() => _TimedWidgetState();
+}
+
+class _TimedWidgetState extends State<TimedWidget> {
+  bool _isVisible = true;
+
+  @override
+  void initState() {
+    super.initState();
+    // Set a timer for 5 seconds to hide the widget
+    Timer(Duration(seconds: 5), () {
+      setState(() {
+        _isVisible = false;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Visibility(
+        visible: _isVisible,
+        child: Center(child: CircularProgressIndicator()),
+      ),
+    );
+  }
+}
+
+void main() => runApp(MaterialApp(home: TimedWidget()));

@@ -1,14 +1,16 @@
 import 'package:falcon/core/core_exports.dart';
 
-class VideoModel extends VideoEntity {
-  VideoModel({
+class VideoFileModel extends VideoFileEntity {
+  VideoFileModel({
     required super.id,
-    required super.video,
+    required super.name,
+    required super.iframe,
   });
 
 
-  factory VideoModel.fromJson(Map<String, dynamic> json) => VideoModel(
+  factory VideoFileModel.fromJson(Map<String, dynamic> json) => VideoFileModel(
         id: json["id"],
-        video: json["video"],
+        name: json["name"],
+        iframe: json["iframe"],
       );
 }

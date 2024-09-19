@@ -6,14 +6,21 @@ class QuizInfo extends StatelessWidget {
     required this.quizState,
     required this.questions,
     required this.pageController,
+    required this.chapterImage,
+    required this.quizTimer,
+    required this.name,
   });
 
    final QuizLoaded quizState ;
    final List<QuestionEntity> questions;
     PageController pageController ;
+    String?  chapterImage ;
+    String?  quizTimer ;
+    String?  name ;
 
   @override
   Widget build(BuildContext context) {
+    print(quizTimer);
     return Container(
       decoration: BoxDecoration(
         color: ColorManager.primary.withOpacity(0.06),
@@ -36,9 +43,23 @@ class QuizInfo extends StatelessWidget {
                   child: SizedBox(
                     height: AppConstants.hScreen(context)*0.11,
                     width: AppConstants.wScreen(context)*0.27,
-                    child: Image.asset(
-                      AssetsManager.image_4,
-                      fit:BoxFit.fill,
+                    child:CachedNetworkImage(
+                      imageUrl:chapterImage!,
+                      fit: BoxFit.fill,
+                      placeholder: (context, url) => Skeletonizer(
+                        child: Container(
+                          color: ColorManager.lightGrey,
+                          width: double.infinity,
+                          height: double.infinity,
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Image.asset(
+                        AssetsManager.defaultImage,
+                        height: AppConstants.hScreen(context)*0.11,
+                        width: AppConstants.wScreen(context)*0.27,
+                        fit: BoxFit.fill,
+                      ),
+
                     ),
                   ),
                 ),
@@ -51,11 +72,11 @@ class QuizInfo extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Flutter Cross Platform",
+                        "$name",
                         style: getBoldStyle(color: ColorManager.black,fontSize: FontSize.s14),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: AppPadding.pVScreen1(context)),
+                        padding: EdgeInsets.only(top: AppPadding.pVScreen08(context)),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -63,15 +84,16 @@ class QuizInfo extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Chapter 1",
+                                  "${questions.length} Questions",
                                   style: getBoldStyle(color: ColorManager.textGrey,fontSize: FontSize.s10),
                                 ),
                                 Text(
-                                  "Quiz 1",
+                                  "",
+                                  //"Timer : ${(int.parse(quizTimer!) ~/ 60).toString().padLeft(2, '0')}:${(int.parse(quizTimer!) % 60).toString().padLeft(2, '0')} ",
                                   style: getBoldStyle(color: ColorManager.textGrey,fontSize: FontSize.s10),
                                 ),
                                 Text(
-                                  "50 Marks",
+                                  "",
                                   style: getBoldStyle(color: ColorManager.textGrey,fontSize: FontSize.s10),
                                 ),
                               ],
@@ -81,7 +103,7 @@ class QuizInfo extends StatelessWidget {
                                 if (state is TimerInitial) {
                                   return ElevatedButton(
                                     onPressed: () {
-                                      BlocProvider.of<TimerBloc>(context).add(StartTimer(120));
+                                      BlocProvider.of<TimerBloc>(context).add(StartTimer(int.parse(quizTimer??"0")));
                                     },
                                     child: Text('Start Exam'),
                                   );
@@ -108,7 +130,7 @@ class QuizInfo extends StatelessWidget {
                                   return GestureDetector(
                                     onTap: () {
                                       // Start the timer with a duration of 300 seconds (5 minutes)
-                                      BlocProvider.of<TimerBloc>(context).add(StartTimer(120));
+                                     // BlocProvider.of<TimerBloc>(context).add(StartTimer(int.parse(quizTimer??"0")));
                                     },
                                     child: Text(
                                       'Time\'s up!',

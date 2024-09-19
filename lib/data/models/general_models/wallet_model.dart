@@ -10,7 +10,7 @@ class WalletModel extends WalletEntity {
   factory WalletModel.fromJson(Map<String,dynamic> json) => WalletModel(
     message: json["message"],
     student: StudentModel.fromJson(json["student"]),
-    totalMoney: json["total_money"],
+    totalMoney: json["total_money"].toString(),
 
   );
 }

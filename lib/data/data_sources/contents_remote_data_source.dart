@@ -6,10 +6,11 @@ abstract class BaseContentsRemoteDataSource {
   Future<List<ContentModel>> showAllContentsDataSource({required ShowAllContentsParameters parameters});
   Future<OrgContentsModel> showOrgContentsDataSource({required ShowOrgContentsParameters parameters});
   Future<ContentModel> showContentByIDDataSource({required ShowContentByIDParameters parameters});
-  Future<VideoViewModel> countVideoViewDataSource({required CountVideoViewParameters parameters});
+  Future<VideoFileModel> showVideoFileDataSource({required ShowVideoFileParameters parameters});
   Future<QuizModel> showQuestionsDataSource({required ShowQuestionsParameters parameters});
   Future<AssignmentModel> showAssignmentQuestionDataSource({required ShowAssignmentsParameters parameters});
   Future<List<AnswerCorrectModel>> getModelAnswersDataSource({required GetModelAnswersParameters parameters});
+  Future<List<AssignmentAnswerModel>> getAssignmentModelAnswersDataSource({required GetAssignmentModelAnswersParameters parameters});
 
 }
 
@@ -117,6 +118,7 @@ class ContentsRemoteDataSource extends BaseContentsRemoteDataSource {
   }
 
   //----------------------------------------------------------------------------
+/*
 
   @override
   Future<VideoViewModel> countVideoViewDataSource({required CountVideoViewParameters parameters}) async{
@@ -143,6 +145,7 @@ class ContentsRemoteDataSource extends BaseContentsRemoteDataSource {
       throw ServerException(dioException: e);
     }
   }
+*/
 
   //----------------------------------------------------------------------------
 
@@ -175,14 +178,12 @@ class ContentsRemoteDataSource extends BaseContentsRemoteDataSource {
   Future<List<AnswerCorrectModel>> getModelAnswersDataSource({required GetModelAnswersParameters parameters}) async{
     try {
       final response = await ApiConstants.dio.get(
-        ApiConstants.getModelAnswerUrl,
-          data: {
-            "studentId":parameters.studentId,
-            "quizId":parameters.quizId,
-          }
+          "${ApiConstants.getModelAnswerUrl}?studentid=${parameters.studentId}\&quizid=${parameters.quizId}",
       );
+
+      print(response);
       if (response.statusCode == 200) {
-        return List<AnswerCorrectModel>.from((response.data).map((e)=>AnswerCorrectModel.fromJson(e)));
+        return List<AnswerCorrectModel>.from((response.data["answers"]).map((e)=>AnswerCorrectModel.fromJson(e)));
       } else {
         throw ServerException(
           dioException: DioException(
@@ -216,6 +217,54 @@ class ContentsRemoteDataSource extends BaseContentsRemoteDataSource {
         );
       }
     } on DioException catch (e) {
+      throw ServerException(dioException: e);
+    }
+  }
+
+  @override
+  Future<List<AssignmentAnswerModel>> getAssignmentModelAnswersDataSource({required GetAssignmentModelAnswersParameters parameters}) async{
+    try {
+      final response = await ApiConstants.dio.get(
+        "${ApiConstants.getAssignmentModelAnswerUrl}?studentid=${parameters.studentId}\&assignmentid=${parameters.quizId}",
+      );
+
+      print(response);
+      if (response.statusCode == 200) {
+        return List<AssignmentAnswerModel>.from((response.data["answers"]).map((e)=>AssignmentAnswerModel.fromJson(e)));
+      } else {
+        throw ServerException(
+          dioException: DioException(
+            requestOptions: response.requestOptions,
+            response: response,
+            error: response.statusMessage,
+          ),
+        );
+      }
+    }on DioException catch (e) {
+      throw ServerException(dioException: e);
+    }
+  }
+
+  @override
+  Future<VideoFileModel> showVideoFileDataSource({required ShowVideoFileParameters parameters}) async{
+    try {
+      final response = await ApiConstants.dio.get(
+        "${ApiConstants.showVideoFileUrl}?contentid=${parameters.contentId}",
+      );
+
+      print(response);
+      if (response.statusCode == 200) {
+        return  VideoFileModel.fromJson(response.data[0]);;
+      } else {
+        throw ServerException(
+          dioException: DioException(
+            requestOptions: response.requestOptions,
+            response: response,
+            error: response.statusMessage,
+          ),
+        );
+      }
+    }on DioException catch (e) {
       throw ServerException(dioException: e);
     }
   }

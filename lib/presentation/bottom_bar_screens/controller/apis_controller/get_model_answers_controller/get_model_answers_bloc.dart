@@ -21,6 +21,7 @@ class GetModelAnswersBloc extends Bloc<GetModelAnswersEvent, GetModelAnswersStat
       quizId: event.quizId,
     ));
 
+    print(result);
     result.fold(
       (l)=>emit(GetModelAnswersState(
         requestState: RequestState.error,

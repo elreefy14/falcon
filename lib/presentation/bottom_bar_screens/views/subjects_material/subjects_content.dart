@@ -224,6 +224,7 @@ class ChapterOfModuleItem extends StatelessWidget {
                     create: (context) => ContentTabBloc(),
                     child: ChaptersContentViews(
                       title: "${chapter.name}",
+                      chapterImage: "${chapter.imgUrl}",
                       chapterId: int.parse(chapter.id),
                     ),
                   ),

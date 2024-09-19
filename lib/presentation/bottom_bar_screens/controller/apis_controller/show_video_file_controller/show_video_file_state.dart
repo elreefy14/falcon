@@ -1,20 +1,20 @@
-part of 'count_video_view_bloc.dart';
+part of 'show_video_file_bloc.dart';
 
-class CountVideoViewState extends Equatable {
+class ShowVideoFileState extends Equatable {
 
-  final VideoViewEntity? countVideoResponse;
+  final VideoFileEntity? videoFileResponse;
   final RequestState requestState;
   final String responseMessage;
 
-  CountVideoViewState({
-    this.countVideoResponse,
+  ShowVideoFileState({
+    this.videoFileResponse,
     this.requestState = RequestState.loading,
     this.responseMessage = "",
   });
 
   @override
   List<Object?> get props => [
-        countVideoResponse,
+    videoFileResponse,
         requestState,
         responseMessage,
       ];

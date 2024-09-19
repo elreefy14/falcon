@@ -1,14 +1,16 @@
 import 'package:falcon/core/core_exports.dart';
 
-class VideoEntity extends Equatable {
-  final int id;
-  final String video;
+class VideoFileEntity extends Equatable {
+  final String id;
+  final String name;
+  final String iframe;
 
-  VideoEntity({
+  VideoFileEntity({
     required this.id,
-    required this.video,
+    required this.name,
+    required this.iframe,
   });
 
   @override
-  List<Object> get props => [id, video];
+  List<Object> get props => [id, name,iframe];
 }

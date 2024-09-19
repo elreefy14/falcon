@@ -13,13 +13,17 @@ class NextQuestion extends QuizEvent {}
 
 class PreviousQuestion extends QuizEvent {}
 
+class ConfirmAnswers extends QuizEvent {}
+
 class SelectAnswer extends QuizEvent {
+  final String quizId;
   final int questionIndex;
   final String answer;
   final String questionId;
   final String answerIndex;
 
   const SelectAnswer({
+    required this.quizId,
     required this.questionIndex,
     required this.answer,
     required this.questionId,
@@ -27,5 +31,5 @@ class SelectAnswer extends QuizEvent {
   });
 
   @override
-  List<Object?> get props => [questionIndex, answer, questionId, answerIndex];
+  List<Object?> get props => [quizId,questionIndex, answer, questionId, answerIndex];
 }
