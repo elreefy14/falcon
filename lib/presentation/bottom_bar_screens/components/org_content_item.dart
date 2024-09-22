@@ -53,7 +53,7 @@ class OrgContentItem extends StatelessWidget {
                 print("01014563769");
                 print(videoFileState.videoFileResponse?.iframe);
                 if(videoFileState.requestState == RequestState.loading){
-                  return  Skeletonizer(child: OrgContentItem(chapterId:"",contentType: FileType.task,chapterImage:"",items: [ ContentEntity(id: "", type: "", name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]));
+                  return  Skeletonizer(child: OrgContentItem(chapterId:"",contentType: FileType.task,chapterImage:"",items: [ ContentEntity(id: "", completed: 0,type: "", name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]));
 
                 }
               else if(videoFileState.requestState == RequestState.done){

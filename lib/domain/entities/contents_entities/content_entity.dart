@@ -7,6 +7,7 @@ class ContentEntity extends Equatable {
   final String? timer;
   final String? numberOfQuestions;
   final String? enddate;
+  final int? completed;
 
 
   ContentEntity({
@@ -16,8 +17,9 @@ class ContentEntity extends Equatable {
     required this.timer,
     required this.numberOfQuestions,
     required this.enddate,
+    required this.completed,
   });
 
   @override
-  List<Object?> get props => [id, type, name,timer,numberOfQuestions,enddate];
+  List<Object?> get props => [id, type, name,timer,numberOfQuestions,enddate,completed];
 }

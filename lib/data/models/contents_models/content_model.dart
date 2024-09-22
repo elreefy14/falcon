@@ -8,6 +8,7 @@ class ContentModel extends ContentEntity {
     required super.timer,
     required super.enddate,
     required super.numberOfQuestions,
+    required super.completed,
   });
 
   factory ContentModel.fromJson(Map<String ,dynamic> json)=>ContentModel(
@@ -17,5 +18,6 @@ class ContentModel extends ContentEntity {
     timer: json["timer"],
     enddate: json["enddate"],
     numberOfQuestions: json["number_of_questions"],
+    completed: json["completed"],
   );
 }

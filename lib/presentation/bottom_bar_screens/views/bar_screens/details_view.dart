@@ -116,22 +116,22 @@ class _Body0fDetails extends StatelessWidget {
               ));
             }
 
-            // if(type==DetailsType.LastChapter && isMyLearning==false){
-            //   Navigator.push(context, PageTransition(
-            //     child: BlocProvider(
-            //       create: (context) => ContentTabBloc(),
-            //       child: ChaptersContentViews(
-            //         title: "${lastChapter?.name}",
-            //         chapterImage: "${lastChapter?.img}",
-            //        // chapterId: int.parse(lastChapter!.id), todo change
-            //         chapterId: 3,
-            //       ),
-            //     ),
-            //     type: PageTransitionType.fade,
-            //     curve: Curves.fastEaseInToSlowEaseOut,
-            //     duration: const Duration(milliseconds: AppConstants.pageTransition200),
-            //   ));
-            // }
+            if(type==DetailsType.LastChapter && isMyLearning==false){
+              Navigator.push(context, PageTransition(
+                child: BlocProvider(
+                  create: (context) => ContentTabBloc(),
+                  child: ChaptersContentViews(
+                    title: "${lastChapter?.name}",
+                    chapterImage: "${lastChapter?.img}",
+                   // chapterId: int.parse(lastChapter!.id), todo change
+                    chapterId: 3,
+                  ),
+                ),
+                type: PageTransitionType.fade,
+                curve: Curves.fastEaseInToSlowEaseOut,
+                duration: const Duration(milliseconds: AppConstants.pageTransition200),
+              ));
+            }
           },
           child:CachedNetworkImage(
             imageUrl:imageUrl!,

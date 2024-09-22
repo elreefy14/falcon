@@ -33,7 +33,7 @@ class AllContentItem extends StatelessWidget {
       child: BlocBuilder<ShowVideoFileBloc,ShowVideoFileState>(
           builder: (context,videoFileState) {
             if(videoFileState.requestState == RequestState.loading){
-              return  Skeletonizer(child: OrgContentItem(chapterId:"",contentType: FileType.task,chapterImage:"",items: [ ContentEntity(id: "", type: "", name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]));
+              return  Skeletonizer(child: OrgContentItem(chapterId:"",contentType: FileType.task,chapterImage:"",items: [ ContentEntity(id: "", type: "", completed: 0,name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]));
             }
             if(videoFileState.requestState == RequestState.done){
               return Padding(
@@ -203,7 +203,7 @@ class AllContentItem extends StatelessWidget {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    GestureDetector(
+                                    (items![index].completed==1)?GestureDetector(
                                       onTap: (){
                                         context.read<GetAssignmentAnswerBloc>().add(GetAssignmentAnswerRequestEvent(
                                             studentId: context.read<CurrentUserBloc>().userData!.id, quizId: items![index].id));
@@ -228,6 +228,11 @@ class AllContentItem extends StatelessWidget {
                                           style: getBoldStyle(color: ColorManager.black,fontSize: FontSize.s9),
                                         ),
                                       ),
+                                    ):SizedBox(),
+                                    (items![index].completed==1)?SizedBox(height: AppConstants.hScreen(context)*0.03,):SizedBox(height: AppConstants.hScreen(context)*0.06,),
+                                    Text(
+                                      (items![index].completed==1)?"Completed":"Not Completed",
+                                      style: getBoldStyle(color: ColorManager.textGrey,fontSize: FontSize.s9),
                                     ),
                                   ],
                                 ),
@@ -320,31 +325,36 @@ class AllContentItem extends StatelessWidget {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    GestureDetector(
-                                      onTap: (){
-                                        context.read<GetModelAnswersBloc>().add(GetModelAnswersRequestEvent(
-                                            studentId: context.read<CurrentUserBloc>().userData!.id, quizId:  items![index].id));
-                                        Navigator.push(context, PageTransition(
-                                          child: ModelAnswerScreen( quizId:  items![index].id),
-                                          type: PageTransitionType.fade,
-                                          curve: Curves.fastEaseInToSlowEaseOut,
-                                          duration: const Duration(milliseconds: AppConstants.pageTransition200),
-                                        ));
-                                      },
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: AppPadding.pHScreen2(context),
-                                          vertical: AppPadding.pVScreen04(context),
-                                        ),
-                                        decoration: BoxDecoration(
-                                            color: ColorManager.grey,
-                                            borderRadius: BorderRadius.circular(AppRadius.r4)
-                                        ),
-                                        child: Text(
-                                          "Answers",
-                                          style: getBoldStyle(color: ColorManager.black,fontSize: FontSize.s9),
-                                        ),
-                                      ),
+                                    (items![index].completed==1)?GestureDetector(
+                                  onTap: (){
+                                    context.read<GetModelAnswersBloc>().add(GetModelAnswersRequestEvent(
+                                        studentId: context.read<CurrentUserBloc>().userData!.id, quizId:  items![index].id));
+                                    Navigator.push(context, PageTransition(
+                                      child: ModelAnswerScreen( quizId:  items![index].id),
+                                      type: PageTransitionType.fade,
+                                      curve: Curves.fastEaseInToSlowEaseOut,
+                                      duration: const Duration(milliseconds: AppConstants.pageTransition200),
+                                    ));
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: AppPadding.pHScreen2(context),
+                                      vertical: AppPadding.pVScreen04(context),
+                                    ),
+                                    decoration: BoxDecoration(
+                                        color: ColorManager.grey,
+                                        borderRadius: BorderRadius.circular(AppRadius.r4)
+                                    ),
+                                    child: Text(
+                                      "Answers",
+                                      style: getBoldStyle(color: ColorManager.black,fontSize: FontSize.s9),
+                                    ),
+                                  ),
+                                ):SizedBox(),
+                                    (items![index].completed==1)?SizedBox(height: AppConstants.hScreen(context)*0.03,):SizedBox(height: AppConstants.hScreen(context)*0.06,),
+                                    Text(
+                                      (items![index].completed==1)?"Completed":"Not Completed",
+                                      style: getBoldStyle(color: ColorManager.textGrey,fontSize: FontSize.s9),
                                     ),
                                   ],
                                 ),

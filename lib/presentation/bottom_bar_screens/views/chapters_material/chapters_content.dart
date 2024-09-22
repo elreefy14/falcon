@@ -94,11 +94,11 @@ class _ChaptersContentViewsState extends State<ChaptersContentViews> with Single
                         child: TabBarView(
                           controller: _contentTabController,
                           children: [
-                            AllContentItem(chapterId: widget.chapterId.toString(),chapterImage: widget.chapterImage,items: [ ContentEntity(id: "", type: "", name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")],),
-                            OrgContentItem(chapterId:widget.chapterId.toString(),contentType: FileType.file,chapterImage: widget.chapterImage,items: [ ContentEntity(id: "", type: "", name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--" )],),
-                            OrgContentItem(chapterId:widget.chapterId.toString(),contentType: FileType.video,chapterImage: widget.chapterImage,items: [ ContentEntity(id: "", type: "", name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]),
-                            OrgContentItem(chapterId:widget.chapterId.toString(),contentType: FileType.task,chapterImage: widget.chapterImage,items: [ ContentEntity(id: "", type: "", name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]),
-                            OrgContentItem(chapterId:widget.chapterId.toString(),contentType: FileType.quiz,chapterImage: widget.chapterImage,items: [ ContentEntity(id: "", type: "", name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]),
+                            AllContentItem(chapterId: widget.chapterId.toString(),chapterImage: widget.chapterImage,items: [ ContentEntity(id: "", type: "", completed: 0,name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")],),
+                            OrgContentItem(chapterId:widget.chapterId.toString(),contentType: FileType.file,chapterImage: widget.chapterImage,items: [ ContentEntity(id: "", completed: 0,type: "", name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--" )],),
+                            OrgContentItem(chapterId:widget.chapterId.toString(),contentType: FileType.video,chapterImage: widget.chapterImage,items: [ ContentEntity(id: "", type: "",completed: 0, name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]),
+                            OrgContentItem(chapterId:widget.chapterId.toString(),contentType: FileType.task,chapterImage: widget.chapterImage,items: [ ContentEntity(id: "", type: "", completed: 0,name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]),
+                            OrgContentItem(chapterId:widget.chapterId.toString(),contentType: FileType.quiz,chapterImage: widget.chapterImage,items: [ ContentEntity(id: "", type: "", completed: 0,name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]),
                           ],
                         ),
                       );

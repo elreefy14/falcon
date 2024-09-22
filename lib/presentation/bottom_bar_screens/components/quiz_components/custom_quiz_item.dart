@@ -104,7 +104,7 @@ class CustomQuizItem extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          GestureDetector(
+                          (items![index].completed==1)?GestureDetector(
                             onTap: (){
                               Navigator.push(context, PageTransition(
                                 child: ModelAnswerScreen(quizId: items![index].id),
@@ -119,14 +119,19 @@ class CustomQuizItem extends StatelessWidget {
                                 vertical: AppPadding.pVScreen04(context),
                               ),
                               decoration: BoxDecoration(
-                                color: ColorManager.grey,
-                                borderRadius: BorderRadius.circular(AppRadius.r4)
+                                  color: ColorManager.grey,
+                                  borderRadius: BorderRadius.circular(AppRadius.r4)
                               ),
                               child: Text(
                                 "Answers",
                                 style: getBoldStyle(color: ColorManager.black,fontSize: FontSize.s9),
                               ),
                             ),
+                          ):SizedBox(),
+                          (items![index].completed==1)?SizedBox(height: AppConstants.hScreen(context)*0.03,):SizedBox(height: AppConstants.hScreen(context)*0.06,),
+                          Text(
+                            (items![index].completed==1)?"Completed":"Not Completed",
+                            style: getBoldStyle(color: ColorManager.textGrey,fontSize: FontSize.s9),
                           ),
                         ],
                       ),

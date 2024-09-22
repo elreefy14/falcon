@@ -98,7 +98,7 @@ class CustomAssignmentItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
 
-                          GestureDetector(
+                          (items![index].completed==1)?GestureDetector(
                             onTap: (){
                               context.read<GetAssignmentAnswerBloc>().add(GetAssignmentAnswerRequestEvent(
                                   studentId: context.read<CurrentUserBloc>().userData!.id, quizId:  items![index].id));
@@ -123,6 +123,11 @@ class CustomAssignmentItem extends StatelessWidget {
                                 style: getBoldStyle(color: ColorManager.black,fontSize: FontSize.s9),
                               ),
                             ),
+                          ):SizedBox(),
+                          (items![index].completed==1)?SizedBox(height: AppConstants.hScreen(context)*0.03,):SizedBox(height: AppConstants.hScreen(context)*0.06,),
+                          Text(
+                            (items![index].completed==1)?"Completed":"Not Completed",
+                            style: getBoldStyle(color: ColorManager.textGrey,fontSize: FontSize.s9),
                           ),
                         ],
                       ),

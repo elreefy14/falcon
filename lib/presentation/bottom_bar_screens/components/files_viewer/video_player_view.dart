@@ -1,32 +1,25 @@
 import 'dart:async';
 import 'dart:math';
-
-import 'package:falcon/core/core_exports.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
-
-
-
-
+import '../../../../core/core_exports.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
-  VideoPlayerScreen({required this.link });
-  String link;
+  final String link;
+  VideoPlayerScreen({required this.link});
+
   @override
   _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
-
 }
 
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   late YoutubePlayerController _controller;
-
   late Timer _timer;
   Offset _currentPosition = Offset(0, 0);
+  bool isFullScreen = false;
 
-  // Define possible positions for the watermark
   List<Offset> _getWatermarkPositions() {
     final screenSize = MediaQuery.of(context).size;
     return [
@@ -135,37 +128,58 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     ];
   }
 
+
+  // Method to extract YouTube video ID
   String extractYoutubeId(String url) {
     final RegExp regExp = RegExp(
       r'(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})',
       caseSensitive: false,
       multiLine: false,
     );
-
     final match = regExp.firstMatch(url);
     if (match != null && match.groupCount >= 1) {
-      return match.group(1)!; // Return the matched video ID
+      return match.group(1)!;
     } else {
       throw 'Invalid YouTube URL';
     }
   }
 
+  // Toggle full-screen mode
+  void toggleFullScreen() {
+    setState(() {
+      isFullScreen = !isFullScreen;
+    });
+    if (isFullScreen) {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.landscapeRight,
+        DeviceOrientation.landscapeLeft,
+      ]);
+    } else {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    _controller = YoutubePlayerController(
-      initialVideoId: extractYoutubeId(widget.link), // YouTube video ID
-      flags: YoutubePlayerFlags(
-        autoPlay: true,
-        mute: false,
+    _controller = YoutubePlayerController.fromVideoId(
+      videoId: extractYoutubeId(widget.link),
+      autoPlay: true,
+      params: YoutubePlayerParams(
+        showControls: true,
+        showFullscreenButton: true,
+
       ),
     );
-
-    // Start the timer to update watermark position every second
     _startWatermarkAnimation();
   }
 
+  // Method to update watermark position
   // Method to update watermark position
   void _startWatermarkAnimation() {
     _timer = Timer.periodic(Duration(seconds: 10), (timer) {
@@ -180,91 +194,84 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     });
   }
 
-  void listener() {
-    // Add logic to handle events from the player
-  }
-
-@override
-void dispose() {
-  _controller.dispose();
-  _timer.cancel(); // Cancel the timer to avoid memory leaks
-  super.dispose();
-}
-
-  bool _flipVertical () {
+  @override
+  void dispose() {
+    // Ensure the device returns to portrait orientation when leaving the screen
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
 
-   return true;
+    _controller.close();
+    _timer.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-        canPop: false,
-        onPopInvoked: (didPop) async {
-          if (didPop) {
-            return;
-          }
-          final navigator = Navigator.of(context);
-          bool value = await _flipVertical();
-          if (value) {
-            navigator.pop();
-          }
-        },
-      child: SafeArea(
-        child: Scaffold(
-          body: Container(
-            height: AppConstants.hScreen(context),
-            width: AppConstants.wScreen(context),
-            color: ColorManager.black,
-            child: Stack(
-              children: [
-                Center(
-                  child: Flexible(
-                    child: YoutubePlayer(
-                      controller: _controller,
-                      showVideoProgressIndicator: true,
-                      progressIndicatorColor: Colors.amber,
-                      progressColors: ProgressBarColors(
-                        playedColor: Colors.amber,
-                        handleColor: Colors.amberAccent,
-                      ),
-                      onReady: () {
-                        _controller.addListener(listener);
-                      },
-                    ),
-                  ),
-                ),
-                // Replace Align with AnimatedAlign
-                Positioned(
-                  left: _currentPosition.dx,
-                  top: _currentPosition.dy,
-                  child: Container(
-                    margin: EdgeInsets.all(10.0),
-                    padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                    decoration: BoxDecoration(
-                      color: Colors.black45,
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    child: Text(context.read<CurrentUserBloc>().userData!.name+" "+context.read<CurrentUserBloc>().userData!.id ,
-                     // encryptText(context.read<CurrentUserBloc>().userData!.id,ApiConstants.encryptionKey),
-                      style: getBoldStyle(
-                        color: Colors.white38,
-                        fontSize: FontSize.s12
-                      ),
-                    ),
-                  ),
-                ),
-
-              ],
+    return WillPopScope(
+      onWillPop: () async {
+        // If in full-screen mode, exit full-screen before navigating back
+        if (isFullScreen) {
+          toggleFullScreen();
+          return false; // Prevent immediate back navigation
+        }
+        return true; // Allow back navigation
+      },
+      child: Scaffold(
+        appBar: (isFullScreen==false )?CustomAppBar(
+            context: context,
+            title: "",
+          arrowColor: ColorManager.white,
+          hasArrowBack: true,
+          backgroundColor: ColorManager.black,
+          elevation: 0,
+        ):null,
+        backgroundColor: Colors.black,
+        body: Stack(
+          children: [
+            Center(
+              child: YoutubePlayer(
+                controller: _controller,
+                aspectRatio: isFullScreen ? MediaQuery.of(context).size.aspectRatio : 16 / 9,
+              ),
             ),
-          ),
+            Positioned(
+              left: _currentPosition.dx,
+              top: _currentPosition.dy,
+              child: Container(
+                margin: EdgeInsets.all(10.0),
+                padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                decoration: BoxDecoration(
+                  color: Colors.black45,
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                child: Text(context.read<CurrentUserBloc>().userData!.name+" "+context.read<CurrentUserBloc>().userData!.id ,
+                  // encryptText(context.read<CurrentUserBloc>().userData!.id,ApiConstants.encryptionKey),
+                  style: getBoldStyle(
+                      color: Colors.white38,
+                      fontSize: FontSize.s12
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              right: isFullScreen?AppConstants.wScreen(context)*0.014:AppConstants.wScreen(context)*0.028,
+              bottom: isFullScreen?0:AppConstants.hScreen(context)*0.03,
+              child: IconButton(
+                icon: Icon(
+                   Icons.fullscreen,//fullscreen_exit
+                  color: ColorManager.white,
+                  size: isFullScreen?AppSize.s32:AppSize.s26,
+
+                ),
+                onPressed: toggleFullScreen,
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
-

@@ -1,6 +1,7 @@
 import 'package:falcon/core/core_exports.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+//import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:carousel_slider/carousel_slider.dart' as cSlider;
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 
 class CustomAdsSlider extends StatefulWidget {
@@ -9,7 +10,6 @@ class CustomAdsSlider extends StatefulWidget {
 }
 
 class _CustomAdsSliderState extends State<CustomAdsSlider> {
-
 
   String extractYoutubeId(String url) {
     final RegExp regExp = RegExp(
@@ -64,22 +64,22 @@ class _CustomAdsSliderState extends State<CustomAdsSlider> {
                           height: AppConstants.hScreen(context)*0.22,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(AppRadius.r8),
-                            child:  YoutubePlayer(
-                              controller: YoutubePlayerController(
-                                initialVideoId: extractYoutubeId(adsResponseState.adsResponse[index].video), // YouTube video ID
-                                flags: YoutubePlayerFlags(
-                                  autoPlay: false,
-                                  mute: false,
+
+                            child: YoutubePlayer(
+                              enableFullScreenOnVerticalDrag: false,
+                              controller: YoutubePlayerController.fromVideoId(
+                                videoId: extractYoutubeId(adsResponseState.adsResponse[index].video),
+                                autoPlay: false,
+                                params: YoutubePlayerParams(
+                                  showControls: true,
+                                  showFullscreenButton: true,
+                                  mute: true,
+
+
                                 ),
                               ),
-                              showVideoProgressIndicator: true,
-                              progressIndicatorColor: Colors.amber,
-                              progressColors: ProgressBarColors(
-                                playedColor: Colors.amber,
-                                handleColor: Colors.amberAccent,
-                              ),
-                            ),
 
+                            ),
                             /*child: Stack(
                               alignment: Alignment.center,
                               children: [
