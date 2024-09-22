@@ -128,24 +128,24 @@ class ProfileBody extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
-                height: AppPadding.pVScreen2(context),
-              ),
-              GestureDetector(
-                onTap: (){},
-                child: Row(
-                  children: [
-                    Icon(Icons.call_outlined,color: ColorManager.primary,size:30,),
-                    SizedBox(
-                      width: AppPadding.pHScreen2(context),
-                    ),
-                    Text(
-                      "Contact Us",
-                      style: getBoldStyle(color: ColorManager.black,fontSize: FontSize.s12),
-                    ),
-                  ],
-                ),
-              ),
+              // SizedBox(
+              //   height: AppPadding.pVScreen2(context),
+              // ),
+              // GestureDetector(
+              //   onTap: (){},
+              //   child: Row(
+              //     children: [
+              //       Icon(Icons.call_outlined,color: ColorManager.primary,size:30,),
+              //       SizedBox(
+              //         width: AppPadding.pHScreen2(context),
+              //       ),
+              //       Text(
+              //         "Contact Us",
+              //         style: getBoldStyle(color: ColorManager.black,fontSize: FontSize.s12),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               SizedBox(
                 height: AppPadding.pVScreen2(context),
               ),
