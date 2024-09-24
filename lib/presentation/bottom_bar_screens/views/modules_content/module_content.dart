@@ -86,15 +86,30 @@ class ModuleContentViews extends StatelessWidget {
                       ),
                     );
                   }else if(subjectsResponseState.requestState ==RequestState.done){
-                    return (subjectsResponseState.subjectsResponse.isNotEmpty)?ListView.separated(
-                      itemCount:subjectsResponseState.subjectsResponse.length,
+                    //todo demo subject
+                    final List<SubjectEntity> subjectsDemo = [
+                      SubjectEntity(id: "6", image: AssetsManager.image_4, imageUrl: "https://repository-images.githubusercontent.com/195860046/06089740-270a-4cba-8b6e-2639377b5ccd", name: "Dart", price: "55", description: "description", doctors: [DoctorEntity(id: "12", image: AssetsManager.image_4, imageUrl: "", name: "moAbdulstar", phone: "01099516598", description: "Doctor at Kasr Alainy School of Medicine - Cairo University")], chapters: []),
+                      SubjectEntity(id: "6", image: AssetsManager.image_4, imageUrl: "https://repository-images.githubusercontent.com/195860046/06089740-270a-4cba-8b6e-2639377b5ccd", name: "Dart", price: "55", description: "description", doctors: [DoctorEntity(id: "12", image: AssetsManager.image_4, imageUrl: "", name: "moAbdulstar", phone: "01099516598", description: "Doctor at Kasr Alainy School of Medicine - Cairo University")], chapters: []),
+                      SubjectEntity(id: "6", image: AssetsManager.image_4, imageUrl: "https://repository-images.githubusercontent.com/195860046/06089740-270a-4cba-8b6e-2639377b5ccd", name: "Dart", price: "55", description: "description", doctors: [DoctorEntity(id: "12", image: AssetsManager.image_4, imageUrl: "", name: "moAbdulstar", phone: "01099516598", description: "Doctor at Kasr Alainy School of Medicine - Cairo University")], chapters: []),
+                      SubjectEntity(id: "6", image: AssetsManager.image_4, imageUrl: "https://repository-images.githubusercontent.com/195860046/06089740-270a-4cba-8b6e-2639377b5ccd", name: "Dart", price: "55", description: "description", doctors: [DoctorEntity(id: "12", image: AssetsManager.image_4, imageUrl: "", name: "moAbdulstar", phone: "01099516598", description: "Doctor at Kasr Alainy School of Medicine - Cairo University")], chapters: []),
+                      SubjectEntity(id: "6", image: AssetsManager.image_4, imageUrl: "https://repository-images.githubusercontent.com/195860046/06089740-270a-4cba-8b6e-2639377b5ccd", name: "Dart", price: "55", description: "description", doctors: [DoctorEntity(id: "12", image: AssetsManager.image_4, imageUrl: "", name: "moAbdulstar", phone: "01099516598", description: "Doctor at Kasr Alainy School of Medicine - Cairo University")], chapters: []),
+                      SubjectEntity(id: "6", image: AssetsManager.image_4, imageUrl: "https://repository-images.githubusercontent.com/195860046/06089740-270a-4cba-8b6e-2639377b5ccd", name: "Dart", price: "55", description: "description", doctors: [DoctorEntity(id: "12", image: AssetsManager.image_4, imageUrl: "", name: "moAbdulstar", phone: "01099516598", description: "Doctor at Kasr Alainy School of Medicine - Cairo University")], chapters: []),
+                      SubjectEntity(id: "6", image: AssetsManager.image_4, imageUrl: "https://repository-images.githubusercontent.com/195860046/06089740-270a-4cba-8b6e-2639377b5ccd", name: "Dart", price: "55", description: "description", doctors: [DoctorEntity(id: "12", image: AssetsManager.image_4, imageUrl: "", name: "moAbdulstar", phone: "01099516598", description: "Doctor at Kasr Alainy School of Medicine - Cairo University")], chapters: []),
+                      SubjectEntity(id: "6", image: AssetsManager.image_4, imageUrl: "https://repository-images.githubusercontent.com/195860046/06089740-270a-4cba-8b6e-2639377b5ccd", name: "Dart", price: "55", description: "description", doctors: [DoctorEntity(id: "12", image: AssetsManager.image_4, imageUrl: "", name: "moAbdulstar", phone: "01099516598", description: "Doctor at Kasr Alainy School of Medicine - Cairo University")], chapters: []),
+                      SubjectEntity(id: "6", image: AssetsManager.image_4, imageUrl: "https://repository-images.githubusercontent.com/195860046/06089740-270a-4cba-8b6e-2639377b5ccd", name: "Dart", price: "55", description: "description", doctors: [DoctorEntity(id: "12", image: AssetsManager.image_4, imageUrl: "", name: "moAbdulstar", phone: "01099516598", description: "Doctor at Kasr Alainy School of Medicine - Cairo University")], chapters: []),
+                    ];
+                    //return (subjectsResponseState.subjectsResponse.isNotEmpty)?ListView.separated(
+                    return (subjectsResponseState.subjectsResponse.isEmpty)?ListView.separated(
+                      //itemCount:subjectsResponseState.subjectsResponse.length,
+                      itemCount:subjectsDemo.length,
                       padding: EdgeInsets.symmetric(
                         horizontal:AppPadding.pHScreen4(context),
                         vertical:AppPadding.pVScreen2(context),
                       ),
                       separatorBuilder: (context, index) => Divider(color: ColorManager.lightGrey,thickness: 1,),
                       itemBuilder: (context,index){
-                        return SubjectOfModuleItem(isMyLearning: isMyLearning,subject: subjectsResponseState.subjectsResponse[index],);
+                        //return SubjectOfModuleItem(isMyLearning: isMyLearning,subject: subjectsResponseState.subjectsResponse[index],);
+                        return SubjectOfModuleItem(isMyLearning: isMyLearning,subject: subjectsDemo[index],);
                       },
                     ):CustomEmptyComponent(emptyItemType: "subject");
                   }

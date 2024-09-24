@@ -42,7 +42,7 @@ class _DeveloperModeDetectionScreenState extends State<DeveloperModeDetectionScr
             bool isEmulator = await isRunningOnEmulator();
             // todo active developer mode by change condition
             isUsbConnected = await UsbService.isUsbConnected() ; // todo delete this line
-            if (state is   DeveloperModeDisabled) {
+            if (state is   DeveloperModeEnabled) {
               //  DeveloperModeEnabled in debug //  todo it must be DeveloperModeDisabled
               if (isEmulator || isUsbConnected) {
                 Navigator.pushAndRemoveUntil(
@@ -106,7 +106,7 @@ class _DeveloperModeDetectionScreenState extends State<DeveloperModeDetectionScr
               }
             }
 
-            else if (state is  DeveloperModeEnabled ) {  //  DeveloperModeDisabled in debug //  todo it must be DeveloperModeEnabled
+            else if (state is  DeveloperModeDisabled ) {  //  DeveloperModeDisabled in debug //  todo it must be DeveloperModeEnabled
               Navigator.pushAndRemoveUntil(
                   context,
                   PageTransition(
