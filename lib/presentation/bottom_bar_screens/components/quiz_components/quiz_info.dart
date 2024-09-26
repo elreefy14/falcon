@@ -127,6 +127,7 @@ class QuizInfo extends StatelessWidget {
                                     ],
                                   );
                                 } else if (state is TimerStopped) {
+                                  Navigator.pop(context);
                                   return GestureDetector(
                                     onTap: () {
                                       // Start the timer with a duration of 300 seconds (5 minutes)
