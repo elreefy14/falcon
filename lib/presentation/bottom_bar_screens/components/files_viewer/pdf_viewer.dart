@@ -64,6 +64,8 @@ class PdfViewerPage extends StatelessWidget {
                   '$pdfPath',
                   onDocumentLoadFailed: (PdfDocumentLoadFailedDetails pdfDoc){
                     showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message:"Your file not found or invalid",),);
+                    Navigator.pop(context);
+
                   },
                 )),
             TimedWidget(),
