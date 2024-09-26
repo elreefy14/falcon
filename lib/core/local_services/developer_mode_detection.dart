@@ -39,11 +39,11 @@ class _DeveloperModeDetectionScreenState extends State<DeveloperModeDetectionScr
         width: AppConstants.wScreen(context),
         child: BlocListener<DeveloperModeDetectionBloc, DeveloperModeDetectionState>(
           listener: (context, state) async{
-            bool isEmulator = false;
+            bool isEmulator =  await isRunningOnEmulator();
+            isUsbConnected = await UsbService.isUsbConnected() ; // todo delete this line
+
             // todo active developer mode by change condition
-            //isUsbConnected = await UsbService.isUsbConnected() ; // todo delete this line
-            isUsbConnected = false; // todo delete this line
-            if (state is   DeveloperModeEnabled) {
+            if (state is   DeveloperModeDisabled) {
               //  DeveloperModeEnabled in debug //  todo it must be DeveloperModeDisabled
               if (isEmulator || isUsbConnected) {
                 Navigator.pushAndRemoveUntil(
@@ -107,7 +107,7 @@ class _DeveloperModeDetectionScreenState extends State<DeveloperModeDetectionScr
               }
             }
 
-            else if (state is  DeveloperModeDisabled ) {  //  DeveloperModeDisabled in debug //  todo it must be DeveloperModeEnabled
+            else if (state is  DeveloperModeEnabled ) {  //  DeveloperModeDisabled in debug //  todo it must be DeveloperModeEnabled
               Navigator.pushAndRemoveUntil(
                   context,
                   PageTransition(
