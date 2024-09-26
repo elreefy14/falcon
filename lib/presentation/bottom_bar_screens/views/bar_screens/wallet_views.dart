@@ -9,6 +9,9 @@ class WalletView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<ValidateCodeChargeBloc,ValidateCodeChargeState>(
       listener:(context ,walletCharge) {
+        if(walletCharge is ValidateCodeChargeRequestState && walletCharge.requestState==RequestState.loading){
+          showTopSnackBar(Overlay.of(context), CustomSnackBar.info(message:"Waiting...",),);
+        }
         if(walletCharge is ValidateCodeChargeRequestState && walletCharge.requestState==RequestState.done){
           showTopSnackBar(Overlay.of(context), CustomSnackBar.success(message:"wallet successfully charged",),);
         }

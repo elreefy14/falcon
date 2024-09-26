@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:falcon/core/core_exports.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 /*class PdfViewerPage extends StatefulWidget {
   final String pdfPath;
@@ -59,7 +61,11 @@ class PdfViewerPage extends StatelessWidget {
           children: [
             Container(
                 child: SfPdfViewer.network(
-                    '$pdfPath')),
+                  '$pdfPath',
+                  onDocumentLoadFailed: (PdfDocumentLoadFailedDetails pdfDoc){
+                    showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message:"Your file not found or invalid",),);
+                  },
+                )),
             TimedWidget(),
           ],
         ));
@@ -96,5 +102,3 @@ class _TimedWidgetState extends State<TimedWidget> {
     );
   }
 }
-
-void main() => runApp(MaterialApp(home: TimedWidget()));

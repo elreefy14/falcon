@@ -76,15 +76,17 @@ class GeneralRemoteDataSource extends BaseGeneralRemoteDataSource {
   @override
   Future<RateModel> rateAndCommentDataSource({required RateAndCommentParameters parameters}) async{
     try {
+      print("rateAndCommentDataSource before ");
       final response = await ApiConstants.dio.post(
         ApiConstants.ratingUrl,
         data: {
-          "studentId":parameters.studentId,
-          "subjectId":parameters.subjectId,
-          "rate":parameters.rate,
-          "comment":parameters.comment,
+          "studentid": parameters.studentId,
+          "subjectid": parameters.subjectId,
+          "rate": parameters.rate,
+          "comment": parameters.comment,
         }
       );
+
       if (response.statusCode == 200) {
         return RateModel.fromJson(response.data);
       } else {

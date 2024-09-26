@@ -19,12 +19,24 @@ class RateAndCommentBloc extends Bloc<RateAndCommentEvent, RateAndCommentState> 
 
   FutureOr<void> _RateAndCommentRequest(RateAndCommentRequestEvent event,
       Emitter<RateAndCommentState> emit) async {
+    emit(RateAndCommentLoadingState());
+
     final result = await rateAndCommentUsecase(RateAndCommentParameters(
       studentId: event.studentId,
       subjectId: event.subjectId,
       rate: event.ratingValue,
       comment: event.comment,
     ));
+
+    emit(RateAndCommentState());
+
+
+
+    print("studentId: ${event.studentId}");
+    print("subjectId: ${event.subjectId}");
+    print("ratingValue: ${event.ratingValue}");
+    print("comment: ${event.comment}");
+    print("rate result : $result");
 
     result.fold(
           (l) => emit(RateAndCommentState(

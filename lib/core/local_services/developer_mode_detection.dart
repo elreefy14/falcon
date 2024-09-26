@@ -39,9 +39,10 @@ class _DeveloperModeDetectionScreenState extends State<DeveloperModeDetectionScr
         width: AppConstants.wScreen(context),
         child: BlocListener<DeveloperModeDetectionBloc, DeveloperModeDetectionState>(
           listener: (context, state) async{
-            bool isEmulator = await isRunningOnEmulator();
+            bool isEmulator = false;
             // todo active developer mode by change condition
-            isUsbConnected = await UsbService.isUsbConnected() ; // todo delete this line
+            //isUsbConnected = await UsbService.isUsbConnected() ; // todo delete this line
+            isUsbConnected = false; // todo delete this line
             if (state is   DeveloperModeEnabled) {
               //  DeveloperModeEnabled in debug //  todo it must be DeveloperModeDisabled
               if (isEmulator || isUsbConnected) {

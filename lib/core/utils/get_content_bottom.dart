@@ -99,6 +99,9 @@ class _GetContentBottomState extends State<GetContentBottom> with TickerProvider
                           code:""
                       ));
 
+                      if(stateBaying is ByAnyContentRequestState && stateBaying.requestState ==RequestState.loading){
+                        showTopSnackBar(Overlay.of(context), CustomSnackBar.info(message:"Waiting...",),);
+                      }
                       if(stateBaying is ByAnyContentRequestState && stateBaying.requestState ==RequestState.error){
                         showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message:"Insufficient funds",),);
                         Navigator.pop(context);
@@ -151,14 +154,17 @@ class _GetContentBottomState extends State<GetContentBottom> with TickerProvider
                           studentId:context.read<CurrentUserBloc>().userData!.id.toString(),
                       ));
 
+                      if(stateRequestBaying is RequestContentRequestState && stateRequestBaying.requestState ==RequestState.loading){
+                        showTopSnackBar(Overlay.of(context), CustomSnackBar.info(message:"Waiting...",),);
+
+                      }
+
                       if(stateRequestBaying is RequestContentRequestState && stateRequestBaying.requestState ==RequestState.error){
                         showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message:"The request failed.",),);
 
                       }
                       if(stateRequestBaying is RequestContentRequestState && stateRequestBaying.requestState ==RequestState.done){
                         showTopSnackBar(Overlay.of(context), CustomSnackBar.success(message:"The request was successful."),);
-
-
                       }
                     },
                     text: "Request it",

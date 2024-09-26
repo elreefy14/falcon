@@ -20,7 +20,7 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
         data: {
           "email":parameters.email,
           "password": parameters.password,
-          "deviceid": deviceId
+          "deviceid":"PKQ1.190616.001" //deviceId
         },
       );
 

@@ -121,6 +121,11 @@ class CustomDialog extends StatelessWidget {
                                 code: codeController.text
                             ));
 
+                            if(stateBaying is ByAnyContentRequestState && stateBaying.requestState ==RequestState.loading){
+                              showTopSnackBar(Overlay.of(context), CustomSnackBar.info(message:"Waiting...",),);
+
+                            }
+
                             if(stateBaying is ByAnyContentRequestState && stateBaying.requestState ==RequestState.error){
                               showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message:"Insufficient funds",),);
                               Navigator.pop(context);

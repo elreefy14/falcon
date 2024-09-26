@@ -298,123 +298,16 @@ class _Body0fDetails extends StatelessWidget {
           ),
         ),
 
-        // RatingBar controlled by Bloc
 
-
-        (type ==DetailsType.Subject && subject !=null && subject!.doctors !=null)?Padding(
-          padding:  EdgeInsets.symmetric(horizontal: AppPadding.pHScreen6(context)),
-          child: Text(
-            "# Doctors",
-            style: getBoldStyle(color: ColorManager.black,fontSize: FontSize.s14),
-          ),
-        ):SizedBox(),
-        (type ==DetailsType.Subject && subject !=null && subject!.doctors !=null)?SizedBox(
-          height: AppPadding.pVScreen1(context),
-        ):SizedBox(),
-        (type ==DetailsType.Subject && subject !=null && subject!.doctors !=null)
-            ?Container(
-          padding:  EdgeInsets.only(
-            left: AppPadding.pHScreen4(context),
-            right: AppPadding.pHScreen4(context),
-            bottom: AppPadding.pVScreen2(context),
-          ),
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount:subject!.doctors!.length ,
-            physics: NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.all(0 ),
-            itemBuilder: (context,index){
-              return CustomDoctorSubject(doctor: subject!.doctors![0],);
-            },
-          ),
-        )
-            :SizedBox(),
-
-        (type ==DetailsType.Subject && subject !=null)?Padding(
-          padding:  EdgeInsets.symmetric(horizontal:AppPadding.pHScreen4(context) ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  BlocBuilder<EvaluateSubjectCubit, EvaluateSubjectState>(
-                    builder: (context, state) {
-                      return RatingBar.builder(
-                        initialRating: state.rating,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: true,
-                        itemCount: 5,
-                        itemSize: AppSize.s28,
-                        unratedColor: ColorManager.darkGrey.withOpacity(0.4),
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        onRatingUpdate: (rating) {
-                          context.read<EvaluateSubjectCubit>().updateRating(rating);
-                        },
-                      );
-                    },
-                  ),
-                  BlocBuilder<RateAndCommentBloc,RateAndCommentState>(
-                      builder: (context,rateResponse) {
-                        if(rateResponse ==RequestState.loading){
-                          return CircularProgressIndicator();
-                        }else if(rateResponse ==RequestState.done){
-                          return TextButton(
-                            onPressed: (){
-                              context.read<EvaluateSubjectCubit>().submitEvaluation(context: context,subjectId: subject!.id);
-                            },
-                            child: Text(
-                              "Send Evaluate",
-                              style: getBoldStyle(color: ColorManager.primary,fontSize: FontSize.s10),
-                            ),
-
-                          );
-                        }else{
-                          print(rateResponse.responseMessage);
-                          return TextButton(
-                            onPressed: (){
-                              context.read<EvaluateSubjectCubit>().submitEvaluation(context:context,subjectId: subject!.id);
-                            },
-                            child: Text(
-                              "Send Evaluate",
-                              style: getBoldStyle(color: ColorManager.primary,fontSize: FontSize.s10),
-                            ),
-
-                          );
-                        }
-                      }
-                  ),
-                ],
-              ),
-              SizedBox(height: AppPadding.pVScreen08(context),),
-              BlocBuilder<EvaluateSubjectCubit, EvaluateSubjectState>(
-                builder: (context, state) {
-                  return CustomTextFormField(
-                    hintText: "Write comment",
-                    maxLines: 3,
-                    heightFilled: AppConstants.hScreen(context)*0.12,
-                    hintStyle: getMediumStyle(color: ColorManager.textGrey,fontSize: FontSize.s12),
-                    textStyle: getMediumStyle(color: ColorManager.black,fontSize: FontSize.s12),
-                    onChanged: (comment) {
-                      context.read<EvaluateSubjectCubit>().updateComment(comment);
-                    },
-                  );
-                },
-              ),
-            ],
-          ),
-        ):SizedBox(),
         ( type ==DetailsType.Subject && subject !=null && subject!.doctors !=null)?SizedBox(
           height:AppConstants.hScreen(context)*0.00,
-        ):SizedBox(height: AppConstants.hScreen(context)*0.2),
+        ):(isMyLearning==true &&  type !=DetailsType.Subject )
+            ? SizedBox(height: AppConstants.hScreen(context)*0.3)
+            :SizedBox(height: AppConstants.hScreen(context)*0.2),
 
-        (isMyLearning==false && type!= DetailsType.Chapter && type!= DetailsType.LastChapter)?Padding(
-          padding:  EdgeInsets.symmetric(horizontal: AppPadding.pHScreen6(context)),
+
+        (isMyLearning==true  && type!= DetailsType.LastChapter)?Padding(
+          padding:  EdgeInsets.symmetric(horizontal: AppPadding.pHScreen6(context)).copyWith(bottom: AppPadding.pVScreen2(context),),
           child: CustomButton(
             backgroundColor: ColorManager.lightGrey,
             textStyle: getBoldStyle(color: ColorManager.primary),
@@ -461,7 +354,7 @@ class _Body0fDetails extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Show ${(type==DetailsType.Module)?"Subjects":(type==DetailsType.Subject)?"Chapters":"Subjects"} ",
+                  "Show ${(type==DetailsType.Module)?"Subjects":(type==DetailsType.Subject)?"Chapters":(type==DetailsType.Chapter)?"All Content":""} ",
                   style: getBoldStyle(color: ColorManager.primary),
                 ),
                 Icon(Icons.arrow_forward_ios_rounded,color: ColorManager.primary,size: AppSize.s30,),
@@ -486,6 +379,118 @@ class _Body0fDetails extends StatelessWidget {
                 :"0"),
           ),
         ):SizedBox(),
+
+
+        (type ==DetailsType.Subject && subject !=null)?Padding(
+          padding:  EdgeInsets.symmetric(horizontal:AppPadding.pHScreen4(context) ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  BlocBuilder<EvaluateSubjectCubit, EvaluateSubjectState>(
+                    builder: (context, state) {
+                      return RatingBar.builder(
+                        initialRating: state.rating,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemSize: AppSize.s28,
+                        unratedColor: ColorManager.darkGrey.withOpacity(0.4),
+                        itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        onRatingUpdate: (rating) {
+                          context.read<EvaluateSubjectCubit>().updateRating(rating);
+                        },
+                      );
+                    },
+                  ),
+                  BlocBuilder<RateAndCommentBloc,RateAndCommentState>(
+                      builder: (context,rateResponse) {
+                        if(rateResponse is RateAndCommentLoadingState){
+                          return Container(
+                           width: AppPadding.pHScreen6(context),
+                            height: AppPadding.pHScreen6(context),
+                            margin: EdgeInsets.only(right: AppPadding.pHScreen1(context)),
+                            child: CircularProgressIndicator(),
+                          );
+                        }else {
+                          return TextButton(
+                            onPressed: (){
+                              context.read<EvaluateSubjectCubit>().submitEvaluation(context:context,subjectId: subject!.id);
+                            },
+                            child: Row(
+                              children: [
+                                (rateResponse.requestState == RequestState.done)?Icon(Icons.check,color: ColorManager.primary,size: AppSize.s20,):(rateResponse.requestState == RequestState.error)?Icon(Icons.close,color: ColorManager.error,size: AppSize.s20,):SizedBox(),
+                                (rateResponse.requestState == RequestState.done || rateResponse.requestState == RequestState.error )?SizedBox(width: AppPadding.pHScreen2(context),):SizedBox(),
+                                Text(
+                                  "Send",
+                                  style: getBoldStyle(color: ColorManager.primary,fontSize: FontSize.s10),
+                                ),
+                              ],
+                            ),
+
+                          );
+                        }
+                      }
+                  ),
+                ],
+              ),
+              SizedBox(height: AppPadding.pVScreen08(context),),
+              BlocBuilder<EvaluateSubjectCubit, EvaluateSubjectState>(
+                builder: (context, state) {
+                  return CustomTextFormField(
+                    hintText: "Write comment",
+                    maxLines: 3,
+                    heightFilled: AppConstants.hScreen(context)*0.12,
+                    hintStyle: getMediumStyle(color: ColorManager.textGrey,fontSize: FontSize.s12),
+                    textStyle: getMediumStyle(color: ColorManager.black,fontSize: FontSize.s12),
+                    onChanged: (comment) {
+                      context.read<EvaluateSubjectCubit>().updateComment(comment);
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+        ):SizedBox(),
+
+        // RatingBar controlled by Bloc
+
+
+        (type ==DetailsType.Subject && subject !=null && subject!.doctors !=null)?Padding(
+          padding:  EdgeInsets.symmetric(horizontal: AppPadding.pHScreen6(context)).copyWith(top:AppPadding.pVScreen1_5(context)),
+          child: Text(
+            "# Doctors",
+            style: getBoldStyle(color: ColorManager.black,fontSize: FontSize.s14),
+          ),
+        ):SizedBox(),
+        (type ==DetailsType.Subject && subject !=null && subject!.doctors !=null)?SizedBox(
+          height: AppPadding.pVScreen1(context),
+        ):SizedBox(),
+        (type ==DetailsType.Subject && subject !=null && subject!.doctors !=null)
+            ?Container(
+          padding:  EdgeInsets.only(
+            left: AppPadding.pHScreen4(context),
+            right: AppPadding.pHScreen4(context),
+            bottom: AppPadding.pVScreen2(context),
+          ),
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount:subject!.doctors!.length ,
+            physics: NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.all(0 ),
+            itemBuilder: (context,index){
+              return CustomDoctorSubject(doctor: subject!.doctors![0],);
+            },
+          ),
+        )
+            :SizedBox(),
       ],
     );
   }

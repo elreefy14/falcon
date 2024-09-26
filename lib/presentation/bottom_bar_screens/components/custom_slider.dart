@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:falcon/core/core_exports.dart';
 //import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:carousel_slider/carousel_slider.dart' as cSlider;
@@ -26,6 +28,19 @@ class _CustomAdsSliderState extends State<CustomAdsSlider> {
     }
   }
 
+  bool _isLoadingVisible = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Start a timer that will hide the widget after 10 seconds
+    Timer(Duration(seconds: 10), () {
+      setState(() {
+        _isLoadingVisible = false; // Hide the widget after 10 seconds
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,20 +80,34 @@ class _CustomAdsSliderState extends State<CustomAdsSlider> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(AppRadius.r8),
 
-                            child: YoutubePlayer(
-                              enableFullScreenOnVerticalDrag: false,
-                              controller: YoutubePlayerController.fromVideoId(
-                                videoId: extractYoutubeId(adsResponseState.adsResponse[index].video),
-                                autoPlay: false,
-                                params: YoutubePlayerParams(
-                                  showControls: true,
-                                  showFullscreenButton: true,
-                                  mute: true,
+                            child: Stack(
+                              children: [
+                                _isLoadingVisible?Skeletonizer(
+                                  containersColor: ColorManager.lightGrey,
+                                  child: Container(
+                                    color: ColorManager.lightGrey,
+                                    width: double.infinity,
+                                    height: AppConstants.hScreen(context)*0.22,
+                                  ),
+                                ):SizedBox(),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: YoutubePlayer(
+                                    enableFullScreenOnVerticalDrag: false,
+                                    controller: YoutubePlayerController.fromVideoId(
+                                      videoId: extractYoutubeId(adsResponseState.adsResponse[index].video),
+                                      autoPlay: false,
+                                      params: YoutubePlayerParams(
+                                        showControls: true,
+                                        showFullscreenButton: true,
+                                        mute: true,
 
+                                      ),
+                                    ),
 
+                                  ),
                                 ),
-                              ),
-
+                              ],
                             ),
                             /*child: Stack(
                               alignment: Alignment.center,

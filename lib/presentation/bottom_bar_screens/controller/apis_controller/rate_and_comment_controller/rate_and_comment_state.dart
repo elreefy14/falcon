@@ -1,6 +1,7 @@
 part of 'rate_and_comment_bloc.dart';
 
 
+
 class RateAndCommentState extends Equatable {
   final RateEntity? ratingResponse;
   final RequestState requestState;
@@ -19,4 +20,6 @@ class RateAndCommentState extends Equatable {
     responseMessage,
   ];
 }
+
+class RateAndCommentLoadingState extends RateAndCommentState {}
 
