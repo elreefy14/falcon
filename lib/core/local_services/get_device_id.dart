@@ -8,7 +8,6 @@ Future<String?> getDeviceId() async {
   if (Platform.isAndroid) {
     // For Android devices
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    print("device id : ${androidInfo.id}");
     return androidInfo.id; // Unique Android ID
   } else if (Platform.isIOS) {
     // For iOS devices
