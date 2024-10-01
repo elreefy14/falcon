@@ -175,8 +175,8 @@ class _LoginBodyState extends State<LoginBody> {
                               style: getBoldStyle(color: ColorManager.textGrey,fontSize: FontSize.s10),
                             ),
                             InkWell(
-                              onTap: () {
-
+                              onTap: () async{
+                                bool phoneRequiredState =  await fetchPhoneRequired();
                                 Navigator.push(context, PageTransition(
                                   child: MultiBlocProvider(
                                     providers: [
@@ -185,7 +185,7 @@ class _LoginBodyState extends State<LoginBody> {
                                       // BlocProvider(create: (context) => FacultyMenuBloc()),
                                       // BlocProvider(create: (context) => LevelMenuBloc()),
                                     ],
-                                    child: RegisterPageView(),
+                                    child: RegisterPageView(phoneRequiredState:phoneRequiredState),
                                   ),
                                   type: PageTransitionType.fade,
                                   curve: Curves.fastEaseInToSlowEaseOut,

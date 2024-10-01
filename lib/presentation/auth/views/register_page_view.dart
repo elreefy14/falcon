@@ -3,7 +3,9 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class RegisterPageView extends StatefulWidget {
-  const RegisterPageView({super.key});
+   RegisterPageView({super.key,required this.phoneRequiredState});
+
+  bool? phoneRequiredState ;
 
   @override
   State<RegisterPageView> createState() => _RegisterPageViewState();
@@ -93,6 +95,7 @@ class _RegisterPageViewState extends State<RegisterPageView> {
                             },
                             children: [
                               RegisterInfo(
+                                phoneRequiredState:widget.phoneRequiredState,
                                   nameEditingController: nameEditingController,
                                   phoneEditingController: phoneEditingController,
                                   emailEditingController: emailEditingController,
@@ -152,9 +155,8 @@ class _RegisterPageViewState extends State<RegisterPageView> {
                                                 if(registerApi.nameValidation(name: nameEditingController.text) !=null){
                                                   showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message:registerApi.nameValidation(name: nameEditingController.text)!,),);
                                                 }
-                                                else if(registerApi.phoneValidation(phone: phoneEditingController.text) !=null){
+                                                else if(registerApi.phoneValidation(phone: phoneEditingController.text) !=null && widget.phoneRequiredState==true){
                                                   showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message:registerApi.phoneValidation(phone: phoneEditingController.text)!,),);
-
                                                 }
                                                 else if(registerApi.emailValidation(email: emailEditingController.text) !=null){
                                                   showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message:registerApi.emailValidation(email: emailEditingController.text)!,),);
@@ -179,7 +181,7 @@ class _RegisterPageViewState extends State<RegisterPageView> {
                                                   context.read<RegisterApiBloc>().add(RegisterRequestEvent(
                                                       name:nameEditingController.text,
                                                       email: emailEditingController.text,
-                                                      phone: phoneEditingController.text,
+                                                      phone: (phoneEditingController.text.isEmpty)?" ":phoneEditingController.text,
                                                       password: passwordEditingController.text,
                                                       university:GetUniversitiesResponseState.selectedUniversityId,
                                                       faculty:GetUniversitiesResponseState.selectedCollegeId,

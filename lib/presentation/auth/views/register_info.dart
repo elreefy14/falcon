@@ -1,6 +1,9 @@
 import 'package:falcon/core/core_exports.dart';
+
+
 class RegisterInfo extends StatefulWidget {
    RegisterInfo({
+     required this.phoneRequiredState,
      required this.nameEditingController,
      required this.phoneEditingController,
      required this.emailEditingController,
@@ -9,6 +12,7 @@ class RegisterInfo extends StatefulWidget {
     Key? key,
   }) : super(key: key);
 
+   bool? phoneRequiredState;
    TextEditingController nameEditingController;
    TextEditingController phoneEditingController;
    TextEditingController emailEditingController;
@@ -100,7 +104,7 @@ class _RegisterInfoState extends State<RegisterInfo> {
                   key: phoneSignInfoFormKey,
                   child: CustomTextFormField(
                     controller: widget.phoneEditingController,
-                    hintText: "Phone",
+                    hintText: "Phone ${(widget.phoneRequiredState==null ||widget.phoneRequiredState ==false)?"(Optional)":""}",
                     keyboardType: TextInputType.phone,
                     marginVerticalSides: AppConstants.hScreen(context) * 0.005,
                     borderColor: ColorManager.black.withOpacity(0.3),
@@ -112,10 +116,15 @@ class _RegisterInfoState extends State<RegisterInfo> {
                       color: ColorManager.black.withOpacity(0.6),
                     ),
                     onSubmitted: (value){
-                      phoneSignInfoFormKey.currentState!.validate();
+                      if(widget.phoneRequiredState==true){
+                        phoneSignInfoFormKey.currentState!.validate();
+                      }
                     },
                     validation: (value) {
-                      return registerApiBloc.phoneValidation(phone:value.toString() );
+                      if(widget.phoneRequiredState==true){
+                        return registerApiBloc.phoneValidation(phone:value.toString() );
+                      }
+                      return null;
                     },
                   ),
                 ),
