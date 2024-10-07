@@ -31,7 +31,7 @@ class _DeveloperModeDetectionScreenState extends State<DeveloperModeDetectionScr
             child: BlocListener<DeveloperModeDetectionBloc, DeveloperModeDetectionState>(
               listener: (context, state) async{
 
-                bool isEmulator =await isRunningOnEmulator();
+                bool isEmulator =false;
 
                 // todo active developer mode by change condition
                 if (state is   DeveloperModeDisabled) {
