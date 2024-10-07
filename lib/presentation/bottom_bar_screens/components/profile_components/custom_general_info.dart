@@ -343,7 +343,6 @@ class CustomGeneralInfo extends StatelessWidget {
                                                 onChanged: (value) {
                                                   context.read<GetUniversitiesBloc>().add(LevelSelectedEvent(value!));
                                                   context.read<EditProfileInfoCubit>().editProfileLevel(selectedId: value);
-                                                  print("valueeeee : $value");
                                                 },
                                               ),
                                             ),

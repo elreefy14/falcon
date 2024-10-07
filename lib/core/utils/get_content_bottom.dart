@@ -74,7 +74,7 @@ class _GetContentBottomState extends State<GetContentBottom> with TickerProvider
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: AppPadding.pHScreen2(context),),
                 child: Text(
-                  "If you buy, you will get it immediately, but if you request it, you will wait for acceptance",
+                  "If you get it by code , you will get it immediately, but if you request it, you will wait for acceptance",
                   style: getBoldStyle(color: ColorManager.textGrey,fontSize: FontSize.s10),
                   textAlign: TextAlign.center,
                 ),
@@ -86,40 +86,41 @@ class _GetContentBottomState extends State<GetContentBottom> with TickerProvider
   Chapter,
   LastChapter,
               * */
-              BlocBuilder<ByAnyContentBloc,ByAnyContentState>(
-                  builder: (context,stateBaying) {
-                  return CustomButton(
-                    onPressed: ()async{
-                      await typePurchaseSheetController.reverse();
+              // BlocBuilder<ByAnyContentBloc,ByAnyContentState>(
+              //     builder: (context,stateBaying) {
+              //     return CustomButton(
+              //       onPressed: ()async{
+              //         await typePurchaseSheetController.reverse();
+              //
+              //          context.read<ByAnyContentBloc>().add(ByAnyContentEventRequestEvent(
+              //             id: widget.id.toString(),
+              //             type:(widget.typeContent==DetailsType.Module)?'module':(widget.typeContent==DetailsType.Subject)?"subject":"chapter",
+              //             studentId:context.read<CurrentUserBloc>().userData!.id.toString(),
+              //             code:""
+              //         ));
+              //
+              //         if(stateBaying is ByAnyContentRequestState && stateBaying.requestState ==RequestState.loading){
+              //           showTopSnackBar(Overlay.of(context), CustomSnackBar.info(message:"Waiting...",),);
+              //         }
+              //         if(stateBaying is ByAnyContentRequestState && stateBaying.requestState ==RequestState.error){
+              //           showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message:"Insufficient funds",),);
+              //           Navigator.pop(context);
+              //         }
+              //         if(stateBaying is ByAnyContentRequestState && stateBaying.requestState ==RequestState.done){
+              //           showTopSnackBar(Overlay.of(context), CustomSnackBar.success(message:"Purchased successfully"),);
+              //           Navigator.pop(context);
+              //
+              //         }
+              //
+              //       },
+              //       text: "Bay it Using wallet",
+              //       elevation: 1,
+              //       textStyle: getBoldStyle(color: ColorManager.white,fontSize: FontSize.s12),
+              //       heightButton: AppConstants.hScreen(context)*0.06,
+              //     );
+              //   }
+              // ),
 
-                       context.read<ByAnyContentBloc>().add(ByAnyContentEventRequestEvent(
-                          id: widget.id.toString(),
-                          type:(widget.typeContent==DetailsType.Module)?'module':(widget.typeContent==DetailsType.Subject)?"subject":"chapter",
-                          studentId:context.read<CurrentUserBloc>().userData!.id.toString(),
-                          code:""
-                      ));
-
-                      if(stateBaying is ByAnyContentRequestState && stateBaying.requestState ==RequestState.loading){
-                        showTopSnackBar(Overlay.of(context), CustomSnackBar.info(message:"Waiting...",),);
-                      }
-                      if(stateBaying is ByAnyContentRequestState && stateBaying.requestState ==RequestState.error){
-                        showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message:"Insufficient funds",),);
-                        Navigator.pop(context);
-                      }
-                      if(stateBaying is ByAnyContentRequestState && stateBaying.requestState ==RequestState.done){
-                        showTopSnackBar(Overlay.of(context), CustomSnackBar.success(message:"Purchased successfully"),);
-                        Navigator.pop(context);
-
-                      }
-
-                    },
-                    text: "Bay it Using wallet",
-                    elevation: 1,
-                    textStyle: getBoldStyle(color: ColorManager.white,fontSize: FontSize.s12),
-                    heightButton: AppConstants.hScreen(context)*0.06,
-                  );
-                }
-              ),
               SizedBox(height: AppPadding.pVScreen1(context),),
               CustomButton(
                 onPressed: ()async{
@@ -137,7 +138,7 @@ class _GetContentBottomState extends State<GetContentBottom> with TickerProvider
                     ),
                   );
                 },
-                text: "Bay it Using code",
+                text: "get it Using code",
                 elevation: 1,
                 textStyle: getBoldStyle(color: ColorManager.white,fontSize: FontSize.s12),
                 heightButton: AppConstants.hScreen(context)*0.06,

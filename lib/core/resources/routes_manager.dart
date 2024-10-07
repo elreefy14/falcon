@@ -31,7 +31,7 @@ class RoutesManager {
        return _PageRouting.page(settings, DeveloperModeDetectionScreen());
 
       case StringRoutes.loginRoute:
-        return _PageRouting.page(settings, const LoginView());
+        return _PageRouting.page(settings,  LoginView());
 
       case StringRoutes.bottomBarRoute:
         return _PageRouting.page(settings, const BottomBarView());

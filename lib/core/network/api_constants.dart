@@ -45,6 +45,7 @@ class ApiConstants {
   static const reportScreenshotUrl = "/reportscreenshot.php";
   static const showWalletUrl = "/wallet.php";
   static const byAnyContentUrl = "/buymodule.php";
+  static const deleteAccountUrl = "/removeaccount.php";
   static const requestContentUrl = "/requestmoduleorsubject.php";
 
 

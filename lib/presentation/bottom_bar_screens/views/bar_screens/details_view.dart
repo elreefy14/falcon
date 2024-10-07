@@ -77,7 +77,22 @@ class _Body0fDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
-          onTap: (){
+          onTap: ()async{
+            UsbConnectionChecker usbChecker = UsbConnectionChecker();
+            bool isConnected = await usbChecker.isUsbConnected();
+            if (isConnected) {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  PageTransition(
+                    child: DeveloperModeScreen(isEmulator: false, isUsbConnect: isConnected,isDeveloperMode:false),
+                    type: PageTransitionType.fade,
+                    curve: Curves.fastEaseInToSlowEaseOut,
+                    duration: const Duration(milliseconds: AppConstants.pageTransition200),
+                  ), (Route<dynamic> route) => false
+              );
+            }
+
+
             if(type==DetailsType.Module && module!=null){
               Navigator.push(context, PageTransition(
                 child: ModuleContentViews(
@@ -171,7 +186,22 @@ class _Body0fDetails extends StatelessWidget {
                   children: [
                     Flexible(
                       child: GestureDetector(
-                        onTap: (){
+                        onTap: ()async{
+                          UsbConnectionChecker usbChecker = UsbConnectionChecker();
+                          bool isConnected = await usbChecker.isUsbConnected();
+                          if (isConnected) {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                PageTransition(
+                                  child: DeveloperModeScreen(isEmulator: false, isUsbConnect: isConnected,isDeveloperMode:false),
+                                  type: PageTransitionType.fade,
+                                  curve: Curves.fastEaseInToSlowEaseOut,
+                                  duration: const Duration(milliseconds: AppConstants.pageTransition200),
+                                ), (Route<dynamic> route) => false
+                            );
+                          }
+
+
                           if(type==DetailsType.Module && module!=null){
                             Navigator.push(context, PageTransition(
                               child: ModuleContentViews(
@@ -311,7 +341,21 @@ class _Body0fDetails extends StatelessWidget {
           child: CustomButton(
             backgroundColor: ColorManager.lightGrey,
             textStyle: getBoldStyle(color: ColorManager.primary),
-            onPressed: (){
+            onPressed: ()async{
+              UsbConnectionChecker usbChecker = UsbConnectionChecker();
+              bool isConnected = await usbChecker.isUsbConnected();
+              if (isConnected) {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    PageTransition(
+                      child: DeveloperModeScreen(isEmulator: false, isUsbConnect: isConnected,isDeveloperMode:false),
+                      type: PageTransitionType.fade,
+                      curve: Curves.fastEaseInToSlowEaseOut,
+                      duration: const Duration(milliseconds: AppConstants.pageTransition200),
+                    ), (Route<dynamic> route) => false
+                );
+              }
+
               if(type==DetailsType.Module && module!=null){
                 Navigator.push(context, PageTransition(
                   child: ModuleContentViews(

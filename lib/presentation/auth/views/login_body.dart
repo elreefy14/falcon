@@ -3,7 +3,8 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class LoginBody extends StatefulWidget {
-  const LoginBody({Key? key}) : super(key: key);
+   LoginBody({Key? key}) : super(key: key);
+
   @override
   State<LoginBody> createState() => _LoginBodyState();
 }

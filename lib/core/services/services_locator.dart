@@ -36,6 +36,7 @@ class ServicesLocator {
     sl.registerLazySingleton<RateAndCommentUsecase>(()=>RateAndCommentUsecase(generalBaseRepo: sl() ));
     sl.registerLazySingleton<ShowWalletUsecase>(()=>ShowWalletUsecase(generalBaseRepo: sl() ));
     sl.registerLazySingleton<RequestContentUsecase>(()=>RequestContentUsecase(generalBaseRepo: sl() ));
+    sl.registerLazySingleton<DeleteAccountUsecase>(()=>DeleteAccountUsecase(generalBaseRepo: sl() ));
 
 
     //Repository -------------------------------------------------------------------------------------------------

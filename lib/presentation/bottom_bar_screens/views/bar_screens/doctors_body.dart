@@ -133,6 +133,7 @@ class CustomDoctor extends StatelessWidget {
               Image.asset(
                 AssetsManager.image_12,
                 height: AppConstants.hScreen(context)*0.08,
+                color: ColorManager.darkGrey,
                 //width: AppConstants.wScreen(context)*0.4,
               ),
               SizedBox(width: AppPadding.pHScreen2(context),),

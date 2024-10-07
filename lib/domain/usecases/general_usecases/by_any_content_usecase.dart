@@ -10,7 +10,7 @@ class ByAnyContentUsecase
   @override
   Future<Either<Failure, ByContentEntity>> call(
       ByAnyContentParameters parameters) async {
-    return await generalBaseRepo.ByAnyContent(parameters: parameters);
+    return await generalBaseRepo.byAnyContent(parameters: parameters);
   }
 }
 

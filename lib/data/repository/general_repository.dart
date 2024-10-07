@@ -77,7 +77,7 @@ class GeneralRepository extends GeneralBaseRepo {
   //----------------------------------------------------------------------------
 
   @override
-  Future<Either<Failure, ByContentEntity>> ByAnyContent({required ByAnyContentParameters parameters}) async{
+  Future<Either<Failure, ByContentEntity>> byAnyContent({required ByAnyContentParameters parameters}) async{
     try {
       final result = await baseGeneralRemoteDataSource.byAnyContentDataSource(parameters: parameters,);
       return Right(result);
@@ -92,6 +92,18 @@ class GeneralRepository extends GeneralBaseRepo {
   Future<Either<Failure, RequestContentEntity>> requestContent({required RequestContentParameters parameters})async{
     try {
       final result = await baseGeneralRemoteDataSource.requestContentDataSource(parameters: parameters,);
+      return Right(result);
+    } on ServerException catch (failure) {
+      final errorMessage = ApiConstants().handelDioException(exception: failure.dioException);
+
+      return Left(ServerFailure(errorMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> deleteAccount({required DeleteAccountParameters parameters}) async{
+    try {
+      final result = await baseGeneralRemoteDataSource.deleteAccountDataSource(parameters: parameters,);
       return Right(result);
     } on ServerException catch (failure) {
       final errorMessage = ApiConstants().handelDioException(exception: failure.dioException);

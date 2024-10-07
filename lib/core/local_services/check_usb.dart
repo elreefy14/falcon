@@ -1,15 +1,15 @@
 import 'package:flutter/services.dart';
 
-class UsbService {
-  static const platform = MethodChannel('falcon_elearning_2024.falcon.usbconnection/usb');
+class UsbConnectionChecker {
+  static const platform = MethodChannel('com.falcon_elearning_2024.falcon/usb');
 
-  static Future<bool> isUsbConnected() async {
+  Future<bool> isUsbConnected() async {
     try {
-      final bool result = await platform.invokeMethod('isUsbConnected');
-      return result;
-    } catch (e) {
-      print('Error checking USB connection: $e');
-      print('-----------------------------------------------------------------');
+      final bool isUsbConnected = await platform.invokeMethod('checkUsbConnection');
+      print("latform.invokeMethod : $isUsbConnected");
+      return isUsbConnected;
+    } on PlatformException catch (e) {
+      print("Failed to check USB connection: ${e.message}");
       return false;
     }
   }

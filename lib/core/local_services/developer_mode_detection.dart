@@ -9,123 +9,118 @@ class DeveloperModeDetectionScreen extends StatefulWidget {
 }
 
 class _DeveloperModeDetectionScreenState extends State<DeveloperModeDetectionScreen> {
-  static const platform = MethodChannel('adb');
-  bool isUsbConnected = false;
 
   @override
   void initState() {
     super.initState();
-    checkAdbStatus();
-  }
 
-  Future<void> checkAdbStatus() async {
-    try {
-      final int result = await platform.invokeMethod('checkingadb');
-      setState(() {
-        isUsbConnected = result == 1;
-      });
-    } on PlatformException catch (e) {
-      print("Failed to check ADB status: ${e.message}");
-    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final UsbConnectionChecker _usbCheck = UsbConnectionChecker();
     return Scaffold(
       backgroundColor: ColorManager.white,
       resizeToAvoidBottomInset: false,
-      body: Container(
-        height: AppConstants.hScreen(context),
-        width: AppConstants.wScreen(context),
-        child: BlocListener<DeveloperModeDetectionBloc, DeveloperModeDetectionState>(
-          listener: (context, state) async{
-            bool isEmulator =  await isRunningOnEmulator();
-            isUsbConnected = await UsbService.isUsbConnected() ; // todo delete this line
+      body: FutureBuilder<bool>(
+        future: _usbCheck.isUsbConnected(),
+        builder: (context , snapshot) {
+          return Container(
+            height: AppConstants.hScreen(context),
+            width: AppConstants.wScreen(context),
+            child: BlocListener<DeveloperModeDetectionBloc, DeveloperModeDetectionState>(
+              listener: (context, state) async{
 
-            // todo active developer mode by change condition
-            if (state is   DeveloperModeDisabled) {
-              //  DeveloperModeEnabled in debug //  todo it must be DeveloperModeDisabled
-              if (isEmulator || isUsbConnected) {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    PageTransition(
-                      child: DeveloperModeScreen(isEmulator:isEmulator,isUsbConnect: isUsbConnected,isDeveloperMode:false),
-                      type: PageTransitionType.fade,
-                      curve: Curves.fastEaseInToSlowEaseOut,
-                      duration: const Duration(milliseconds: AppConstants.pageTransition200),
-                    ), (Route<dynamic> route) => false
-                );
-              }
-              else{
-                final isSigned = await CacheHelper.getData(key: "isSigned");
-                if (isSigned != null) {
-                  final id = await CacheHelper.getData(key: "id");
-                  final name = await CacheHelper.getData(key: "name");
-                  final email = await CacheHelper.getData(key: "email");
-                  final phone = await CacheHelper.getData(key: "phone");
-                  final university =
-                  await CacheHelper.getData(key: "university");
-                  final faculty = await CacheHelper.getData(key: "faculty");
-                  final level = await CacheHelper.getData(key: "level");
-                  final fcmToken = await CacheHelper.getData(key: "fcmToken");
+                bool isEmulator =await isRunningOnEmulator();
 
-                  context.read<CurrentUserBloc>().add(SaveCurrentUserEvent(
-                      userData: UserEntity(
-                        id: id,
-                        name: name,
-                        phone: phone,
-                        email: email,
-                        university: university,
-                        faculty: faculty,
-                        level: level,
-                        fcmToken: fcmToken,
-                        deviceId: null,
-                      )));
+                // todo active developer mode by change condition
+                if (state is   DeveloperModeDisabled) {
 
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      PageTransition(
-                        child: BottomBarView(),
-                        type: PageTransitionType.fade,
-                        curve: Curves.fastEaseInToSlowEaseOut,
-                        duration: const Duration(
-                            milliseconds: AppConstants.pageTransition200),
-                      ),
-                          (Route<dynamic> route) => false);
-                } else {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      PageTransition(
-                        child: LoginView(),
-                        type: PageTransitionType.fade,
-                        curve: Curves.fastEaseInToSlowEaseOut,
-                        duration: const Duration(
-                            milliseconds: AppConstants.pageTransition200),
-                      ),
-                          (Route<dynamic> route) => false);
+                  //  DeveloperModeEnabled in debug //  todo it must be DeveloperModeDisabled
+                  if (isEmulator || snapshot.data==true) {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        PageTransition(
+                          child: DeveloperModeScreen(isEmulator:isEmulator,isUsbConnect: snapshot.data??false,isDeveloperMode:false),
+                          type: PageTransitionType.fade,
+                          curve: Curves.fastEaseInToSlowEaseOut,
+                          duration: const Duration(milliseconds: AppConstants.pageTransition200),
+                        ), (Route<dynamic> route) => false
+                    );
+                  }
+                  else{
+                    final isSigned = await CacheHelper.getData(key: "isSigned");
+                    if (isSigned != null) {
+                      final id = await CacheHelper.getData(key: "id");
+                      final name = await CacheHelper.getData(key: "name");
+                      final email = await CacheHelper.getData(key: "email");
+                      final phone = await CacheHelper.getData(key: "phone");
+                      final university =
+                      await CacheHelper.getData(key: "university");
+                      final faculty = await CacheHelper.getData(key: "faculty");
+                      final level = await CacheHelper.getData(key: "level");
+                      final fcmToken = await CacheHelper.getData(key: "fcmToken");
+
+                      context.read<CurrentUserBloc>().add(SaveCurrentUserEvent(
+                          userData: UserEntity(
+                            id: id,
+                            name: name,
+                            phone: phone,
+                            email: email,
+                            university: university,
+                            faculty: faculty,
+                            level: level,
+                            fcmToken: fcmToken,
+                            deviceId: null,
+                          )));
+
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          PageTransition(
+                            child: BottomBarView(),
+                            type: PageTransitionType.fade,
+                            curve: Curves.fastEaseInToSlowEaseOut,
+                            duration: const Duration(
+                                milliseconds: AppConstants.pageTransition200),
+                          ),
+                              (Route<dynamic> route) => false);
+                    } else {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          PageTransition(
+                            child: LoginView(),
+                            type: PageTransitionType.fade,
+                            curve: Curves.fastEaseInToSlowEaseOut,
+                            duration: const Duration(
+                                milliseconds: AppConstants.pageTransition200),
+                          ),
+                              (Route<dynamic> route) => false);
+                    }
+                  }
                 }
-              }
-            }
 
-            else if (state is  DeveloperModeEnabled ) {  //  DeveloperModeDisabled in debug //  todo it must be DeveloperModeEnabled
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  PageTransition(
-                    child: DeveloperModeScreen(isEmulator:isEmulator,isUsbConnect: isUsbConnected,isDeveloperMode: true,),
-                    type: PageTransitionType.fade,
-                    curve: Curves.fastEaseInToSlowEaseOut,
-                    duration: const Duration(milliseconds: AppConstants.pageTransition200),
-                  )
-                  , (Route<dynamic> route) => false
-              );
-            }
-            else if (state is DeveloperModeDetectionFailure) {
-              // Handle error state if needed
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error)));
-            }
-          },
-          child: Container(),
-        ),
+                else if (state is  DeveloperModeEnabled ) {  //  DeveloperModeDisabled in debug //  todo it must be DeveloperModeEnabled
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      PageTransition(
+                        child: DeveloperModeScreen(isEmulator:isEmulator,isUsbConnect: snapshot.data??false,isDeveloperMode: true,),
+                        type: PageTransitionType.fade,
+                        curve: Curves.fastEaseInToSlowEaseOut,
+                        duration: const Duration(milliseconds: AppConstants.pageTransition200),
+                      )
+                      , (Route<dynamic> route) => false
+                  );
+                }
+                else if (state is DeveloperModeDetectionFailure) {
+                  // Handle error state if needed
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error)));
+                }
+              },
+              child: Container(),
+            ),
+          );
+
+        },
       ),
     );
   }

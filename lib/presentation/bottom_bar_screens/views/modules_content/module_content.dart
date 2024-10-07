@@ -174,7 +174,21 @@ class SubjectOfModuleItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GestureDetector(
-            onTap: (){
+            onTap: ()async{
+              UsbConnectionChecker usbChecker = UsbConnectionChecker();
+              bool isConnected = await usbChecker.isUsbConnected();
+              if (isConnected) {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    PageTransition(
+                      child: DeveloperModeScreen(isEmulator: false, isUsbConnect: isConnected,isDeveloperMode:false),
+                      type: PageTransitionType.fade,
+                      curve: Curves.fastEaseInToSlowEaseOut,
+                      duration: const Duration(milliseconds: AppConstants.pageTransition200),
+                    ), (Route<dynamic> route) => false
+                );
+              }
+
               Navigator.push(context, PageTransition(
                 child: DetailsView(
                   isMyLearning: isMyLearning,
@@ -224,7 +238,21 @@ class SubjectOfModuleItem extends StatelessWidget {
           ),
           Flexible(
             child: GestureDetector(
-              onTap: (){
+              onTap: ()async{
+                UsbConnectionChecker usbChecker = UsbConnectionChecker();
+                bool isConnected = await usbChecker.isUsbConnected();
+                if (isConnected) {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      PageTransition(
+                        child: DeveloperModeScreen(isEmulator: false, isUsbConnect: isConnected,isDeveloperMode:false),
+                        type: PageTransitionType.fade,
+                        curve: Curves.fastEaseInToSlowEaseOut,
+                        duration: const Duration(milliseconds: AppConstants.pageTransition200),
+                      ), (Route<dynamic> route) => false
+                  );
+                }
+
                 Navigator.push(context, PageTransition(
                   child: SubjectContentViews(
                     isMyLearning: isMyLearning,

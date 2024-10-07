@@ -16,3 +16,4 @@ export 'get_assignment_controller/get_assignment_bloc.dart';
 export 'by_any_content_controller/by_any_content_bloc.dart';
 export 'request_content_controller/request_content_bloc.dart';
 export 'get_assignment_answer_controller/get_assignment_answer_bloc.dart';
+export 'delete_account_controller/delete_account_bloc.dart';

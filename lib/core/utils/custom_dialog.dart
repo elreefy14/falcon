@@ -131,7 +131,7 @@ class CustomDialog extends StatelessWidget {
                               Navigator.pop(context);
                             }
                             if(stateBaying is ByAnyContentRequestState && stateBaying.requestState ==RequestState.done){
-                              showTopSnackBar(Overlay.of(context), CustomSnackBar.success(message:"Purchased successfully"),);
+                              showTopSnackBar(Overlay.of(context), CustomSnackBar.success(message:"You got it successfully"),);
                               Navigator.pop(context);
 
                             }
@@ -202,7 +202,7 @@ class CustomDialog extends StatelessWidget {
 
                           }
                         },
-                        text:"Purchase",
+                        text:"Get it",
                         widthButton:AppConstants.wScreen(context)*0.3,
                         textStyle: getBoldStyle(color: ColorManager.white,fontSize: FontSize.s12),
                         heightButton: AppConstants.hScreen(context)*0.05,

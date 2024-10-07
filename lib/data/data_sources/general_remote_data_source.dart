@@ -10,6 +10,7 @@ abstract class BaseGeneralRemoteDataSource {
   Future<ChargeCodeModel> validateCodeAndChargeDataSource({required ValidateCodeAndChargeParameters parameters});
   Future<ByContentModel> byAnyContentDataSource({required ByAnyContentParameters parameters});
   Future<RequestContentModel> requestContentDataSource({required RequestContentParameters parameters});
+  Future<String> deleteAccountDataSource({required DeleteAccountParameters parameters});
 
 }
 
@@ -190,6 +191,9 @@ class GeneralRemoteDataSource extends BaseGeneralRemoteDataSource {
     }
   }
 
+  //----------------------------------------------------------------------------
+
+
   @override
   Future<RequestContentModel> requestContentDataSource({required RequestContentParameters parameters}) async{
     try {
@@ -211,6 +215,34 @@ class GeneralRemoteDataSource extends BaseGeneralRemoteDataSource {
       if (response.statusCode == 200 ||response.statusCode==201) {
 
         return RequestContentModel.fromJson(response.data);
+      } else {
+        throw ServerException(
+          dioException: DioException(
+            requestOptions: response.requestOptions,
+            response: response,
+            error: response.statusMessage,
+          ),
+        );
+      }
+    } on DioException catch (e) {
+      throw ServerException(dioException: e);
+    }
+  }
+
+
+//----------------------------------------------------------------------------
+
+
+  @override
+  Future<String> deleteAccountDataSource({required DeleteAccountParameters parameters}) async{
+    try {
+
+      final response = await ApiConstants.dio.post(
+        "${ApiConstants.deleteAccountUrl}?studentid=${parameters.studentId}",
+
+      );
+      if (response.statusCode == 200) {
+        return response.data["message"].toString();
       } else {
         throw ServerException(
           dioException: DioException(
