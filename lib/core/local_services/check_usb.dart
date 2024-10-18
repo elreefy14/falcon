@@ -6,10 +6,8 @@ class UsbConnectionChecker {
   Future<bool> isUsbConnected() async {
     try {
       final bool isUsbConnected = await platform.invokeMethod('checkUsbConnection');
-      print("latform.invokeMethod : $isUsbConnected");
       return isUsbConnected;
     } on PlatformException catch (e) {
-      print("Failed to check USB connection: ${e.message}");
       return false;
     }
   }

@@ -9,10 +9,10 @@ class OrgContentItem extends StatelessWidget {
     required this.chapterImage,
     required this.chapterId,
   });
-   final FileType contentType ;
-   final String chapterImage ;
-   final String chapterId ;
-   final List<ContentEntity>? items ;
+  final FileType contentType ;
+  final String chapterImage ;
+  final String chapterId ;
+  final List<ContentEntity>? items ;
 
   String extractYoutubeId(BuildContext context,String url) {
     final RegExp regExp = RegExp(
@@ -46,113 +46,96 @@ class OrgContentItem extends StatelessWidget {
 
           }
         },
-        child: BlocProvider(
-          create:(context)=> ShowVideoFileBloc(showVideoFileUsecase: sl<ShowVideoFileUsecase>())..add(ShowVideoFileRequestEvent(contentId: chapterId)),
-          child: BlocBuilder<ShowVideoFileBloc,ShowVideoFileState>(
-              builder: (context,videoFileState) {
-                print("01014563769");
-                print(videoFileState.videoFileResponse?.iframe);
-                if(videoFileState.requestState == RequestState.loading){
-                  return  Skeletonizer(child: OrgContentItem(chapterId:"",contentType: FileType.task,chapterImage:"",items: [ ContentEntity(id: "", completed: 0,type: "", name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]));
-
-                }
-              else if(videoFileState.requestState == RequestState.done){
-                return Padding(
+        child:  Padding(
+          padding:  EdgeInsets.symmetric(
+            horizontal: AppPadding.pHScreen4(context),
+            vertical: AppPadding.pVScreen1(context),
+          ),
+          child: ListView.builder(
+            itemCount: items?.length,
+            padding: EdgeInsets.all(0),
+            itemBuilder: (context,index){
+              return GestureDetector(
+                onTap: (){
+                  if (contentType==FileType.file){
+                    Navigator.push(context, PageTransition(
+                      child: PdfViewerPage(pdfPath: "${items?[index].file??""}"),
+                      type: PageTransitionType.fade,
+                      curve: Curves.fastEaseInToSlowEaseOut,
+                      duration: const Duration(milliseconds: AppConstants.pageTransition200),
+                    ));
+                  }
+                  if (contentType==FileType.video){
+                    String l = extractYoutubeId(context, items?[index].iframe??"");
+                    if(l=="error"){
+                      Navigator.push(context, PageTransition(
+                        child: ErrorYoutubeLink(),
+                        type: PageTransitionType.fade,
+                        curve: Curves.fastEaseInToSlowEaseOut,
+                        duration: const Duration(milliseconds: 0),
+                      ));
+                    }else{
+                      Navigator.push(context, PageTransition(
+                        child: VideoPlayerScreen(link:"${items?[index].iframe}",),
+                        type: PageTransitionType.fade,
+                        curve: Curves.fastEaseInToSlowEaseOut,
+                        duration: const Duration(milliseconds: AppConstants.pageTransition200),
+                      ));
+                    }
+                  }
+                },
+                child: Padding(
                   padding:  EdgeInsets.symmetric(
-                    horizontal: AppPadding.pHScreen4(context),
-                    vertical: AppPadding.pVScreen1(context),
+                    vertical: AppPadding.pVScreen08(context),
                   ),
-                  child: ListView.builder(
-                    itemCount: items?.length,
-                    padding: EdgeInsets.all(0),
-                    itemBuilder: (context,index){
-                      return GestureDetector(
-                        onTap: (){
-                          if (contentType==FileType.file){
-                            Navigator.push(context, PageTransition(
-                              child: PdfViewerPage(pdfPath: "${videoFileState.videoFileResponse!.iframe}"),
-                              type: PageTransitionType.fade,
-                              curve: Curves.fastEaseInToSlowEaseOut,
-                              duration: const Duration(milliseconds: AppConstants.pageTransition200),
-                            ));
-                          }
-                          if (contentType==FileType.video){
-                            String l = extractYoutubeId(context, videoFileState.videoFileResponse!.iframe);
-                            if(l=="error"){
-                              Navigator.push(context, PageTransition(
-                                child: ErrorYoutubeLink(),
-                                type: PageTransitionType.fade,
-                                curve: Curves.fastEaseInToSlowEaseOut,
-                                duration: const Duration(milliseconds: 0),
-                              ));
-                            }else{
-                              Navigator.push(context, PageTransition(
-                                child: VideoPlayerScreen(link:"${videoFileState.videoFileResponse!.iframe}",),
-                                type: PageTransitionType.fade,
-                                curve: Curves.fastEaseInToSlowEaseOut,
-                                duration: const Duration(milliseconds: AppConstants.pageTransition200),
-                              ));
-                            }
-                          }
-                        },
-                        child: Padding(
-                          padding:  EdgeInsets.symmetric(
-                            vertical: AppPadding.pVScreen08(context),
-                          ),
+                  child: Container(
+                    width: AppConstants.wScreen(context),
+                    height: AppConstants. hScreen(context)*0.1,
+                    decoration: BoxDecoration(
+                      color: ColorManager.lightGrey,
+                      borderRadius: BorderRadius.circular(AppRadius.r10,),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(width: AppPadding.pHScreen6(context)),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(AppRadius.r10),
                           child: Container(
-                            width: AppConstants.wScreen(context),
-                            height: AppConstants. hScreen(context)*0.1,
+                            width: AppConstants.wScreen(context)*0.13,
+                            height: AppConstants.hScreen(context)*0.06,
                             decoration: BoxDecoration(
-                              color: ColorManager.lightGrey,
-                              borderRadius: BorderRadius.circular(AppRadius.r10,),
                             ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SizedBox(width: AppPadding.pHScreen6(context)),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(AppRadius.r10),
-                                  child: Container(
-                                    width: AppConstants.wScreen(context)*0.13,
-                                    height: AppConstants.hScreen(context)*0.06,
-                                    decoration: BoxDecoration(
-                                    ),
-                                    child: Image.asset(
-                                      (contentType==FileType.video)
-                                          ? AssetsManager.videoIcon
-                                          : AssetsManager.pdfIcon,
-                                      width: AppConstants.wScreen(context)*0.13,
-                                      height: AppConstants.hScreen(context)*0.06,
-                                      fit: BoxFit.fill,
+                            child: Image.asset(
+                              (contentType==FileType.video)
+                                  ? AssetsManager.videoIcon
+                                  : AssetsManager.pdfIcon,
+                              width: AppConstants.wScreen(context)*0.13,
+                              height: AppConstants.hScreen(context)*0.06,
+                              fit: BoxFit.fill,
 
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: AppPadding.pHScreen2(context)),
-                                Flexible(
-                                  child: Padding(
-                                    padding:  EdgeInsets.symmetric(
-                                      horizontal: AppPadding.pHScreen2(context),
-                                      vertical: AppPadding.pVScreen2(context),
-                                    ),
-                                    child: Text(
-                                      "${items?[index].name}",
-                                      style: getBoldStyle(color: ColorManager.black),
-                                    ),
-                                  ),
-                                )
-                              ],
                             ),
                           ),
                         ),
-                      );
-                    },
+                        SizedBox(width: AppPadding.pHScreen2(context)),
+                        Flexible(
+                          child: Padding(
+                            padding:  EdgeInsets.symmetric(
+                              horizontal: AppPadding.pHScreen2(context),
+                              vertical: AppPadding.pVScreen2(context),
+                            ),
+                            child: Text(
+                              "${items?[index].name}",
+                              style: getBoldStyle(color: ColorManager.black),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                );
-              }else{
-                return Center(child: Text("error"));
-                }
-            }
+                ),
+              );
+            },
           ),
         ),
       );

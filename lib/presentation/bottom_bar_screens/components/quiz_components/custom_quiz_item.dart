@@ -1,4 +1,6 @@
 import 'package:falcon/core/core_exports.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class CustomQuizItem extends StatelessWidget {
   const CustomQuizItem({
@@ -25,7 +27,12 @@ class CustomQuizItem extends StatelessWidget {
             onTap: ()async{
               final prefs = await SharedPreferences.getInstance();
               int remainingTime = prefs.getInt('remainingTime') ?? 0; // Load saved time
-              if (remainingTime > 0) {
+
+              if(items![index].completed==1){
+                showTopSnackBar(Overlay.of(context), CustomSnackBar.info(message:"You have already completed this quiz",),);
+              }
+
+              if (remainingTime > 0 && items![index].completed!=1) {
                 Navigator.push(context, PageTransition(
                   child: QuizBody(quizId: int.parse(items![index].id),quizTimer: items![index].timer,chapterImage: chapterImage,name: items![index].name, ),
                   type: PageTransitionType.fade,

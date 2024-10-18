@@ -62,7 +62,7 @@ class WalletView extends StatelessWidget {
                             ),
                             child: Center(
                               child: Text(
-                                "8920.00 E£",
+                                "8920.00",//E£
                                 style: getBoldStyle(color: ColorManager.primary,fontSize: FontSize.s20),
                               ),
                             ),
@@ -107,7 +107,7 @@ class WalletView extends StatelessWidget {
                           ),
                           child: Center(
                             child: Text(
-                              "${walletResponseState.walletEntity?.totalMoney} E£",
+                              "${walletResponseState.walletEntity?.totalMoney} ",//E£
                               style: getBoldStyle(color: ColorManager.primary,fontSize: FontSize.s20),
                             ),
                           ),

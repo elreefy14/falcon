@@ -13,7 +13,6 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
   Future<LoginModel> loginDataSource({required LoginParameters parameters,}) async {
     try {
       String? deviceId =await getDeviceId();
-      print("deviceId : $deviceId");
 
       final response = await ApiConstants.dio.post(
         ApiConstants.loginUrl,

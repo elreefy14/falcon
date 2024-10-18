@@ -51,7 +51,7 @@ class GeneralRepository extends GeneralBaseRepo {
   Future<Either<Failure, ChargeCodeEntity>> validateCodeAndCharge({required ValidateCodeAndChargeParameters parameters}) async{
     try {
       final result = await baseGeneralRemoteDataSource.validateCodeAndChargeDataSource(parameters: parameters);
-      print(result);
+
       return Right(result);
     } on ServerException catch (failure) {
       final errorMessage = ApiConstants().handelDioException(exception: failure.dioException);

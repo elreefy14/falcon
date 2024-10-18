@@ -20,7 +20,7 @@ class QuizInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(quizTimer);
+
     return Container(
       decoration: BoxDecoration(
         color: ColorManager.primary.withOpacity(0.06),

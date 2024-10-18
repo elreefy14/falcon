@@ -1,4 +1,6 @@
 import 'package:falcon/core/core_exports.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class SubjectContentViews extends StatelessWidget {
   const SubjectContentViews({
@@ -233,6 +235,24 @@ class ChapterOfModuleItem extends StatelessWidget {
           Flexible(
             child: GestureDetector(
               onTap: ()async{
+                if(isMyLearning){
+                  Navigator.push(context, PageTransition(
+                    child: BlocProvider(
+                      create: (context) => ContentTabBloc(),
+                      child: ChaptersContentViews(
+                        title: "${chapter.name}",
+                        chapterImage: "${chapter.imgUrl}",
+                        chapterId: int.parse(chapter.id),
+                      ),
+                    ),
+                    type: PageTransitionType.fade,
+                    curve: Curves.fastEaseInToSlowEaseOut,
+                    duration: const Duration(milliseconds: AppConstants.pageTransition200),
+                  ));
+                }else{
+                  showTopSnackBar(Overlay.of(context), CustomSnackBar.info(message:"Make sure you are enrolled in this chapter, and try again.",),);
+                }
+
                 UsbConnectionChecker usbChecker = UsbConnectionChecker();
                 bool isConnected = await usbChecker.isUsbConnected();
                 if (isConnected) {
@@ -247,20 +267,6 @@ class ChapterOfModuleItem extends StatelessWidget {
                   );
                 }
 
-
-                Navigator.push(context, PageTransition(
-                  child: BlocProvider(
-                    create: (context) => ContentTabBloc(),
-                    child: ChaptersContentViews(
-                      title: "${chapter.name}",
-                      chapterImage: "${chapter.imgUrl}",
-                      chapterId: int.parse(chapter.id),
-                    ),
-                  ),
-                  type: PageTransitionType.fade,
-                  curve: Curves.fastEaseInToSlowEaseOut,
-                  duration: const Duration(milliseconds: AppConstants.pageTransition200),
-                ));
               },
               child: Container(
                 color: Colors.white,

@@ -5,6 +5,8 @@ class ContentEntity extends Equatable {
   final String name;
   final String? type;
   final String? timer;
+  final String? file;
+  final String? iframe;
   final String? numberOfQuestions;
   final String? enddate;
   final int? completed;
@@ -15,6 +17,8 @@ class ContentEntity extends Equatable {
     required this.type,
     required this.name,
     required this.timer,
+    required this.file,
+    required this.iframe,
     required this.numberOfQuestions,
     required this.enddate,
     required this.completed,

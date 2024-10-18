@@ -101,7 +101,7 @@ class ContentsRepository extends ContentsBaseRepo {
       final result = await baseContentsRemoteDataSource.showAssignmentQuestionDataSource(parameters: parameters);
       return Right(result);
     } on ServerException catch (failure) {
-      print("showAssignmentQuestionDataSource : failure : ${failure.dioException.response}");
+
       final errorMessage = ApiConstants().handelDioException(exception: failure.dioException);
       return Left(ServerFailure(errorMessage));
     }
@@ -125,7 +125,7 @@ class ContentsRepository extends ContentsBaseRepo {
       final result = await baseContentsRemoteDataSource.showVideoFileDataSource(parameters: parameters);
       return Right(result);
     } on ServerException catch (failure) {
-      print("showAssignmentQuestionDataSource : failure : ${failure.dioException.response}");
+
       final errorMessage = ApiConstants().handelDioException(exception: failure.dioException);
       return Left(ServerFailure(errorMessage));
     }

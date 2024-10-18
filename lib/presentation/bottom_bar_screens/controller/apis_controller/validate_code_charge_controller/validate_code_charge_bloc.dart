@@ -19,7 +19,7 @@ class ValidateCodeChargeBloc extends Bloc<ValidateCodeChargeEvent, ValidateCodeC
          code: event.code,
     ));
 
-    print(result);
+
 
     result.fold(
        (l)=>emit(ValidateCodeChargeRequestState(

@@ -32,11 +32,6 @@ class RateAndCommentBloc extends Bloc<RateAndCommentEvent, RateAndCommentState> 
 
 
 
-    print("studentId: ${event.studentId}");
-    print("subjectId: ${event.subjectId}");
-    print("ratingValue: ${event.ratingValue}");
-    print("comment: ${event.comment}");
-    print("rate result : $result");
 
     result.fold(
           (l) => emit(RateAndCommentState(

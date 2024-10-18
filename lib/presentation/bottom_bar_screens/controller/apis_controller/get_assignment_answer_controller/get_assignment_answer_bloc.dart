@@ -22,7 +22,6 @@ class GetAssignmentAnswerBloc extends Bloc<GetAssignmentAnswerEvent, GetAssignme
       quizId: event.quizId,
     ));
 
-    print(result);
     result.fold(
           (l)=>emit(GetAssignmentAnswerState(
         requestState: RequestState.error,

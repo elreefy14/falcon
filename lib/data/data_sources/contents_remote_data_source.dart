@@ -181,7 +181,6 @@ class ContentsRemoteDataSource extends BaseContentsRemoteDataSource {
           "${ApiConstants.getModelAnswerUrl}?studentid=${parameters.studentId}\&quizid=${parameters.quizId}",
       );
 
-      print(response);
       if (response.statusCode == 200) {
         return List<AnswerCorrectModel>.from((response.data["answers"]).map((e)=>AnswerCorrectModel.fromJson(e)));
       } else {
@@ -228,7 +227,6 @@ class ContentsRemoteDataSource extends BaseContentsRemoteDataSource {
         "${ApiConstants.getAssignmentModelAnswerUrl}?studentid=${parameters.studentId}\&assignmentid=${parameters.quizId}",
       );
 
-      print(response);
       if (response.statusCode == 200) {
         return List<AssignmentAnswerModel>.from((response.data["answers"]).map((e)=>AssignmentAnswerModel.fromJson(e)));
       } else {
@@ -251,10 +249,8 @@ class ContentsRemoteDataSource extends BaseContentsRemoteDataSource {
       final response = await ApiConstants.dio.get(
         "${ApiConstants.showVideoFileUrl}?contentid=${parameters.contentId}",
       );
-
-      print(response);
       if (response.statusCode == 200) {
-        return  VideoFileModel.fromJson(response.data[0]);;
+        return  VideoFileModel.fromJson(response.data);;
       } else {
         throw ServerException(
           dioException: DioException(
@@ -268,6 +264,7 @@ class ContentsRemoteDataSource extends BaseContentsRemoteDataSource {
       throw ServerException(dioException: e);
     }
   }
+
 
 
 

@@ -81,7 +81,6 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
         }
 
 
-        print(questionsAnswer);
       }
     });
   }

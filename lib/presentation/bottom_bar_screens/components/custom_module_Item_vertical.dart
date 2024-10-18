@@ -29,7 +29,7 @@ class CustomModuleItemVertical extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: (){
-             //print( decodeText("d8bk457Avm6A/U/OG1ytrQ==",ApiConstants.encryptionKey));
+
               Navigator.push(context, PageTransition(
                 child: DetailsView(
                     isMyLearning: false,
@@ -124,7 +124,7 @@ class CustomModuleItemVertical extends StatelessWidget {
                           ],
                         ),
                         Text(
-                          "${double.parse(module.price.toString())} E£" ,
+                          "${double.parse(module.price.toString())}" ,//E£
                           style: getBoldStyle(color: ColorManager.primary,fontSize: FontSize.s8),
                         ),
                       ],

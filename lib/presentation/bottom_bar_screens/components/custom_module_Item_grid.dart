@@ -126,7 +126,7 @@ class CustomModuleItemGrid extends StatelessWidget {
                           ],
                         ),
                         Text(
-                          "${double.parse(module.price.toString())} E£" ,
+                          "${double.parse(module.price.toString())} " ,//E£
                           style: getBoldStyle(color: ColorManager.primary,fontSize: FontSize.s8),
                         ),
                       ],

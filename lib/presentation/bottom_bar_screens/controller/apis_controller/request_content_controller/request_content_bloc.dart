@@ -33,7 +33,7 @@ class RequestContentBloc extends Bloc<RequestContentEvent, RequestContentState> 
         ))
     );
 
-    print(result);
+
 
   }
 }

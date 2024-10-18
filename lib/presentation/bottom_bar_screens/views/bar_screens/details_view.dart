@@ -10,10 +10,10 @@ class DetailsView extends StatelessWidget {
     required this.type,
     required this.imageUrl,
     required this.isMyLearning,
-     this.module,
-     this.subject,
-     this.chapter,
-     this.lastChapter,
+    this.module,
+    this.subject,
+    this.chapter,
+    this.lastChapter,
 
   });
 
@@ -37,9 +37,9 @@ class DetailsView extends StatelessWidget {
           elevation: 0,
           context: context,
           title: (type== DetailsType.Module && module!=null) ? module!.name
-                :(type== DetailsType.Subject&& subject!=null)? subject!.name
-                :(type== DetailsType.Chapter&& chapter!=null)? chapter!.name
-                :(type== DetailsType.LastChapter&& lastChapter!=null)? lastChapter!.name:"",
+              :(type== DetailsType.Subject&& subject!=null)? subject!.name
+              :(type== DetailsType.Chapter&& chapter!=null)? chapter!.name
+              :(type== DetailsType.LastChapter&& lastChapter!=null)? lastChapter!.name:"",
           hasArrowBack: true,
         ),
         body: (type ==DetailsType.Subject && subject !=null && subject!.doctors !=null)?SingleChildScrollView(
@@ -250,8 +250,8 @@ class _Body0fDetails extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      (type== DetailsType.Module && module!=null) ? module!.price+" E£"
-                          :(type== DetailsType.Subject&& subject!=null)? subject!.price+" E£"
+                      (type== DetailsType.Module && module!=null) ? module!.price+""//E£
+                          :(type== DetailsType.Subject&& subject!=null)? subject!.price+""//E£
                           :"",
                       style: getBoldStyle(color: ColorManager.primary,fontSize: FontSize.s10),
                     ),
@@ -332,11 +332,12 @@ class _Body0fDetails extends StatelessWidget {
         ( type ==DetailsType.Subject && subject !=null && subject!.doctors !=null)?SizedBox(
           height:AppConstants.hScreen(context)*0.00,
         ):(isMyLearning==true &&  type !=DetailsType.Subject )
-            ? SizedBox(height: AppConstants.hScreen(context)*0.3)
-            :SizedBox(height: AppConstants.hScreen(context)*0.2),
+            ? SizedBox(height: AppConstants.hScreen(context)*0.28)
+            :SizedBox(height: AppConstants.hScreen(context)*0.18),
 
+        (type== DetailsType.Chapter && isMyLearning==false)? SizedBox(height: AppConstants.hScreen(context)*0.1):SizedBox(),
 
-        (isMyLearning==true  && type!= DetailsType.LastChapter)?Padding(
+        ( (type!= DetailsType.LastChapter&& type!= DetailsType.Chapter) || (type == DetailsType.Chapter && isMyLearning==true) )?Padding(
           padding:  EdgeInsets.symmetric(horizontal: AppPadding.pHScreen6(context)).copyWith(bottom: AppPadding.pVScreen2(context),),
           child: CustomButton(
             backgroundColor: ColorManager.lightGrey,
@@ -458,7 +459,7 @@ class _Body0fDetails extends StatelessWidget {
                       builder: (context,rateResponse) {
                         if(rateResponse is RateAndCommentLoadingState){
                           return Container(
-                           width: AppPadding.pHScreen6(context),
+                            width: AppPadding.pHScreen6(context),
                             height: AppPadding.pHScreen6(context),
                             margin: EdgeInsets.only(right: AppPadding.pHScreen1(context)),
                             child: CircularProgressIndicator(),
@@ -550,11 +551,11 @@ class _ItemDetails extends StatelessWidget {
     required this.secondText,
     this.firstText,
     this.fontSize,
-     this.iconColor,
-     this.firstTextColor,
-     this.secondTextColor,
-     this.firstTextBold,
-     this.secondTextBold,
+    this.iconColor,
+    this.firstTextColor,
+    this.secondTextColor,
+    this.firstTextBold,
+    this.secondTextBold,
   });
 
   final String? firstText;
@@ -604,44 +605,44 @@ class CustomDoctorSubject extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: AppConstants.wScreen(context),
-      padding: EdgeInsets.symmetric(
-        horizontal: AppPadding.pHScreen2(context),
-        vertical: AppPadding.pVScreen1(context),
-      ).copyWith(bottom: AppPadding.pVScreen08(context),),
-      margin: EdgeInsets.symmetric(
-        horizontal: AppPadding.pHScreen2(context),
-        vertical: AppPadding.pVScreen1(context),
-      ).copyWith(bottom: AppPadding.pVScreen08(context),),
+        width: AppConstants.wScreen(context),
+        padding: EdgeInsets.symmetric(
+          horizontal: AppPadding.pHScreen2(context),
+          vertical: AppPadding.pVScreen1(context),
+        ).copyWith(bottom: AppPadding.pVScreen08(context),),
+        margin: EdgeInsets.symmetric(
+          horizontal: AppPadding.pHScreen2(context),
+          vertical: AppPadding.pVScreen1(context),
+        ).copyWith(bottom: AppPadding.pVScreen08(context),),
         decoration: BoxDecoration(
-            color: ColorManager.lightGrey,
-            borderRadius: BorderRadius.circular(AppRadius.r10,),
+          color: ColorManager.lightGrey,
+          borderRadius: BorderRadius.circular(AppRadius.r10,),
 
         ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Dr: ${doctor.name}",
-                style: getBoldStyle(color: ColorManager.black,fontSize: FontSize.s12),
-              ),
-              Text(
-                (doctor.phone==null)?"no phone":(doctor.phone=="")?"no phone":"${doctor.phone}",
-                style: getMediumStyle(color: ColorManager.primary,fontSize: FontSize.s10),
-              ),
-            ],
-          ),
-          SizedBox(height: AppPadding.pVScreen06(context),),
-          Text(
-            (doctor.description==null)?"no description":(doctor.description=="")?"no description":"${doctor.description}",
-            textAlign: TextAlign.start,
-            style: getMediumStyle(color: ColorManager.textGrey,fontSize: FontSize.s10),
-          ),
-        ],
-      )
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Dr: ${doctor.name}",
+                  style: getBoldStyle(color: ColorManager.black,fontSize: FontSize.s12),
+                ),
+                Text(
+                  (doctor.phone==null)?"no phone":(doctor.phone=="")?"no phone":"${doctor.phone}",
+                  style: getMediumStyle(color: ColorManager.primary,fontSize: FontSize.s10),
+                ),
+              ],
+            ),
+            SizedBox(height: AppPadding.pVScreen06(context),),
+            Text(
+              (doctor.description==null)?"no description":(doctor.description=="")?"no description":"${doctor.description}",
+              textAlign: TextAlign.start,
+              style: getMediumStyle(color: ColorManager.textGrey,fontSize: FontSize.s10),
+            ),
+          ],
+        )
     );
   }
 }

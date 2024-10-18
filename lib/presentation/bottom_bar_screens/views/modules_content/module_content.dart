@@ -125,7 +125,7 @@ class ModuleContentViews extends StatelessWidget {
                               ),
                               SizedBox(height: AppPadding.pVScreen1(context),),
                               Text(
-                                subjectsResponseState.getSubjectsMessage,
+                                "Make sure you are enrolled in this module, and try again.",
                                 style: getMediumStyle(color: ColorManager.darkGrey),
                                 textAlign: TextAlign.center,
                               ),
@@ -239,6 +239,17 @@ class SubjectOfModuleItem extends StatelessWidget {
           Flexible(
             child: GestureDetector(
               onTap: ()async{
+
+                Navigator.push(context, PageTransition(
+                  child: SubjectContentViews(
+                    isMyLearning: isMyLearning,
+                    subject: subject,
+                  ),
+                  type: PageTransitionType.fade,
+                  curve: Curves.fastEaseInToSlowEaseOut,
+                  duration: const Duration(milliseconds: AppConstants.pageTransition200),
+                ));
+
                 UsbConnectionChecker usbChecker = UsbConnectionChecker();
                 bool isConnected = await usbChecker.isUsbConnected();
                 if (isConnected) {
@@ -252,16 +263,6 @@ class SubjectOfModuleItem extends StatelessWidget {
                       ), (Route<dynamic> route) => false
                   );
                 }
-
-                Navigator.push(context, PageTransition(
-                  child: SubjectContentViews(
-                    isMyLearning: isMyLearning,
-                    subject: subject,
-                  ),
-                  type: PageTransitionType.fade,
-                  curve: Curves.fastEaseInToSlowEaseOut,
-                  duration: const Duration(milliseconds: AppConstants.pageTransition200),
-                ));
               },
               child: Padding(
                 padding:  EdgeInsets.symmetric(
@@ -289,7 +290,7 @@ class SubjectOfModuleItem extends StatelessWidget {
                           style: getBoldStyle(color: ColorManager.textGrey,fontSize: FontSize.s10),
                         ),
                         Text(
-                          "20.0 E£",
+                          "20.0",//E£
                           style: getBoldStyle(color: ColorManager.primary,fontSize: FontSize.s10),
                         ),
                       ],

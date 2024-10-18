@@ -207,12 +207,7 @@ class _QuizBodyDetails extends StatelessWidget {
                                     ),
                                   );
 
-                                  print("""
-                                      studentId: ${context.read<CurrentUserBloc>().userData!.id},
-                                      quizId: ${quizId},
-                                      answers:${ context.read<QuizBloc>().questionsAnswer}
-                                  
-                                   """);
+
                                 },
                                 heightButton: AppConstants.hScreen(context) * 0.04,
                                 widthButton: AppConstants.wScreen(context) * 0.24,

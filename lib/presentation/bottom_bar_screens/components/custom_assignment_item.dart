@@ -1,4 +1,6 @@
 import 'package:falcon/core/core_exports.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class CustomAssignmentItem extends StatelessWidget {
   const CustomAssignmentItem({
@@ -21,15 +23,20 @@ class CustomAssignmentItem extends StatelessWidget {
         itemBuilder: (context,index){
           return GestureDetector(
             onTap: (){
-              Navigator.push(context, PageTransition(
-                child: BlocProvider(
-                  create: (context) => AssignmentBloc(),
-                  child: AssignmentBody(chapterImage:chapterImage,assignmentId:  items![index].id,assignmentName: items![index].name,endDate:items![index].enddate ),
-                ),
-                type: PageTransitionType.fade,
-                curve: Curves.fastEaseInToSlowEaseOut,
-                duration: const Duration(milliseconds: AppConstants.pageTransition200),
-              ));
+              if(items![index].completed==1){
+                showTopSnackBar(Overlay.of(context), CustomSnackBar.info(message:"You have already completed this quiz",),);
+              }
+              if(items![index].completed!=1){
+                Navigator.push(context, PageTransition(
+                  child: BlocProvider(
+                    create: (context) => AssignmentBloc(),
+                    child: AssignmentBody(chapterImage:chapterImage,assignmentId:  items![index].id,assignmentName: items![index].name,endDate:items![index].enddate ),
+                  ),
+                  type: PageTransitionType.fade,
+                  curve: Curves.fastEaseInToSlowEaseOut,
+                  duration: const Duration(milliseconds: AppConstants.pageTransition200),
+                ));
+              }
             },
             child: Padding(
               padding:  EdgeInsets.symmetric(

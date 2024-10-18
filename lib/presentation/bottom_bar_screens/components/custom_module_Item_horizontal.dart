@@ -71,7 +71,7 @@ class CustomModuleItemHorizontal extends StatelessWidget {
                         ],
                       ),
                       Text(
-                        "250.0 E£",
+                        "250.0",//E£
                         style: getBoldStyle(color: ColorManager.primary,fontSize: FontSize.s8),
                       ),
                     ],
