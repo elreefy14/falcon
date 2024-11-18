@@ -7,11 +7,13 @@ class AllContentItem extends StatelessWidget {
     super.key,
     required this.items,
     required this.chapterImage,
+    required this.chapterTitle,
     required this.chapterId
   });
   final List<ContentEntity>? items ;
   final String chapterImage ;
   final String chapterId ;
+  final String chapterTitle ;
 
   String extractYoutubeId(BuildContext context,String url) {
     final RegExp regExp = RegExp(
@@ -148,7 +150,7 @@ class AllContentItem extends StatelessWidget {
                 Navigator.push(context, PageTransition(
                   child: BlocProvider(
                     create: (context) => AssignmentBloc(),
-                    child: AssignmentBody(chapterImage: chapterImage,assignmentId: items![index].id,assignmentName: items![index].name,endDate:items![index].enddate ,),
+                    child: AssignmentBody(chapterTitle: chapterTitle,chapterId: int.parse(chapterId),chapterImage: chapterImage,assignmentId: items![index].id,assignmentName: items![index].name,endDate:items![index].enddate ,),
                   ),
                   type: PageTransitionType.fade,
                   curve: Curves.fastEaseInToSlowEaseOut,
@@ -273,7 +275,7 @@ class AllContentItem extends StatelessWidget {
               // Load saved time
               if (remainingTime > 0 && items![index].completed!=1) {
                 Navigator.push(context, PageTransition(
-                  child: QuizBody(quizId: int.parse(items![index].id),quizTimer: items![index].timer ,chapterImage: chapterImage,name: items![index].name,),
+                  child: QuizBody(chapterTitle: chapterTitle,chapterId: int.parse(chapterId),quizId: int.parse(items![index].id),quizTimer: items![index].timer ,chapterImage: chapterImage,name: items![index].name,),
                   type: PageTransitionType.fade,
                   curve: Curves.fastEaseInToSlowEaseOut,
                   duration: const Duration(milliseconds: AppConstants.pageTransition200),

@@ -8,10 +8,12 @@ class OrgContentItem extends StatelessWidget {
     required this.items,
     required this.chapterImage,
     required this.chapterId,
+    required this.chapterTitle,
   });
   final FileType contentType ;
   final String chapterImage ;
   final String chapterId ;
+  final String chapterTitle ;
   final List<ContentEntity>? items ;
 
   String extractYoutubeId(BuildContext context,String url) {
@@ -31,10 +33,10 @@ class OrgContentItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if(contentType == FileType.task){
-      return CustomAssignmentItem(items:items,chapterImage: chapterImage,);
+      return CustomAssignmentItem(items:items,chapterImage: chapterImage,chapterTitle: chapterTitle,chapterId: chapterId,);
     }
     else if (contentType == FileType.quiz){
-      return CustomQuizItem(items:items,chapterImage: chapterImage,);
+      return CustomQuizItem(chapterId: chapterId,chapterTitle: chapterTitle,items:items,chapterImage: chapterImage,);
     }
     else {
       return GestureDetector(

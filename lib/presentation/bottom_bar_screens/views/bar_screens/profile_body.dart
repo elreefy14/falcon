@@ -5,6 +5,7 @@ class ProfileBody extends StatelessWidget {
     super.key,
   });
 
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -206,9 +207,33 @@ class ProfileBody extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: (){
-                            context.read<DeleteAccountBloc>().add(DeleteAccountResponseEvent(
-                              studentId: context.read<CurrentUserBloc>().userData!.id,
-                            ));
+                            showDialog(
+                              context: context,
+                              builder: (context2) {
+                                return AlertDialog(
+                                  title:  Text("Delete account",style: getBoldStyle(color: ColorManager.black,fontSize: AppSize.s18),),
+                                  content:  Text("Are you sure you want to delete your account?\nIf you delete it, you will not be able to get it back again",style: getBoldStyle(color: ColorManager.darkGrey,fontSize: FontSize.s9)),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context2).pop();
+                                      },
+                                      child: const Text("No"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        context.read<DeleteAccountBloc>().add(DeleteAccountResponseEvent(
+                                          studentId: context.read<CurrentUserBloc>().userData!.id,
+                                        ));
+
+                                        //Navigator.of(context).pop();
+                                      },
+                                      child: const Text("Yes"),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           },
                           child: Row(
                             children: [

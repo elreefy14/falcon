@@ -97,7 +97,8 @@ class CustomModuleItemGrid extends StatelessWidget {
                     ),
                     Spacer(),
                     Text(
-                      "Bold union text resizing align selection image align hand.",
+                      "${module.description}",
+                      overflow: TextOverflow.ellipsis,
                       style: getMediumStyle(color: ColorManager.textGrey,fontSize: FontSize.s8),
                     ),
                     Spacer(),
@@ -106,7 +107,7 @@ class CustomModuleItemGrid extends StatelessWidget {
                         Icon(Icons.access_time_filled, size: AppSize.s11,color: ColorManager.textGrey,),
                         SizedBox(width: AppPadding.pHScreen1(context),),
                         Text(
-                          "from : ${module.startDate.split('').reversed.join()}",
+                          "from : ${module.startDate}",
                           style: getBoldStyle(color: ColorManager.textGrey,fontSize: FontSize.s7),
                         ),
                       ],
@@ -120,7 +121,7 @@ class CustomModuleItemGrid extends StatelessWidget {
                             Icon(Icons.access_time_filled, size: AppSize.s11,color: ColorManager.textGrey,),
                             SizedBox(width: AppPadding.pHScreen1(context),),
                             Text(
-                              "To : ${module.endDate.split('').reversed.join()}",
+                              "To : ${module.endDate}",
                               style: getBoldStyle(color: ColorManager.textGrey,fontSize: FontSize.s7),
                             ),
                           ],

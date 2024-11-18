@@ -176,6 +176,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       ),
     );
     _startWatermarkAnimation();
+
+    CacheHelper.saveData(key: "lastVideo", value: widget.link);
+
   }
 
   // Method to update watermark position
@@ -204,6 +207,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
     _controller.close();
     _timer.cancel();
+
+    CacheHelper.removeData(key: "lastVideo");
     super.dispose();
   }
 

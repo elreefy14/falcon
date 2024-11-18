@@ -95,6 +95,7 @@ class CustomModuleItemVertical extends StatelessWidget {
                     Spacer(),
                     Text(
                       module.description,
+                      overflow: TextOverflow.ellipsis,
                       style: getMediumStyle(color: ColorManager.textGrey,fontSize: FontSize.s9),
                     ),
                     Spacer(),
@@ -104,7 +105,7 @@ class CustomModuleItemVertical extends StatelessWidget {
                         Icon(Icons.access_time_filled, size: AppSize.s11,color: ColorManager.textGrey,),
                         SizedBox(width: AppPadding.pHScreen1(context),),
                         Text(
-                          "from : ${module.startDate.split('').reversed.join()}",
+                          "from : ${module.startDate}",
                           style: getBoldStyle(color: ColorManager.textGrey,fontSize: FontSize.s8),
                         ),
                       ],
@@ -118,7 +119,7 @@ class CustomModuleItemVertical extends StatelessWidget {
                             Icon(Icons.access_time_filled, size: AppSize.s11,color: ColorManager.textGrey,),
                             SizedBox(width: AppPadding.pHScreen1(context),),
                             Text(
-                              "To : ${module.endDate.split('').reversed.join()}",
+                              "To : ${module.endDate}",
                               style: getBoldStyle(color: ColorManager.textGrey,fontSize: FontSize.s8),
                             ),
                           ],

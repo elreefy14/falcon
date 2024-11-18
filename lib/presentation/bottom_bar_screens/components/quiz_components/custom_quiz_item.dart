@@ -7,10 +7,14 @@ class CustomQuizItem extends StatelessWidget {
     super.key,
     required this.items,
     required this.chapterImage,
+    required this.chapterId,
+    required this.chapterTitle,
   });
 
   final List<ContentEntity>? items ;
   final String chapterImage ;
+  final String chapterId ;
+  final String chapterTitle ;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +38,7 @@ class CustomQuizItem extends StatelessWidget {
 
               if (remainingTime > 0 && items![index].completed!=1) {
                 Navigator.push(context, PageTransition(
-                  child: QuizBody(quizId: int.parse(items![index].id),quizTimer: items![index].timer,chapterImage: chapterImage,name: items![index].name, ),
+                  child: QuizBody(chapterId:int.parse(chapterId),chapterTitle:chapterTitle,quizId: int.parse(items![index].id),quizTimer: items![index].timer,chapterImage: chapterImage,name: items![index].name, ),
                   type: PageTransitionType.fade,
                   curve: Curves.fastEaseInToSlowEaseOut,
                   duration: const Duration(milliseconds: AppConstants.pageTransition200),

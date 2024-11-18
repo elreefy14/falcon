@@ -7,12 +7,14 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 //     .add(AnswerQuestionEvent(questionIndex, value));
 
 class AssignmentBody extends StatelessWidget {
-  AssignmentBody({required this.assignmentId,required this.assignmentName,required this.endDate,required this.chapterImage});
+  AssignmentBody({required this.assignmentId,required this.chapterTitle,required this.chapterId,required this.assignmentName,required this.endDate,required this.chapterImage});
   String assignmentId;
    AssignmentEntity? assignment;
   final String? assignmentName;
   final String? endDate;
   final String? chapterImage;
+  final String chapterTitle;
+  final int chapterId;
   @override
   Widget build(BuildContext context) {
     final int numberOfQuestions = assignment?.questions.length ?? 0;
@@ -26,11 +28,11 @@ class AssignmentBody extends StatelessWidget {
           builder: (context , assignmentsResponseState) {
             if(assignmentsResponseState.requestState == RequestState.loading){
               return Skeletonizer(
-                child: _AssignmentBodyDetails(assignmentId: assignmentId,chapterImage: chapterImage,endDate: endDate,assignmentName: assignmentName,assignment:AssignmentEntity(subjectName: "subjectName", homeworkName: "homeworkName", questions: [QuestionEntity(questionId: "", question:"---------------------------------", options: OptionModel(option1: "-----------", option2: "-----------", option3: "-----------", option4: "-----------"))]),),
+                child: _AssignmentBodyDetails(chapterTitle: chapterTitle,chapterId: chapterId,assignmentId: assignmentId,chapterImage: chapterImage,endDate: endDate,assignmentName: assignmentName,assignment:AssignmentEntity(subjectName: "subjectName", homeworkName: "homeworkName", questions: [QuestionEntity(questionId: "", question:"---------------------------------", options: OptionModel(option1: "-----------", option2: "-----------", option3: "-----------", option4: "-----------"))]),),
               );
             }
             else if (assignmentsResponseState.requestState == RequestState.done){
-              return _AssignmentBodyDetails(assignmentId: assignmentId,chapterImage: chapterImage,assignment:assignmentsResponseState.getAssignmentResponse,assignmentName: assignmentName,endDate: endDate,);
+              return _AssignmentBodyDetails(chapterTitle: chapterTitle,chapterId: chapterId,assignmentId: assignmentId,chapterImage: chapterImage,assignment:assignmentsResponseState.getAssignmentResponse,assignmentName: assignmentName,endDate: endDate,);
             }
             else {
               return GestureDetector(
@@ -92,6 +94,8 @@ class _AssignmentBodyDetails extends StatelessWidget {
     required this.assignmentName,
     required this.endDate,
     required this.chapterImage,
+    required this.chapterTitle,
+    required this.chapterId,
     required this.assignmentId,
   });
 
@@ -99,6 +103,8 @@ class _AssignmentBodyDetails extends StatelessWidget {
   final String? assignmentName;
   final String? endDate;
   final String? chapterImage;
+  final String chapterTitle;
+  final int chapterId;
   final String assignmentId;
 
   @override
@@ -323,8 +329,30 @@ class _AssignmentBodyDetails extends StatelessWidget {
               });
               Future.delayed(Duration(seconds: 2),(){
                 Navigator.pop(context);
-
+                Navigator.pop(context);
+                Navigator.push(context, PageTransition(
+                  child: BlocProvider(
+                    create: (context) => ContentTabBloc(),
+                    child: ChaptersContentViews(
+                      title: chapterTitle,
+                      chapterId: chapterId,
+                      chapterImage: chapterImage??"",
+                    ),
+                  ),
+                  type: PageTransitionType.fade,
+                  curve: Curves.fastEaseInToSlowEaseOut,
+                  duration: const Duration(milliseconds: AppConstants.pageTransition200),
+                ));
               });
+
+              // Future.delayed(Duration(seconds: 1),(){
+              //   showTopSnackBar(Overlay.of(context), CustomSnackBar.success(message:"Answers sent successfully ",),);
+              //
+              // });
+              // Future.delayed(Duration(seconds: 2),(){
+              //   Navigator.pop(context);
+              //
+              // });
 
 
             }
@@ -347,7 +375,7 @@ class _AssignmentBodyDetails extends StatelessWidget {
                 vertical: AppPadding.pVScreen08(context),
               ),
               margin: EdgeInsets.only(
-                left: AppConstants.wScreen(context)*0.3,
+                left: AppConstants.wScreen(context)*0.0,
               ),
               decoration: BoxDecoration(
                 color: ColorManager.primary,

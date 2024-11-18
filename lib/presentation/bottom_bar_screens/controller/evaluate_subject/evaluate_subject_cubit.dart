@@ -6,7 +6,7 @@ class EvaluateSubjectState extends Equatable {
   final double rating;
   final String comment;
 
-  const EvaluateSubjectState({this.rating = 1, this.comment = ''});
+  const EvaluateSubjectState({this.rating = 0, this.comment = ''});
 
   EvaluateSubjectState copyWith({double? rating, String? comment}) {
     return EvaluateSubjectState(

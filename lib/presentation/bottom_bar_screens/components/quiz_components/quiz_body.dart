@@ -4,11 +4,13 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class QuizBody extends StatelessWidget {
-  QuizBody({super.key,required this.quizId, required this.quizTimer,required this.chapterImage,required this.name});
+  QuizBody({super.key,required this.chapterId,required this.chapterTitle,required this.quizId, required this.quizTimer,required this.chapterImage,required this.name});
 
    int quizId;
    String? quizTimer;
    String? chapterImage;
+   String chapterTitle;
+   int chapterId;
    String? name;
 
 
@@ -22,10 +24,10 @@ class QuizBody extends StatelessWidget {
           builder: (context , questionsResponseState) {
           if(questionsResponseState.requestState == RequestState.loading){
             return Skeletonizer(
-              child: _QuizBodyDetails(quizId: quizId.toString(),quizTimer: quizTimer,questions:[QuestionEntity(questionId: "", question:"---------------------------------",options: OptionModel(option1: "-----------", option2: "-----------", option3: "-----------", option4: "-----------"))],chapterImage: "",name: name,),
+              child: _QuizBodyDetails(chapterTitle: chapterTitle,chapterId: chapterId,quizId: quizId.toString(),quizTimer: quizTimer,questions:[QuestionEntity(questionId: "", question:"---------------------------------",options: OptionModel(option1: "-----------", option2: "-----------", option3: "-----------", option4: "-----------"))],chapterImage: "",name: name,),
             );
           }else if (questionsResponseState.requestState == RequestState.done){
-            return _QuizBodyDetails(quizId: quizId.toString(),chapterImage: chapterImage,questions:questionsResponseState.getQuestionsResponse!.questions,quizTimer: quizTimer,name: name,);
+            return _QuizBodyDetails(chapterTitle: chapterTitle,chapterId: chapterId,quizId: quizId.toString(),chapterImage: chapterImage,questions:questionsResponseState.getQuestionsResponse!.questions,quizTimer: quizTimer,name: name,);
           }else {
             return GestureDetector(
               onTap: (){
@@ -84,6 +86,8 @@ class _QuizBodyDetails extends StatelessWidget {
     required this.questions,
     required this.quizTimer,
     required this.chapterImage,
+    required this.chapterTitle,
+    required this.chapterId,
     required this.name,
   });
 
@@ -92,6 +96,8 @@ class _QuizBodyDetails extends StatelessWidget {
   final PageController _pageController = PageController();
   final String? quizTimer ;
   final String? chapterImage ;
+  final String chapterTitle ;
+  final int chapterId ;
   final String? name ;
 
   @override
@@ -184,14 +190,33 @@ class _QuizBodyDetails extends StatelessWidget {
                               if (SendQState is SendQuizResultsLoading) {
                               } else if (SendQState is SendQuizResultsSuccess) {
 
-                                 Future.delayed(Duration(seconds: 1),(){
-                                   showTopSnackBar(Overlay.of(context), CustomSnackBar.success(message:"Answers sent successfully ",),);
+                                Future.delayed(Duration(seconds: 1),(){
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  Navigator.push(context, PageTransition(
+                                    child: BlocProvider(
+                                      create: (context) => ContentTabBloc(),
+                                      child: ChaptersContentViews(
+                                        title: chapterTitle,
+                                        chapterId: chapterId,
+                                        chapterImage: chapterImage??"",
+                                      ),
+                                    ),
+                                    type: PageTransitionType.fade,
+                                    curve: Curves.fastEaseInToSlowEaseOut,
+                                    duration: const Duration(milliseconds: AppConstants.pageTransition200),
+                                  ));
+                                  showTopSnackBar(Overlay.of(context), CustomSnackBar.success(message:"Answers sent successfully ",),);
+                                });
 
-                                 });
-                                 Future.delayed(Duration(seconds: 3),(){
-                                   Navigator.pop(context);
-
-                                 });
+                                 // Future.delayed(Duration(seconds: 1),(){
+                                 //   showTopSnackBar(Overlay.of(context), CustomSnackBar.success(message:"Answers sent successfully ",),);
+                                 //
+                                 // });
+                                 // Future.delayed(Duration(seconds: 3),(){
+                                 //   Navigator.pop(context);
+                                 //
+                                 // });
 
 
                               }

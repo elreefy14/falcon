@@ -1,7 +1,60 @@
 import 'package:falcon/core/core_exports.dart';
 
-class BottomBarView extends StatelessWidget {
+class BottomBarView extends StatefulWidget {
   const BottomBarView({super.key});
+
+  @override
+  State<BottomBarView> createState() => _BottomBarViewState();
+}
+
+class _BottomBarViewState extends State<BottomBarView> {
+
+
+  void initState() {
+    super.initState();
+    _checkLastVideo();
+  }
+
+  Future<void> _checkLastVideo() async {
+    final lastVideo = await CacheHelper.getData(key: "lastVideo");
+    if (lastVideo != null) {
+      _showLastVideoDialog(lastVideo :lastVideo);
+    }
+  }
+
+  void _showLastVideoDialog({required String lastVideo}) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title:  Text("Replay video?",style: getBoldStyle(color: ColorManager.black,fontSize: AppSize.s18),),
+          content:  Text("You closed the app while watching a video. Do you want to watch it again?",style: getMediumStyle(color: ColorManager.black,fontSize: FontSize.s9)),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                CacheHelper.removeData(key: "lastVideo");
+              },
+              child: const Text("No"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.push(context, PageTransition(
+                  child: VideoPlayerScreen(link: lastVideo,),
+                  type: PageTransitionType.fade,
+                  curve: Curves.fastEaseInToSlowEaseOut,
+                  duration: const Duration(
+                      milliseconds: AppConstants.pageTransition200),
+                ));
+              },
+              child: const Text("Yes"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

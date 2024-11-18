@@ -7,9 +7,13 @@ class CustomAssignmentItem extends StatelessWidget {
     super.key,
     required this.items,
     required this.chapterImage,
+    required this.chapterTitle,
+    required this.chapterId,
   });
   final List<ContentEntity>? items;
   final String chapterImage;
+  final String chapterTitle;
+  final String chapterId;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -30,7 +34,7 @@ class CustomAssignmentItem extends StatelessWidget {
                 Navigator.push(context, PageTransition(
                   child: BlocProvider(
                     create: (context) => AssignmentBloc(),
-                    child: AssignmentBody(chapterImage:chapterImage,assignmentId:  items![index].id,assignmentName: items![index].name,endDate:items![index].enddate ),
+                    child: AssignmentBody(chapterId: int.parse(chapterId),chapterTitle: chapterTitle,chapterImage:chapterImage,assignmentId:  items![index].id,assignmentName: items![index].name,endDate:items![index].enddate ),
                   ),
                   type: PageTransitionType.fade,
                   curve: Curves.fastEaseInToSlowEaseOut,

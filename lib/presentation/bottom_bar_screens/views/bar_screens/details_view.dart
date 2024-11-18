@@ -304,7 +304,7 @@ class _Body0fDetails extends StatelessWidget {
                 height: AppPadding.pVScreen1(context),
               ):SizedBox(),
               (type == DetailsType.Module && module !=null)
-                  ?_ItemDetails(icon: Icons.access_time_rounded,firstText: "Start on ",secondText: module!.startDate.split('').reversed.join(),)
+                  ?_ItemDetails(icon: Icons.access_time_rounded,firstText: "Start on ",secondText: module!.startDate,)
                   :SizedBox(),
 
               //---------------------------------------
@@ -312,7 +312,7 @@ class _Body0fDetails extends StatelessWidget {
                 height: AppPadding.pVScreen1(context),
               ):SizedBox(),
               (type == DetailsType.Module && module !=null)
-                  ?_ItemDetails(icon: Icons.access_time_rounded,firstText: "End on ",secondText: module!.endDate.split('').reversed.join(),)
+                  ?_ItemDetails(icon: Icons.access_time_rounded,firstText: "End on ",secondText: module!.endDate,)
                   :SizedBox(),
 
               //---------------------------------------

@@ -28,6 +28,7 @@ class SubjectContentViews extends StatelessWidget {
             padding:  EdgeInsets.symmetric(horizontal: AppPadding.pHScreen4(context),),
             child: Text(
               "${subject.description}",
+              overflow: TextOverflow.ellipsis,
               style: getBoldStyle(color: ColorManager.textGrey,fontSize: 10),
             ),
           ),
@@ -126,23 +127,21 @@ class SubjectContentViews extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset(
-                              AssetsManager.warningImage,
-                              height: AppConstants.hScreen(context)*0.05,
-                              color: ColorManager.darkGrey.withOpacity(0.6),
+                              "assets/images/png/enrolled.png",
+                              height: AppConstants.hScreen(context)*0.14,
                             ),
-                            SizedBox(height: AppPadding.pVScreen1(context),),
+                            SizedBox(height: AppPadding.pVScreen4(context),),
                             Text(
-                              chapterResponseState.getChaptersMessage,
-                              style: getMediumStyle(color: ColorManager.darkGrey),
+                              "Make sure you are enrolled in this subject, and try again.",
+                              style: getBoldStyle(color: ColorManager.primary),
                               textAlign: TextAlign.center,
                             ),
-                            SizedBox(height: AppPadding.pVScreen1(context),),
-                            Icon(
-                              Icons.refresh,
-                              color: ColorManager.darkGrey,
-                              size: AppSize.s20,
-
-                            ),
+                            // SizedBox(height: AppPadding.pVScreen2(context),),
+                            // Icon(
+                            //   Icons.refresh,
+                            //   color: ColorManager.primary,
+                            //   size: AppSize.s20,
+                            // ),
 
                           ],
                         ),
@@ -291,6 +290,7 @@ class ChapterOfModuleItem extends StatelessWidget {
                       (chapter.description!=null || chapter.description!="")?SizedBox(height: AppPadding.pVScreen04(context),):SizedBox(),
                     (chapter.description!=null || chapter.description!="")?Text(
                       "${chapter.description}",
+                      overflow: TextOverflow.ellipsis,
                       style: getMediumStyle(color: ColorManager.textGrey,fontSize: FontSize.s9),
                     ):SizedBox(),
 

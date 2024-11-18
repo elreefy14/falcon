@@ -26,6 +26,7 @@ class ModuleContentViews extends StatelessWidget {
             padding:  EdgeInsets.symmetric(horizontal: AppPadding.pHScreen4(context),),
             child: Text(
               "${module.description}",
+              overflow: TextOverflow.ellipsis,
               style: getBoldStyle(color: ColorManager.textGrey,fontSize: 10),
             ),
           ),
@@ -119,23 +120,21 @@ class ModuleContentViews extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Image.asset(
-                                AssetsManager.warningImage,
-                                height: AppConstants.hScreen(context)*0.05,
-                                color: ColorManager.darkGrey.withOpacity(0.6),
+                                "assets/images/png/enrolled.png",
+                                height: AppConstants.hScreen(context)*0.14,
                               ),
-                              SizedBox(height: AppPadding.pVScreen1(context),),
+                              SizedBox(height: AppPadding.pVScreen4(context),),
                               Text(
                                 "Make sure you are enrolled in this module, and try again.",
-                                style: getMediumStyle(color: ColorManager.darkGrey),
+                                style: getBoldStyle(color: ColorManager.primary),
                                 textAlign: TextAlign.center,
                               ),
-                              SizedBox(height: AppPadding.pVScreen1(context),),
-                              Icon(
-                                Icons.refresh,
-                                color: ColorManager.darkGrey,
-                                size: AppSize.s20,
-
-                              ),
+                              // SizedBox(height: AppPadding.pVScreen2(context),),
+                              // Icon(
+                              //   Icons.refresh,
+                              //   color: ColorManager.primary,
+                              //   size: AppSize.s20,
+                              // ),
 
                             ],
                           ),
@@ -283,14 +282,14 @@ class SubjectOfModuleItem extends StatelessWidget {
                     ),
                     SizedBox(height: AppPadding.pVScreen06(context),),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: (subject.chapters?.length)!=0?MainAxisAlignment.spaceBetween:MainAxisAlignment.start,
                       children: [
                         Text(
-                          "${subject.chapters?.length} Chapters",
+                          "${(subject.chapters?.length)==0?"":"${subject.chapters?.length}  Chapters"}",
                           style: getBoldStyle(color: ColorManager.textGrey,fontSize: FontSize.s10),
                         ),
                         Text(
-                          "20.0",//E£
+                          "${subject.price}",//E£
                           style: getBoldStyle(color: ColorManager.primary,fontSize: FontSize.s10),
                         ),
                       ],

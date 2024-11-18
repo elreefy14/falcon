@@ -94,11 +94,11 @@ class _ChaptersContentViewsState extends State<ChaptersContentViews> with Single
                             child: TabBarView(
                               controller: _contentTabController,
                               children: [
-                                AllContentItem(chapterId: widget.chapterId.toString(),chapterImage: widget.chapterImage,items: [ ContentEntity(id: "", file: "",iframe: "",type: "", completed: 0,name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")],),
-                                OrgContentItem(chapterId:widget.chapterId.toString(),contentType: FileType.file,chapterImage: widget.chapterImage,items: [ ContentEntity(id: "",file: "",iframe: "", completed: 0,type: "", name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--" )],),
-                                OrgContentItem(chapterId:widget.chapterId.toString(),contentType: FileType.video,chapterImage: widget.chapterImage,items: [ContentEntity(id: "",file: "",iframe: "", type: "",completed: 0, name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]),
-                                OrgContentItem(chapterId:widget.chapterId.toString(),contentType: FileType.task,chapterImage: widget.chapterImage,items: [ ContentEntity(id: "",file: "",iframe: "", type: "", completed: 0,name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]),
-                                OrgContentItem(chapterId:widget.chapterId.toString(),contentType: FileType.quiz,chapterImage: widget.chapterImage,items: [ ContentEntity(id: "",file: "",iframe: "", type: "", completed: 0,name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]),
+                                AllContentItem(chapterTitle: widget.title,chapterId: widget.chapterId.toString(),chapterImage: widget.chapterImage,items: [ ContentEntity(id: "", file: "",iframe: "",type: "", completed: 0,name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")],),
+                                OrgContentItem(chapterTitle: widget.title,chapterId:widget.chapterId.toString(),contentType: FileType.file,chapterImage: widget.chapterImage,items: [ ContentEntity(id: "",file: "",iframe: "", completed: 0,type: "", name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--" )],),
+                                OrgContentItem(chapterTitle: widget.title,chapterId:widget.chapterId.toString(),contentType: FileType.video,chapterImage: widget.chapterImage,items: [ContentEntity(id: "",file: "",iframe: "", type: "",completed: 0, name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]),
+                                OrgContentItem(chapterTitle: widget.title,chapterId:widget.chapterId.toString(),contentType: FileType.task,chapterImage: widget.chapterImage,items: [ ContentEntity(id: "",file: "",iframe: "", type: "", completed: 0,name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]),
+                                OrgContentItem(chapterTitle: widget.title,chapterId:widget.chapterId.toString(),contentType: FileType.quiz,chapterImage: widget.chapterImage,items: [ ContentEntity(id: "",file: "",iframe: "", type: "", completed: 0,name: "-----------------",timer:"-----",enddate: "--------",numberOfQuestions: "--")]),
                               ],
                             ),
                           );
@@ -107,11 +107,11 @@ class _ChaptersContentViewsState extends State<ChaptersContentViews> with Single
                           return TabBarView(
                             controller: _contentTabController,
                             children: [
-                              AllContentItem(chapterId: widget.chapterId.toString(),chapterImage: widget.chapterImage,items: allContentResponseState.allContentResponse,),
-                              OrgContentItem(chapterId:widget.chapterId.toString(),chapterImage: widget.chapterImage,contentType: FileType.file,items: orgContentResponseState.OrgContentResponse?.material,),
-                              OrgContentItem(chapterId:widget.chapterId.toString(),chapterImage: widget.chapterImage,contentType: FileType.video,items: orgContentResponseState.OrgContentResponse?.videos,),
-                              OrgContentItem(chapterId:widget.chapterId.toString(),chapterImage: widget.chapterImage,contentType: FileType.task,items: orgContentResponseState.OrgContentResponse?.assignments,),
-                              OrgContentItem(chapterId:widget.chapterId.toString(),chapterImage: widget.chapterImage,contentType: FileType.quiz,items: orgContentResponseState.OrgContentResponse?.quizzes,),
+                              AllContentItem(chapterTitle: widget.title,chapterId: widget.chapterId.toString(),chapterImage: widget.chapterImage,items: allContentResponseState.allContentResponse,),
+                              OrgContentItem(chapterTitle: widget.title,chapterId:widget.chapterId.toString(),chapterImage: widget.chapterImage,contentType: FileType.file,items: orgContentResponseState.OrgContentResponse?.material,),
+                              OrgContentItem(chapterTitle: widget.title,chapterId:widget.chapterId.toString(),chapterImage: widget.chapterImage,contentType: FileType.video,items: orgContentResponseState.OrgContentResponse?.videos,),
+                              OrgContentItem(chapterTitle: widget.title,chapterId:widget.chapterId.toString(),chapterImage: widget.chapterImage,contentType: FileType.task,items: orgContentResponseState.OrgContentResponse?.assignments,),
+                              OrgContentItem(chapterTitle: widget.title,chapterId:widget.chapterId.toString(),chapterImage: widget.chapterImage,contentType: FileType.quiz,items: orgContentResponseState.OrgContentResponse?.quizzes,),
                             ],);
                         }
                         else{
@@ -135,26 +135,24 @@ class _ChaptersContentViewsState extends State<ChaptersContentViews> with Single
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Image.asset(
-                                    AssetsManager.warningImage,
-                                    height: AppConstants.hScreen(context)*0.05,
-                                    color: ColorManager.darkGrey.withOpacity(0.6),
+                                    "assets/images/png/enrolled.png",
+                                    height: AppConstants.hScreen(context)*0.14,
                                   ),
-                                  SizedBox(height: AppPadding.pVScreen1(context),),
+                                  SizedBox(height: AppPadding.pVScreen4(context),),
                                   Padding(
                                     padding:  EdgeInsets.symmetric(horizontal: AppPadding.pHScreen8(context)),
                                     child: Text(
                                       (allContentResponseState.allContentsMessage == "")?"Make sure you are enrolled in this chapter, and try again." :"Make sure you are enrolled in this chapter, and try again." ,
-                                      style: getMediumStyle(color: ColorManager.darkGrey),
+                                      style: getMediumStyle(color: ColorManager.primary),
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
-                                  SizedBox(height: AppPadding.pVScreen1(context),),
-                                  Icon(
-                                    Icons.refresh,
-                                    color: ColorManager.darkGrey,
-                                    size: AppSize.s20,
-
-                                  ),
+                                  // SizedBox(height: AppPadding.pVScreen2(context),),
+                                  // Icon(
+                                  //   Icons.refresh,
+                                  //   color: ColorManager.primary,
+                                  //   size: AppSize.s20,
+                                  // ),
 
                                 ],
                               ),
