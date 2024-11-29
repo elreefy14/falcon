@@ -1,5 +1,4 @@
 import 'package:falcon/core/core_exports.dart';
-import 'package:falcon/core/resources/resources_exports.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -14,6 +13,7 @@ class DetailsView extends StatelessWidget {
     this.subject,
     this.chapter,
     this.lastChapter,
+    required this.canPayment,
 
   });
 
@@ -24,7 +24,7 @@ class DetailsView extends StatelessWidget {
   final SubjectEntity? subject;
   final ChapterEntity? chapter;
   final LastChapterEntity? lastChapter;
-
+  final bool canPayment;
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +43,11 @@ class DetailsView extends StatelessWidget {
           hasArrowBack: true,
         ),
         body: (type ==DetailsType.Subject && subject !=null && subject!.doctors !=null)?SingleChildScrollView(
-          child: _Body0fDetails(type: type, module: module, subject: subject, imageUrl: imageUrl, chapter: chapter, lastChapter: lastChapter,isMyLearning:isMyLearning),
-        ):_Body0fDetails(type: type, module: module, subject: subject, imageUrl: imageUrl, chapter: chapter, lastChapter: lastChapter,isMyLearning:isMyLearning),
+          child: _Body0fDetails(canPayment:canPayment,type: type, module: module, subject: subject, imageUrl: imageUrl, chapter: chapter, lastChapter: lastChapter,isMyLearning:isMyLearning),
+        ):_Body0fDetails(canPayment:canPayment,type: type, module: module, subject: subject, imageUrl: imageUrl, chapter: chapter, lastChapter: lastChapter,isMyLearning:isMyLearning),
       ),
     );
   }
-
 }
 
 class _Body0fDetails extends StatelessWidget {
@@ -61,6 +60,7 @@ class _Body0fDetails extends StatelessWidget {
     required this.imageUrl,
     required this.chapter,
     required this.lastChapter,
+    required this.canPayment,
   });
 
   final DetailsType type;
@@ -70,6 +70,7 @@ class _Body0fDetails extends StatelessWidget {
   final bool isMyLearning;
   final ChapterEntity? chapter;
   final LastChapterEntity? lastChapter;
+  final bool canPayment;
 
   @override
   Widget build(BuildContext context) {
@@ -94,10 +95,12 @@ class _Body0fDetails extends StatelessWidget {
 
 
             if(type==DetailsType.Module && module!=null){
+              bool canPayment = (await CacheHelper.getData(key:"canPayment")=="true")?true:false;;
               Navigator.push(context, PageTransition(
                 child: ModuleContentViews(
                   isMyLearning: isMyLearning,
                   module: module!,
+                  canPayment: canPayment,
                 ),
                 type: PageTransitionType.fade,
                 curve: Curves.fastEaseInToSlowEaseOut,
@@ -109,6 +112,7 @@ class _Body0fDetails extends StatelessWidget {
                 child: SubjectContentViews(
                   isMyLearning: isMyLearning,
                   subject: subject!,
+                  canPayment: canPayment,
                 ),
                 type: PageTransitionType.fade,
                 curve: Curves.fastEaseInToSlowEaseOut,
@@ -207,6 +211,7 @@ class _Body0fDetails extends StatelessWidget {
                               child: ModuleContentViews(
                                 isMyLearning:isMyLearning ,
                                 module: module!,
+                                canPayment: canPayment,
                               ),
                               type: PageTransitionType.fade,
                               curve: Curves.fastEaseInToSlowEaseOut,
@@ -216,6 +221,7 @@ class _Body0fDetails extends StatelessWidget {
                           if(type==DetailsType.Subject && subject!=null){
                             Navigator.push(context, PageTransition(
                               child: SubjectContentViews(
+                                canPayment: canPayment,
                                 isMyLearning: isMyLearning,
                                 subject: subject!,
                               ),
@@ -360,6 +366,7 @@ class _Body0fDetails extends StatelessWidget {
               if(type==DetailsType.Module && module!=null){
                 Navigator.push(context, PageTransition(
                   child: ModuleContentViews(
+                    canPayment: canPayment,
                     isMyLearning: isMyLearning,
                     module: module!,
                   ),
@@ -371,6 +378,7 @@ class _Body0fDetails extends StatelessWidget {
               if(type==DetailsType.Subject && subject!=null){
                 Navigator.push(context, PageTransition(
                   child: SubjectContentViews(
+                    canPayment: canPayment,
                     isMyLearning: isMyLearning,
                     subject: subject!,
                   ),
@@ -408,6 +416,7 @@ class _Body0fDetails extends StatelessWidget {
 
           ),
         ):SizedBox(),
+        ( canPayment)?
         (isMyLearning==false && type!= DetailsType.Chapter && type!= DetailsType.LastChapter)?Padding(
           padding:  EdgeInsets.only(
             left: AppPadding.pHScreen6(context),
@@ -423,7 +432,7 @@ class _Body0fDetails extends StatelessWidget {
                 :(type== DetailsType.Subject&& subject!=null)? subject!.price
                 :"0"),
           ),
-        ):SizedBox(),
+        ):SizedBox():SizedBox(),
 
 
         (type ==DetailsType.Subject && subject !=null)?Padding(

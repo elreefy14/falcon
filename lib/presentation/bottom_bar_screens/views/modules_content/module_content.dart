@@ -5,9 +5,11 @@ class ModuleContentViews extends StatelessWidget {
     super.key,
     required this.module,
     required this.isMyLearning,
+    required this.canPayment,
   });
   final ModuleEntity module;
   final bool isMyLearning;
+  final bool canPayment;
 
   @override
   Widget build(BuildContext context) {
@@ -40,13 +42,14 @@ class ModuleContentViews extends StatelessWidget {
                   "# All Subjects",
                   style: getBoldStyle(color: ColorManager.black,fontSize: FontSize.s10),
                 ),
-                (isMyLearning==false)?GetContentBottom(
+                  (canPayment)?
+                  (isMyLearning==false)?GetContentBottom(
                   typeContent:DetailsType.Module ,
                   title: module.name,
                   id: module.id,
                   price: double.parse(module.price),
                   isTextBottom: true,
-                ):SizedBox(),
+                ):SizedBox():SizedBox(),
               ],
             ),
           ),
@@ -188,12 +191,14 @@ class SubjectOfModuleItem extends StatelessWidget {
                 );
               }
 
+              bool canPayment =(await CacheHelper.getData(key:"canPayment")=="true")?true:false;
               Navigator.push(context, PageTransition(
                 child: DetailsView(
                   isMyLearning: isMyLearning,
                   type: DetailsType.Subject,
                   imageUrl: subject.imageUrl,
                   subject: subject,
+                  canPayment: canPayment,
                 ),
                 type: PageTransitionType.fade,
                 curve: Curves.fastEaseInToSlowEaseOut,
@@ -238,10 +243,11 @@ class SubjectOfModuleItem extends StatelessWidget {
           Flexible(
             child: GestureDetector(
               onTap: ()async{
-
+                bool canPayment = await fetchPaymentState();
                 Navigator.push(context, PageTransition(
                   child: SubjectContentViews(
                     isMyLearning: isMyLearning,
+                    canPayment: canPayment,
                     subject: subject,
                   ),
                   type: PageTransitionType.fade,

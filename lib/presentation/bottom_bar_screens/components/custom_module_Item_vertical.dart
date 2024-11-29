@@ -28,14 +28,15 @@ class CustomModuleItemVertical extends StatelessWidget {
       child: Row(
         children: [
           GestureDetector(
-            onTap: (){
-
+            onTap: ()async{
+              bool canPayment = (await CacheHelper.getData(key:"canPayment")=="true")?true:false;;
               Navigator.push(context, PageTransition(
                 child: DetailsView(
                     isMyLearning: false,
                     type: DetailsType.Module,
                     imageUrl:module.imageUrl,
                     module: module,
+                  canPayment: canPayment,
                 ),
                 type: PageTransitionType.fade,
                 curve: Curves.fastEaseInToSlowEaseOut,
@@ -69,11 +70,13 @@ class CustomModuleItemVertical extends StatelessWidget {
           SizedBox(width: AppConstants.wScreen(context)*0.02,),
           Flexible(
             child: GestureDetector(
-              onTap: (){
+              onTap: ()async{
+                bool canPayment = await fetchPaymentState();
                 Navigator.push(context, PageTransition(
                   child: ModuleContentViews(
                       isMyLearning: false,
                       module:module,
+                    canPayment: canPayment,
                      ),
                   type: PageTransitionType.fade,
                   curve: Curves.fastEaseInToSlowEaseOut,

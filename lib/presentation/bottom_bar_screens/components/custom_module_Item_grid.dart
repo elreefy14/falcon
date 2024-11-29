@@ -31,13 +31,15 @@ class CustomModuleItemGrid extends StatelessWidget {
       child: Column(
         children: [
           GestureDetector(
-            onTap: (){
+            onTap: ()async{
+              bool canPayment = (await CacheHelper.getData(key:"canPayment")=="true")?true:false;
               Navigator.push(context, PageTransition(
                 child: DetailsView(
                   isMyLearning: isMyLearning,
                   type: DetailsType.Module,
                   imageUrl: module.imageUrl,
                   module: module,
+                  canPayment: canPayment,
                 ),
                 type: PageTransitionType.fade,
                 curve: Curves.fastEaseInToSlowEaseOut,
@@ -71,11 +73,13 @@ class CustomModuleItemGrid extends StatelessWidget {
           SizedBox(height: AppConstants.hScreen(context)*0.01,),
           Flexible(
             child: GestureDetector(
-              onTap: (){
+              onTap: ()async{
+                bool canPayment = (await CacheHelper.getData(key:"canPayment")=="true")?true:false;;
                 Navigator.push(context, PageTransition(
                   child: ModuleContentViews(
                       isMyLearning: isMyLearning,
                       module: module,
+                    canPayment: canPayment,
                     ),
                   type: PageTransitionType.fade,
                   curve: Curves.fastEaseInToSlowEaseOut,

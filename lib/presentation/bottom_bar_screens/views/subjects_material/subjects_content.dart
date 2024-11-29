@@ -7,10 +7,12 @@ class SubjectContentViews extends StatelessWidget {
     super.key,
     required this.subject,
     required this.isMyLearning,
+    required this.canPayment,
 
   });
   final SubjectEntity subject ;
   final bool isMyLearning ;
+  final bool canPayment ;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,13 +44,14 @@ class SubjectContentViews extends StatelessWidget {
                   "# All Chapters",
                   style: getBoldStyle(color: ColorManager.black,fontSize: FontSize.s10),
                 ),
+                (canPayment)?
                 (isMyLearning==false)?GetContentBottom(
                   typeContent:DetailsType.Subject ,
                   title: subject.name,
                   id: subject.id,
                   price: double.parse(subject.price),
                   isTextBottom: true,
-                ):SizedBox(),
+                ):SizedBox():SizedBox(),
               ],
             ),
           ),
@@ -194,13 +197,14 @@ class ChapterOfModuleItem extends StatelessWidget {
                     ), (Route<dynamic> route) => false
                 );
               }
-
+              bool canPayment = (await CacheHelper.getData(key:"canPayment")=="true")?true:false;;
               Navigator.push(context, PageTransition(
                 child: DetailsView(
                   isMyLearning: isMyLearning,
                   type: DetailsType.Chapter,
                   imageUrl: chapter.imgUrl,
                   chapter: chapter,
+                  canPayment: canPayment,
                 ),
                 type: PageTransitionType.fade,
                 curve: Curves.fastEaseInToSlowEaseOut,

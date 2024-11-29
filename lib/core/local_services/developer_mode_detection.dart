@@ -32,6 +32,8 @@ class _DeveloperModeDetectionScreenState extends State<DeveloperModeDetectionScr
               listener: (context, state) async{
 
                 bool isEmulator =await isRunningOnEmulator();
+                bool canPayment = await fetchPaymentState();
+                CacheHelper.saveData(key: "canPayment", value: "$canPayment");
 
                 // todo active developer mode by change condition
                 if (state is   DeveloperModeDisabled) {

@@ -78,9 +78,11 @@ class LastChapters extends StatelessWidget {
                     return Padding(
                       padding:  EdgeInsets.symmetric(horizontal: AppPadding.pHScreen1(context)),
                       child: GestureDetector(
-                        onTap: (){
+                        onTap: ()async{
+                          bool canPayment = (await CacheHelper.getData(key:"canPayment")=="true")?true:false;;
                           Navigator.push(context, PageTransition(
                             child: DetailsView(
+                              canPayment: canPayment,
                               isMyLearning: false,
                               type: DetailsType.LastChapter,
                               imageUrl: chaptersResponseState.lastChaptersResponse[index].img,
