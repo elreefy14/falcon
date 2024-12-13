@@ -38,6 +38,7 @@ class _DeveloperModeDetectionScreenState extends State<DeveloperModeDetectionScr
                 // todo active developer mode by change condition
                 if (state is   DeveloperModeDisabled) {
 
+
                   //  DeveloperModeEnabled in debug //  todo it must be DeveloperModeDisabled
                   if (isEmulator || snapshot.data==true) {
                     Navigator.pushAndRemoveUntil(
