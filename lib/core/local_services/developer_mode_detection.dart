@@ -36,7 +36,7 @@ class _DeveloperModeDetectionScreenState extends State<DeveloperModeDetectionScr
                 CacheHelper.saveData(key: "canPayment", value: "$canPayment");
 
                 // todo active developer mode by change condition
-                if (state is   DeveloperModeEnabled) {
+                if (state is   DeveloperModeDisabled) {
 
 
                   //  DeveloperModeEnabled in debug //  todo it must be DeveloperModeDisabled
@@ -102,7 +102,7 @@ class _DeveloperModeDetectionScreenState extends State<DeveloperModeDetectionScr
                   }
                 }
 
-                else if (state is  DeveloperModeDisabled ) {  //  DeveloperModeDisabled in debug //  todo it must be DeveloperModeEnabled
+                else if (state is  DeveloperModeEnabled ) {  //  DeveloperModeDisabled in debug //  todo it must be DeveloperModeEnabled
                   Navigator.pushAndRemoveUntil(
                       context,
                       PageTransition(

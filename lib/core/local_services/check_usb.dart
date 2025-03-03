@@ -38,8 +38,8 @@ class UsbConnectionChecker {
   Future<bool> isUsbConnected() async {
     try {
       final bool isUsbConnected = await platform.invokeMethod('checkUsbConnection');
-      //return isUsbConnected;
-      return false;
+      return isUsbConnected;
+      //return false;
     } on PlatformException catch (e) {
       return false;
     }

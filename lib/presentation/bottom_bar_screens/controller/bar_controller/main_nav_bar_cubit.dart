@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 part 'main_nav_bar_state.dart';
 
 
-List<Widget> mainNavPage =  [ HomeBody() , MyLearningBody() , DoctorsBody() , ProfileBody() ];// TasksBody()
-List<String> nameNavPages = const[ "Home", "My Learning", "Doctors" , "Profile"];// Tasks
+List<Widget> mainNavPage =  [ HomeBody() , MyLearningBody() , ProfileBody() ];// TasksBody()
+List<String> nameNavPages = const[ "Home", "My Learning" , "Profile"];// Tasks
 
 class MainNavBarCubit extends Cubit<MainNavBarState> {
   int currentPage = 0;
