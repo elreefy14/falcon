@@ -211,7 +211,7 @@ class SubjectOfModuleItem extends StatelessWidget {
                 imageUrl:subject.imageUrl!,
                 height: AppConstants.hScreen(context)*0.14,
                 width: AppConstants.wScreen(context)*0.35,
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
                 placeholder: (context, url) => Skeletonizer(
                   child: Container(
                     color: ColorManager.lightGrey,
@@ -235,7 +235,7 @@ class SubjectOfModuleItem extends StatelessWidget {
             //     width: AppConstants.wScreen(context)*0.35,
             //     child: Image.asset(
             //       AssetsManager.subjectIcon,
-            //       fit: BoxFit.fill,
+            //       fit: BoxFit.cover,
             //     ),
             //   ),
             // ),

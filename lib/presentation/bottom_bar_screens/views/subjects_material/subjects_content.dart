@@ -218,7 +218,7 @@ class ChapterOfModuleItem extends StatelessWidget {
                 width: AppConstants.wScreen(context)*0.32,
                 child: CachedNetworkImage(
                   imageUrl:chapter.imgUrl!,
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                   placeholder: (context, url) => Skeletonizer(
                     child: Container(
                       color: ColorManager.lightGrey,

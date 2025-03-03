@@ -32,7 +32,7 @@ class CustomModuleItemHorizontal extends StatelessWidget {
               AssetsManager.image_6,
               width: double.infinity,
               height: AppConstants.hScreen(context)*0.14,
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
 
             ),
           ),

@@ -102,7 +102,7 @@ class _TaskAnswerBody extends StatelessWidget {
         //           width: AppConstants.wScreen(context)*0.27,
         //           child: Image.asset(
         //             AssetsManager.image_4,
-        //             fit:BoxFit.fill,
+        //             fit:BoxFit.cover,
         //           ),
         //         ),
         //       ),

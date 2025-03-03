@@ -69,7 +69,7 @@ class CustomAssignmentItem extends StatelessWidget {
                           width: AppConstants.wScreen(context)*0.16,
                           child: Image.asset(
                             AssetsManager.assignmentIcon,
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),

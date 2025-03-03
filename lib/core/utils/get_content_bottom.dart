@@ -161,11 +161,11 @@ class _GetContentBottomState extends State<GetContentBottom> with TickerProvider
                       }
 
                       if(stateRequestBaying is RequestContentRequestState && stateRequestBaying.requestState ==RequestState.error){
-                        showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message:"The request failed.",),);
+                        showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message:"${stateRequestBaying.responseMessage}",),);
 
                       }
                       if(stateRequestBaying is RequestContentRequestState && stateRequestBaying.requestState ==RequestState.done){
-                        showTopSnackBar(Overlay.of(context), CustomSnackBar.success(message:"The request was successful."),);
+                        showTopSnackBar(Overlay.of(context), CustomSnackBar.success(message:"${stateRequestBaying.responseMessage}"),);
                       }
                     },
                     text: "Request it",

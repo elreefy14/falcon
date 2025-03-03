@@ -49,7 +49,7 @@ class CustomModuleItemVertical extends StatelessWidget {
                 imageUrl:module.imageUrl!,
                 width: AppConstants.wScreen(context)*0.4,
                 height: AppConstants.hScreen(context)*0.15,
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
                 placeholder: (context, url) => Skeletonizer(
                   child: Container(
                     color: ColorManager.lightGrey,

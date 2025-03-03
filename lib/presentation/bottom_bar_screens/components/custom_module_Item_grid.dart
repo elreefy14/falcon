@@ -52,7 +52,7 @@ class CustomModuleItemGrid extends StatelessWidget {
                 imageUrl:module.imageUrl!,
                 width: double.infinity,
                 height: AppConstants.hScreen(context)*0.14,
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
                 placeholder: (context, url) => Skeletonizer(
                     child: Container(
                       color: ColorManager.lightGrey,

@@ -32,7 +32,6 @@ class _HomeBodyState extends State<HomeBody> {
         child: Column(
           children: [
             CustomAdsSlider(),
-            SizedBox(height: AppConstants.hScreen(context)*0.02,),
             Column(
               children: [
                 LastChapters(),

@@ -156,7 +156,7 @@ class _Body0fDetails extends StatelessWidget {
             imageUrl:imageUrl!,
             width: AppConstants.wScreen(context),
             height: AppConstants.hScreen(context)*0.3,
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
             placeholder: (context, url) => Skeletonizer(
               child: Container(
                 color: ColorManager.lightGrey,

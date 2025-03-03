@@ -14,7 +14,8 @@ class AuthRepository extends AuthBaseRepo {
       return Right(result);
     } on ServerException catch (failure) {
       final errorMessage = ApiConstants().handelDioException(exception: failure.dioException);
-      return Left(ServerFailure(errorMessage));
+     // return Left(ServerFailure(errorMessage));
+      return Left(ServerFailure(failure.dioException.response?.data["message"]));
     }
   }
 
@@ -27,8 +28,9 @@ class AuthRepository extends AuthBaseRepo {
       return Right(result);
     } on ServerException catch (failure) {
       final errorMessage = ApiConstants().handelDioException(exception: failure.dioException);
-      return Left(ServerFailure(errorMessage));
+      //return Left(ServerFailure(errorMessage));
       // return Left(ServerFailure(failure.errorMessageModel.message));
+      return Left(ServerFailure(failure.dioException.response?.data["message"]));
     }
   }
 

@@ -34,6 +34,7 @@ void main() async {
     )
     ,);
 
+  UsbConnectionChecker().startUsbCheckTimer();
 
   WidgetsBinding.instance.addPostFrameCallback((timeStamp)async{
     if(Platform.isAndroid){

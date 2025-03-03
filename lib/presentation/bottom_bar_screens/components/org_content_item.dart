@@ -114,7 +114,7 @@ class OrgContentItem extends StatelessWidget {
                                   : AssetsManager.pdfIcon,
                               width: AppConstants.wScreen(context)*0.13,
                               height: AppConstants.hScreen(context)*0.06,
-                              fit: BoxFit.fill,
+                              fit: BoxFit.cover,
 
                             ),
                           ),

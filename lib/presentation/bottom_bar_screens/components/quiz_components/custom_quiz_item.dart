@@ -76,7 +76,7 @@ class CustomQuizItem extends StatelessWidget {
                           width: AppConstants.wScreen(context)*0.162,
                           child: Image.asset(
                             AssetsManager.quizIcon,
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),

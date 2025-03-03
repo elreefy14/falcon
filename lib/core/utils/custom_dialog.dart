@@ -127,11 +127,11 @@ class CustomDialog extends StatelessWidget {
                             }
 
                             if(stateBaying is ByAnyContentRequestState && stateBaying.requestState ==RequestState.error){
-                              showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message:"Insufficient funds",),);
+                              showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message:"${stateBaying.responseMessage}",),);
                               Navigator.pop(context);
                             }
                             if(stateBaying is ByAnyContentRequestState && stateBaying.requestState ==RequestState.done){
-                              showTopSnackBar(Overlay.of(context), CustomSnackBar.success(message:"You got it successfully"),);
+                              showTopSnackBar(Overlay.of(context), CustomSnackBar.success(message:"${stateBaying.responseMessage}"),);
                               Navigator.pop(context);
 
                             }

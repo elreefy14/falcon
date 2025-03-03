@@ -45,7 +45,7 @@ class QuizInfo extends StatelessWidget {
                     width: AppConstants.wScreen(context)*0.27,
                     child:CachedNetworkImage(
                       imageUrl:chapterImage!,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                       placeholder: (context, url) => Skeletonizer(
                         child: Container(
                           color: ColorManager.lightGrey,

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:falcon/core/core_exports.dart';
 //import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:carousel_slider/carousel_slider.dart' as cSlider;
+import 'package:webview_flutter/webview_flutter.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 
@@ -59,14 +60,17 @@ class _CustomAdsSliderState extends State<CustomAdsSlider> {
               ),
               child: Image.asset(
                 AssetsManager.warningImage,
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
               ),
             ),
           );
         }
         else if(adsResponseState.getAdsRequestState ==RequestState.done ){
-          return SizedBox(
+          //adsResponseState.adsResponse = [AdEntity(id: "1", video: "https://iframe.mediadelivery.net/play/388972/62aaa1dd-2cfb-4f1f-9356-ed1ed5616f8c")];
+          return  (adsResponseState.adsResponse.isEmpty)?SizedBox(
+          ):Container(
             width: double.infinity,
+            margin:EdgeInsets.only(bottom: AppConstants.hScreen(context)*0.02,),
             child: cSlider.CarouselSlider.builder(
               itemCount: adsResponseState.adsResponse.length,
               itemBuilder: (context, index, realIndex) {
@@ -92,7 +96,7 @@ class _CustomAdsSliderState extends State<CustomAdsSlider> {
                                 ):SizedBox(),
                                 SizedBox(
                                   width: double.infinity,
-                                  child: YoutubePlayer(
+                                  child: (adsResponseState.adsResponse[index].video.toLowerCase().contains("www.youtube.com"))?YoutubePlayer(
                                     enableFullScreenOnVerticalDrag: false,
                                     controller: YoutubePlayerController.fromVideoId(
                                       videoId: extractYoutubeId(adsResponseState.adsResponse[index].video),
@@ -105,7 +109,11 @@ class _CustomAdsSliderState extends State<CustomAdsSlider> {
                                       ),
                                     ),
 
-                                  ),
+                                  )
+                                      :WebViewWidget(controller: WebViewController()
+                                    ..setJavaScriptMode(JavaScriptMode.unrestricted)
+                                    ..loadRequest(Uri.parse(
+                                        "${adsResponseState.adsResponse[index].video}?autoplay=true"))),
                                 ),
                               ],
                             ),
@@ -114,7 +122,7 @@ class _CustomAdsSliderState extends State<CustomAdsSlider> {
                               children: [
                                 Image.asset(
                                   AssetsManager.image_1,
-                                  fit: BoxFit.fill,
+                                  fit: BoxFit.cover,
                                 ),
                                 Text(
                                   "${adsResponseState.adsResponse[index].video}",

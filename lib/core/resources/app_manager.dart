@@ -37,6 +37,7 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         // locale: DevicePreview.locale(context),
         // builder: DevicePreview.appBuilder,
+        navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
         onGenerateRoute: RoutesManager.generateRoute,
         initialRoute: StringRoutes.splashRoute,

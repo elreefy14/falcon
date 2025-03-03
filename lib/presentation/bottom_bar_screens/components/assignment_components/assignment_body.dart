@@ -163,7 +163,7 @@ class _AssignmentBodyDetails extends StatelessWidget {
               borderRadius: BorderRadius.circular(AppRadius.r8),
               child: CachedNetworkImage(
                 imageUrl: chapterImage!,
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
                 placeholder: (context, url) => Skeletonizer(
                   child: Container(
                     color: ColorManager.lightGrey,
@@ -481,7 +481,7 @@ class _AssignmentBodyDetails extends StatelessWidget {
 //                     child: SizedBox(
 //                       child:CachedNetworkImage(
 //                         imageUrl:chapterImage!,
-//                         fit: BoxFit.fill,
+//                         fit: BoxFit.cover,
 //                         placeholder: (context, url) => Skeletonizer(
 //                           child: Container(
 //                             color: ColorManager.lightGrey,

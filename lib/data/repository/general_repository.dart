@@ -55,7 +55,8 @@ class GeneralRepository extends GeneralBaseRepo {
       return Right(result);
     } on ServerException catch (failure) {
       final errorMessage = ApiConstants().handelDioException(exception: failure.dioException);
-      return Left(ServerFailure(errorMessage));
+      //return Left(ServerFailure(errorMessage));
+      return Left(ServerFailure(failure.dioException.response?.data["error"]));
     }
   }
 
@@ -84,7 +85,8 @@ class GeneralRepository extends GeneralBaseRepo {
     } on ServerException catch (failure) {
       final errorMessage = ApiConstants().handelDioException(exception: failure.dioException);
 
-      return Left(ServerFailure(errorMessage));
+      return Left(ServerFailure(failure.dioException.response?.data["error"]));
+      //return Left(ServerFailure(errorMessage));
     }
   }
 
@@ -96,7 +98,8 @@ class GeneralRepository extends GeneralBaseRepo {
     } on ServerException catch (failure) {
       final errorMessage = ApiConstants().handelDioException(exception: failure.dioException);
 
-      return Left(ServerFailure(errorMessage));
+      return Left(ServerFailure(failure.dioException.response?.data["message"]));
+      //return Left(ServerFailure(errorMessage));
     }
   }
 

@@ -118,7 +118,7 @@ class AllContentItem extends StatelessWidget {
                               : AssetsManager.pdfIcon,
                           width: AppConstants.wScreen(context)*0.13,
                           height: AppConstants.hScreen(context)*0.06,
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
 
                         ),
                       ),
@@ -185,7 +185,7 @@ class AllContentItem extends StatelessWidget {
                           width: AppConstants.wScreen(context)*0.16,
                           child: Image.asset(
                             AssetsManager.assignmentIcon,
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
@@ -313,7 +313,7 @@ class AllContentItem extends StatelessWidget {
                           width: AppConstants.wScreen(context)*0.16,
                           child: Image.asset(
                             AssetsManager.quizIcon,
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
