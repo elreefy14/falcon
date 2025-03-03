@@ -33,10 +33,10 @@ class CustomMainNavBar extends StatelessWidget {
         //   icon: Icon(Icons.task_outlined,size: AppSize.s24,),
         //   label: "Tasks",
         // ),
-        BottomNavigationBarItem(
+       /* BottomNavigationBarItem(
           icon: Icon(Icons.groups_outlined,size: AppSize.s24,),
           label: "Doctors",
-        ),
+        ),*/
         BottomNavigationBarItem(
           icon: Icon(Icons.person_outline,size: AppSize.s24,),
           label: "Profile",
