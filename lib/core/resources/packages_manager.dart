@@ -12,7 +12,7 @@ export 'package:smooth_page_indicator/smooth_page_indicator.dart';
 export 'package:equatable/equatable.dart';
 export 'package:get_it/get_it.dart';
 export 'package:pdfx/pdfx.dart';
-export 'package:open_filex/open_filex.dart';
+//export 'package:open_filex/open_filex.dart';
 export 'package:path_provider/path_provider.dart';
 export 'package:device_info_plus/device_info_plus.dart';
 export 'package:flutter_jailbreak_detection/flutter_jailbreak_detection.dart';

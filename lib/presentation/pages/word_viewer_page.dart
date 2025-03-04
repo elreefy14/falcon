@@ -19,7 +19,8 @@ class WordViewerPage extends StatelessWidget {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Could not open the file. No compatible app found.'),
+              content:
+                  Text('Could not open the file. No compatible app found.'),
             ),
           );
         }

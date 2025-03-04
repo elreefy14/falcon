@@ -50,5 +50,14 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
     <string>This app requires access to your photo library to enable image selection and upload functionality.</string>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>UIFileSharingEnabled</key>
+	<true/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>file</string>
+		<string>ms-word</string>
+	</array>
 </dict>
 </plist>
